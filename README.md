@@ -4,7 +4,7 @@
   <br />
 </div>
 
-# 🏗🔴 Scaffold-OP
+# 🏗🔴 Ceptor-Games-Scaffold
 
 <h4 align="center">
   <a href="https://docs.scaffoldeth.io">Documentation</a> |

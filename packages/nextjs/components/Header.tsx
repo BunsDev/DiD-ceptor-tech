@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import sunny from "./assets/sunny.svg";
-import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, BugAntIcon, PuzzlePieceIcon } from "@heroicons/react/24/outline";
 import {
   DappConsoleButton,
   FaucetButton,
@@ -29,6 +29,11 @@ export const menuLinks: HeaderMenuLink[] = [
     label: "Debug Contracts",
     href: "/debug",
     icon: <BugAntIcon className="h-4 w-4" />,
+  },
+  {
+    label: "Games Hooty",
+    href: "/games",
+    icon: <PuzzlePieceIcon className="h-4 w-4" />,
   },
 ];
 
