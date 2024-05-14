@@ -9,6 +9,7 @@ contract DnDCharacterGenerator is VRFConsumerBaseV2, ConfirmedOwner {
     VRFCoordinatorV2Interface COORDINATOR;
     uint64 s_subscriptionId;
     bytes32 keyHash = 0x474e34a077df58807dbe9c96d3c009b23b3c6d0cce433e59bbf5b34f823bc56c;
+    // forge-test gas report & gas limit plugin on hardhat
     uint32 callbackGasLimit = 100000;
     uint16 requestConfirmations = 3;
     uint32 numWords = 7; // 6 ability scores + 1 for class
@@ -52,7 +53,7 @@ contract DnDCharacterGenerator is VRFConsumerBaseV2, ConfirmedOwner {
     function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
         address owner = requestToSender[requestId];
         uint256[6] memory abilities;
-        for (uint i = 0; i < 6; i++) {
+        for (uint i = 0; i < 6; ++i) {  // ++i saves 2 gas
             abilities[i] = (randomWords[i] % 16) + 3; // Score range: 3-18
         }
         characters[owner] = Character({
