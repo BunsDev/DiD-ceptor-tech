@@ -3,12 +3,12 @@ import { DeployFunction } from "hardhat-deploy/types";
 import { Contract } from "ethers";
 
 /**
- * Deploys a contract named "BuyMeACoffee" using the deployer account and
+ * Deploys a contract named "BuyMeACeptor" using the deployer account and
  * constructor arguments set to the deployer address
  *
  * @param hre HardhatRuntimeEnvironment object.
  */
-const deployBuyMeACoffee: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+const deployBuyMeACeptor: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   /*
     On localhost, the deployer account is the one that comes with Hardhat, which is already funded.
 
@@ -22,7 +22,7 @@ const deployBuyMeACoffee: DeployFunction = async function (hre: HardhatRuntimeEn
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  await deploy("BuyMeACoffee", {
+  await deploy("BuyMeACeptor", {
     from: deployer,
     // Contract constructor arguments
     log: true,
@@ -32,12 +32,12 @@ const deployBuyMeACoffee: DeployFunction = async function (hre: HardhatRuntimeEn
   });
 
   // Get the deployed contract to interact with it after deploying.
-  const buyMeACoffeeContract = await hre.ethers.getContract<Contract>("BuyMeACoffee", deployer);
-  console.log("👋 Buy this person a coffee!", await buyMeACoffeeContract.owner());
+  const buyMeACeptorContract = await hre.ethers.getContract<Contract>("BuyMeACeptor", deployer);
+  console.log("👋 Buy this person a Ceptor!", await buyMeACeptorContract.owner());
 };
 
-export default deployBuyMeACoffee;
+export default deployBuyMeACeptor;
 
 // Tags are useful if you have multiple deploy files and only want to run one of them.
-// e.g. yarn deploy --tags BuyMeACoffee
-deployBuyMeACoffee.tags = ["BuyMeACoffee"];
+// e.g. yarn deploy --tags BuyMeACeptor
+deployBuyMeACeptor.tags = ["BuyMeACeptor"];

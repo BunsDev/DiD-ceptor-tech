@@ -70,7 +70,15 @@ contract YourContract {
 		// emit: keyword used to trigger an event
 		emit GreetingChange(msg.sender, _newGreeting, msg.value > 0, msg.value);
 	}
+// Mapping from address to number
+mapping(address => uint) public userNumbers;
+event NumberUpdated(address indexed user, uint number);
 
+// Function to store a number
+function storeNumber(uint _number) public {
+      userNumbers[msg.sender] = _number;
+      emit NumberUpdated(msg.sender, _number);
+    }
 	/**
 	 * Function that allows the owner to withdraw all the Ether in the contract
 	 * The function can only be called by the owner of the contract as defined by the isOwner modifier
