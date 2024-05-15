@@ -1,69 +1,119 @@
-// inspired by Josh "W" Comeau's open house lessson on useState and react dom magic
-// https://courses.joshwcomeau.com/joy-of-react/open-house/01-why-the-dance
-
 // SPDX-License-Identifier: MIT
-// Why do we always use this one? - Tippi
-// what does a world look like, that's up to it's Creator.
-// what does a world factory look like? it all starts at the gift shop.
-pragma solidity ^0.8.0;
-// "public variables automatically generate getter functions" - Andrej
-// what does the world factory need to make public?
-// number of worlds
-// number of gifts remaining in the gift shop
-// number of games
-// uri of each worlds' Creator (owner provided unique 8-bit wizard character) .gif file
-// each worlds "vibe", "scenarios", "locations", "descriptions", "maps", "denizens", "secrets", "goals", "ruleset" and "players"
-// if a game is currently happening and what world it's in
-// what else? 
-/* A contract that generates a game world based on a user's vibe and number of players. The world is generated with a visual of the planet, scenarios, locations, descriptions, maps, denizens, secrets, goals, and players. Each world has its own blockchain. Creating a World costs 10 gameTokens. when creating a game, i want to have my own world or play with others. each world should be locked to a blockchain. 10 gT to make a world. 5 gT to join one as a GM, 2 gT to join as player.
-*/
-// to gain access to world factory, you must buy a gift from the gift shop.
-// for 10 dollars of eth, you get 1 gameToken.
-// guess how much a gift costs? half gameToken.
-// 10 gameTokens = Create 1 world
-// what are the functions that the world factory needs?
-// createWorld
-// joinWorld
-// leaveWorld
-// getWorld
-// moneyIn
-// do we want to allow each game owner (Creator) to have a vote on how money is spent?
-// i vote yes - tippi. add your vote - name above if you agree. 
-// what else?
-// what are the functions that a world needs?
-// setSchedule
-// scheduleGame
-// startGame
-// joinGame
-// leaveGame
-// reviewGame
-// what else?
-// what are the events that the world factory needs?
-// worldCreated
-// worldJoined
-// worldLeft
-// gameScheduled
-// gameStarted
-// gameJoined
-// gameLeft
-// gameReviewed
-// what else?
-// what are the modifiers that the world factory needs?
-// onlyWorldOwner
-// onlyWorldGameMaster
-// onlyWorldPlayer
-// what else?
-// what are the structs that the world factory needs?
-// World
-// Game
-// Player
-// what else?
+pragma solidity >=0.8.0 <0.9.0;
+import "./World.sol";
 
 contract WorldFactory {
     address public owner;
+    uint256 public priceToCreate;
+    uint256 public priceToJoinGM;
+    uint256 public priceToJoinPlayer;
+    World[] public worlds;
+
+    error InsufficientFunds();
+    error InvalidArguments(string message);
+    error OnlyOwner();
+
+    event WorldCreated(address indexed worldCreator, address worldContract, uint256 time, string vibe, string gameMasterName, string gameMasterTwitterHandle, string description);
+    event PlayerJoinedWorld(address indexed worldContract, address player);
+    event GameScheduled(address indexed worldContract, uint256 gameId, address gameMaster, uint256 startTime, uint256 endTime);
+    event GameStarted(address indexed worldContract, uint256 gameId);
+    event GameJoined(address indexed worldContract, uint256 gameId, address player);
+    event GameLeft(address indexed worldContract, uint256 gameId, address player);
+    event GameReviewed(address indexed worldContract, uint256 gameId, address reviewer);
 
     constructor() {
         owner = msg.sender;
+        priceToCreate = 10 ether;   // Example price to create a world
+        priceToJoinGM = 5 ether;    // Example price for GM to join a world
+        priceToJoinPlayer = 2 ether; // Example price for player to join a world
     }
 
+    /**
+     * @dev Function to create a world
+     * @param vibe The vibe of the world
+     * @param gameMasterName The name of the game master
+     * @param gameMasterTwitterHandle The Twitter handle of the game master
+     * @param description The description of the world
+     */
+    function createWorld(
+        string calldata vibe,
+        string calldata gameMasterName,
+        string calldata gameMasterTwitterHandle,
+        string calldata description
+    ) public payable {
+        if (msg.value < priceToCreate) {
+            revert InsufficientFunds();
+        }
+
+        World world = new World(vibe, gameMasterName, gameMasterTwitterHandle, description, msg.sender);
+        worlds.push(world);
+
+        emit WorldCreated(msg.sender, address(world), block.timestamp, vibe, gameMasterName, gameMasterTwitterHandle, description);
+    }
+
+    /**
+     * @dev Function for a GM to join a world
+     * @param worldIndex The index of the world to join
+     */
+    function joinWorldAsGM(uint256 worldIndex) public payable {
+        if (worldIndex >= worlds.length) {
+            revert InvalidArguments("World does not exist");
+        }
+        if (msg.value < priceToJoinGM) {
+            revert InsufficientFunds();
+        }
+
+        World world = worlds[worldIndex];
+        payable(world.worldCreator()).transfer(priceToJoinGM / 2);
+        payable(address(world)).transfer(priceToJoinGM / 2);
+
+        emit PlayerJoinedWorld(address(world), msg.sender);
+    }
+
+    /**
+     * @dev Function for a player to join a world
+     * @param worldIndex The index of the world to join
+     */
+    function joinWorldAsPlayer(uint256 worldIndex) public payable {
+        if (worldIndex >= worlds.length) {
+            revert InvalidArguments("World does not exist");
+        }
+        if (msg.value < priceToJoinPlayer) {
+            revert InsufficientFunds();
+        }
+
+        World world = worlds[worldIndex];
+        payable(world.worldCreator()).transfer(priceToJoinPlayer / 2);
+        payable(address(world)).transfer(priceToJoinPlayer / 2);
+
+        emit PlayerJoinedWorld(address(world), msg.sender);
+    }
+
+    /**
+     * @dev Function to withdraw the balance
+     */
+    function withdrawFunds() public {
+        if (msg.sender != owner) {
+            revert OnlyOwner();
+        }
+
+        if (address(this).balance == 0) {
+            revert InsufficientFunds();
+        }
+
+        (bool sent,) = owner.call{value: address(this).balance}("");
+        require(sent, "Failed to send Ether");
+    }
+
+    /**
+     * @dev Function to get the worlds
+     */
+    function getWorlds() public view returns (World[] memory) {
+        return worlds;
+    }
+
+    /**
+     * @dev Receive function to accept ether
+     */
+    receive() external payable {}
 }
