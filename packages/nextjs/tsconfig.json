@@ -15,7 +15,8 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "~~/*": ["./*"]
+      "~~/*": ["./*"],
+      "~console/*": ["./app/console/*"]
     },
     "plugins": [
       {
