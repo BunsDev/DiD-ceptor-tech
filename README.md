@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://optimism.io"><img alt="Optimism" src="https://raw.githubusercontent.com/ethereum-optimism/brand-kit/main/assets/svg/OPTIMISM-R.svg" width=320></a>
+  <a href="https://www.notion.so/danj-o/S3-Block-Magic-Hackathon-2024-d0ed09047ec648a087ace9b078736518"><img alt="Ceptor Club" src="Group 9.png" width=128></a>
   <br />
   <br />
 </div>
