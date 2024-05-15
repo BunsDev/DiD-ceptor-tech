@@ -23,9 +23,9 @@ contract WorldFactory {
 
     constructor() {
         owner = msg.sender;
-        priceToCreate = 10 ether;   // Example price to create a world
-        priceToJoinGM = 5 ether;    // Example price for GM to join a world
-        priceToJoinPlayer = 2 ether; // Example price for player to join a world
+        priceToCreate = .1 ether;   // Example price to create a world
+        priceToJoinGM = .05 ether;    // Example price for GM to join a world
+        priceToJoinPlayer = .02 ether; // Example price for player to join a world
     }
 
     /**
