@@ -2097,6 +2097,8 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.39.0
     "@uniswap/sdk-core": ^4.0.1
     "@uniswap/v2-sdk": ^3.0.1
+    "@vercel/analytics": ^1.2.2
+    "@vercel/speed-insights": ^1.0.10
     autoprefixer: ^10.4.12
     blo: ^1.0.1
     daisyui: 4.5.0
@@ -3245,6 +3247,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vercel/analytics@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "@vercel/analytics@npm:1.2.2"
+  dependencies:
+    server-only: ^0.0.1
+  peerDependencies:
+    next: ">= 13"
+    react: ^18 || ^19
+  peerDependenciesMeta:
+    next:
+      optional: true
+    react:
+      optional: true
+  checksum: 5913caeb2077d3d9c2eddabed90e40e29762e9e53941d3e1337daa0a60423ffef2a2c0b5a743ff37ea1aa9cfe7eb3159e4dff91cd4843a8503be5680c2faa98d
+  languageName: node
+  linkType: hard
+
 "@vercel/build-utils@npm:7.2.2":
   version: 7.2.2
   resolution: "@vercel/build-utils@npm:7.2.2"
@@ -3430,6 +3449,33 @@ __metadata:
   version: 2.0.2
   resolution: "@vercel/ruby@npm:2.0.2"
   checksum: 7e15e8302a09ad3b2db12d958c2501701afccec8b845451096e5a89b6f442cfd55290b98ab027ba606f875a16a4fd724b6356b650aaa0cd4e0c07a4088a1bcde
+  languageName: node
+  linkType: hard
+
+"@vercel/speed-insights@npm:^1.0.10":
+  version: 1.0.10
+  resolution: "@vercel/speed-insights@npm:1.0.10"
+  peerDependencies:
+    "@sveltejs/kit": ^1 || ^2
+    next: ">= 13"
+    react: ^18 || ^19
+    svelte: ^4
+    vue: ^3
+    vue-router: ^4
+  peerDependenciesMeta:
+    "@sveltejs/kit":
+      optional: true
+    next:
+      optional: true
+    react:
+      optional: true
+    svelte:
+      optional: true
+    vue:
+      optional: true
+    vue-router:
+      optional: true
+  checksum: 26171c424ed725bbb82020818428a37e54715dfba58ae8ccff53c1bb58787f3713a9d8695afbbb5439555b92614f099fdb5188f80d9855818fddf7c192e8033e
   languageName: node
   linkType: hard
 
@@ -13126,6 +13172,13 @@ __metadata:
   dependencies:
     randombytes: ^2.1.0
   checksum: 56f90b562a1bdc92e55afb3e657c6397c01a902c588c0fe3d4c490efdcc97dcd2a3074ba12df9e94630f33a5ce5b76a74784a7041294628a6f4306e0ec84bf93
+  languageName: node
+  linkType: hard
+
+"server-only@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "server-only@npm:0.0.1"
+  checksum: c432348956641ea3f460af8dc3765f3a1bdbcf7a1e0205b0756d868e6e6fe8934cdee6bff68401a1dd49ba4a831c75916517a877446d54b334f7de36fa273e53
   languageName: node
   linkType: hard
 
