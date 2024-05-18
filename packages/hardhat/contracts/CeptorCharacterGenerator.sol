@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
-import {VRFCoordinatorV2Interface} from "@chainlink/contracts/src/v0.8/vrf/interfaces/VRFCoordinatorV2Interface.sol";
-import {VRFConsumerBaseV2} from "@chainlink/contracts/src/v0.8/vrf/VRFConsumerBaseV2.sol";
-import {ConfirmedOwner} from "@chainlink/contracts/src/v0.8/shared/access/ConfirmedOwner.sol";
+import {IVRFCoordinatorV2Plus} from "@chainlink/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol";
+import {VRFConsumerBaseV2Plus} from "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
+import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
 
-contract DnDCharacterGenerator is VRFConsumerBaseV2, ConfirmedOwner {
-    VRFCoordinatorV2Interface COORDINATOR;
-    uint64 s_subscriptionId;
-    bytes32 keyHash = 0x474e34a077df58807dbe9c96d3c009b23b3c6d0cce433e59bbf5b34f823bc56c;
+contract CeptorCharacterGenerator is VRFConsumerBaseV2Plus {
+    IVRFCoordinatorV2Plus COORDINATOR;
+    uint256 s_subscriptionId;
+    bytes32 keyHash = 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae;
     // forge-test gas report & gas limit plugin on hardhat
     uint32 callbackGasLimit = 100000;
     uint16 requestConfirmations = 3;
@@ -31,25 +31,35 @@ contract DnDCharacterGenerator is VRFConsumerBaseV2, ConfirmedOwner {
     event ScoresSwapped(address owner);
     event RequestFulfilled(uint256 requestId, uint256[] randomWords);
 
-    constructor(uint64 subscriptionId) VRFConsumerBaseV2(0x8103B0A8A00be2DDC778e6e7eaa21791Cd364625)
-    ConfirmedOwner(msg.sender) {
-        COORDINATOR = VRFCoordinatorV2Interface(0x8103B0A8A00be2DDC778e6e7eaa21791Cd364625);
+    constructor(uint256 subscriptionId) VRFConsumerBaseV2Plus(0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B)
+ {
+        COORDINATOR = IVRFCoordinatorV2Plus(
+            0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B
+        );
         s_subscriptionId = subscriptionId;
     }
 
-    function createCharacter() external onlyOwner {
-        require(characters[msg.sender].abilities[0] == 0, "Character already created");
-        uint256 requestId = COORDINATOR.requestRandomWords(
-            keyHash,
-            s_subscriptionId,
-            requestConfirmations,
-            callbackGasLimit,
-            numWords
-        );
-        requestToSender[requestId] = msg.sender;
-        emit CharacterCreated(msg.sender, requestId);
-    }
-
+    // allow any address to call createCharacter, 
+    // require each address can create one character
+    // (after a character is created, 
+    // characters[msg.sender].abilities[0] will no longer be 0).
+    function createCharacter() external {
+    require(characters[msg.sender].abilities[0] == 0, "Character already created");
+    uint256 requestId = COORDINATOR.requestRandomWords(
+        VRFV2PlusClient.RandomWordsRequest({
+            keyHash: keyHash,
+            subId: s_subscriptionId,
+            requestConfirmations: requestConfirmations,
+            callbackGasLimit: callbackGasLimit,
+            numWords: numWords,
+            extraArgs: VRFV2PlusClient._argsToBytes(
+                VRFV2PlusClient.ExtraArgsV1({nativePayment: false})
+            )
+        })
+    );
+    requestToSender[requestId] = msg.sender;
+    emit CharacterCreated(msg.sender, requestId);
+}
     function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
         address owner = requestToSender[requestId];
         uint256[6] memory abilities;
@@ -80,13 +90,13 @@ contract DnDCharacterGenerator is VRFConsumerBaseV2, ConfirmedOwner {
         require(index1 < 6 && index2 < 6, "Invalid index");
 
         (characters[msg.sender].abilities[index1], characters[msg.sender].abilities[index2]) = 
-            (characters[msg.sender].abilities[index2], characters[msg.sender].abilities[index1]);
+        (characters[msg.sender].abilities[index2], characters[msg.sender].abilities[index1]);
         characters[msg.sender].swaps++;
         emit ScoresSwapped(msg.sender);
     }
 
     function getClass(uint256 randomNumber) private pure returns (string memory) {
-        string[12] memory classes = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"];
+        string[13] memory classes = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard", "Ceptor"];
         return classes[randomNumber % classes.length];
     }
 }

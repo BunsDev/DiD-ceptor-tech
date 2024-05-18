@@ -59,7 +59,7 @@ pragma solidity ^0.8.0;
 // Player
 // what else?
 
-contract WorldFactory {
+contract WorldFactory2 {
     address public owner;
 
     constructor() {

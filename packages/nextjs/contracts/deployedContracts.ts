@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     BuyMeACeptor: {
-      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
       abi: [
         {
           inputs: [],
@@ -285,8 +285,464 @@ const deployedContracts = {
       ],
       inheritedFunctions: {},
     },
-    BuyMeACoffee: {
-      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    CCG: {
+      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      abi: [
+        {
+          inputs: [],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "have",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "want",
+              type: "address",
+            },
+          ],
+          name: "OnlyCoordinatorCanFulfill",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "have",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "coordinator",
+              type: "address",
+            },
+          ],
+          name: "OnlyOwnerOrCoordinator",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "ZeroAddress",
+          type: "error",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "requestId",
+              type: "uint256",
+            },
+          ],
+          name: "CharacterCreated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "alignment",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "background",
+              type: "string",
+            },
+          ],
+          name: "CharacterUpdated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "vrfCoordinator",
+              type: "address",
+            },
+          ],
+          name: "CoordinatorSet",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "OwnershipTransferRequested",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "OwnershipTransferred",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "randomNamesContract",
+              type: "address",
+            },
+          ],
+          name: "RandomNamesContractSet",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+          ],
+          name: "RandomWordSaved",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "requestId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256[]",
+              name: "randomWords",
+              type: "uint256[]",
+            },
+          ],
+          name: "RequestFulfilled",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+          ],
+          name: "ScoresSwapped",
+          type: "event",
+        },
+        {
+          inputs: [],
+          name: "acceptOwnership",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "characters",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "randomWord",
+              type: "uint256",
+            },
+            {
+              internalType: "string",
+              name: "class",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "playerName",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "alignment",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "background",
+              type: "string",
+            },
+            {
+              internalType: "uint8",
+              name: "swaps",
+              type: "uint8",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "playerName",
+              type: "string",
+            },
+          ],
+          name: "createCharacter",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "alignment",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "background",
+              type: "string",
+            },
+          ],
+          name: "finalizeCharacterDetails",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+          ],
+          name: "getCharacterAbilities",
+          outputs: [
+            {
+              internalType: "uint256[6]",
+              name: "",
+              type: "uint256[6]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "owner",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "randomNamesContract",
+          outputs: [
+            {
+              internalType: "contract OpenSourceRandomNames",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "requestId",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256[]",
+              name: "randomWords",
+              type: "uint256[]",
+            },
+          ],
+          name: "rawFulfillRandomWords",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "s_vrfCoordinator",
+          outputs: [
+            {
+              internalType: "contract IVRFCoordinatorV2Plus",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_vrfCoordinator",
+              type: "address",
+            },
+          ],
+          name: "setCoordinator",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_randomNamesContract",
+              type: "address",
+            },
+          ],
+          name: "setRandomNamesContract",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint8",
+              name: "index1",
+              type: "uint8",
+            },
+            {
+              internalType: "uint8",
+              name: "index2",
+              type: "uint8",
+            },
+          ],
+          name: "swapScores",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "transferOwnership",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "alignment",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "background",
+              type: "string",
+            },
+          ],
+          name: "updateCharacterDetails",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {
+        acceptOwnership: "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
+        owner: "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
+        rawFulfillRandomWords: "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
+        s_vrfCoordinator: "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
+        setCoordinator: "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
+        transferOwnership: "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
+      },
+    },
+    WorldFactory: {
+      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
       abi: [
         {
           inputs: [],
@@ -320,17 +776,23 @@ const deployedContracts = {
             {
               indexed: true,
               internalType: "address",
-              name: "buyer",
+              name: "worldContract",
               type: "address",
             },
             {
               indexed: false,
               internalType: "uint256",
-              name: "price",
+              name: "gameId",
               type: "uint256",
             },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "player",
+              type: "address",
+            },
           ],
-          name: "BuyMeACoffeeEvent",
+          name: "GameJoined",
           type: "event",
         },
         {
@@ -339,7 +801,138 @@ const deployedContracts = {
             {
               indexed: true,
               internalType: "address",
-              name: "userAddress",
+              name: "worldContract",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "player",
+              type: "address",
+            },
+          ],
+          name: "GameLeft",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "worldContract",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "reviewer",
+              type: "address",
+            },
+          ],
+          name: "GameReviewed",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "worldContract",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "gameMaster",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "startTime",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "endTime",
+              type: "uint256",
+            },
+          ],
+          name: "GameScheduled",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "worldContract",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+          ],
+          name: "GameStarted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "worldContract",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "player",
+              type: "address",
+            },
+          ],
+          name: "PlayerJoinedWorld",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "worldCreator",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "worldContract",
               type: "address",
             },
             {
@@ -350,100 +943,68 @@ const deployedContracts = {
             },
             {
               indexed: false,
-              internalType: "uint256",
-              name: "numCoffees",
-              type: "uint256",
-            },
-            {
-              indexed: false,
               internalType: "string",
-              name: "userName",
+              name: "vibe",
               type: "string",
             },
             {
               indexed: false,
               internalType: "string",
-              name: "twitterHandle",
+              name: "gameMasterName",
               type: "string",
             },
             {
               indexed: false,
               internalType: "string",
-              name: "message",
+              name: "gameMasterTwitterHandle",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "description",
               type: "string",
             },
           ],
-          name: "NewMemo",
+          name: "WorldCreated",
           type: "event",
         },
         {
           inputs: [
             {
-              internalType: "uint256",
-              name: "numCoffees",
-              type: "uint256",
-            },
-            {
               internalType: "string",
-              name: "userName",
+              name: "vibe",
               type: "string",
             },
             {
               internalType: "string",
-              name: "twitterHandle",
+              name: "gameMasterName",
               type: "string",
             },
             {
               internalType: "string",
-              name: "message",
+              name: "gameMasterTwitterHandle",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "description",
               type: "string",
             },
           ],
-          name: "buyCoffee",
+          name: "createWorld",
           outputs: [],
           stateMutability: "payable",
           type: "function",
         },
         {
           inputs: [],
-          name: "getMemos",
+          name: "getWorlds",
           outputs: [
             {
-              components: [
-                {
-                  internalType: "uint256",
-                  name: "numCoffees",
-                  type: "uint256",
-                },
-                {
-                  internalType: "string",
-                  name: "userName",
-                  type: "string",
-                },
-                {
-                  internalType: "string",
-                  name: "twitterHandle",
-                  type: "string",
-                },
-                {
-                  internalType: "string",
-                  name: "message",
-                  type: "string",
-                },
-                {
-                  internalType: "uint256",
-                  name: "time",
-                  type: "uint256",
-                },
-                {
-                  internalType: "address",
-                  name: "userAddress",
-                  type: "address",
-                },
-              ],
-              internalType: "struct Memo[]",
+              internalType: "contract World[]",
               name: "",
-              type: "tuple[]",
+              type: "address[]",
             },
           ],
           stateMutability: "view",
@@ -453,62 +1014,26 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "uint256",
-              name: "",
+              name: "worldIndex",
               type: "uint256",
             },
           ],
-          name: "memos",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "numCoffees",
-              type: "uint256",
-            },
-            {
-              internalType: "string",
-              name: "userName",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "twitterHandle",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "message",
-              type: "string",
-            },
-            {
-              internalType: "uint256",
-              name: "time",
-              type: "uint256",
-            },
-            {
-              internalType: "address",
-              name: "userAddress",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "index",
-              type: "uint256",
-            },
-            {
-              internalType: "string",
-              name: "message",
-              type: "string",
-            },
-          ],
-          name: "modifyMemoMessage",
+          name: "joinWorldAsGM",
           outputs: [],
-          stateMutability: "nonpayable",
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "worldIndex",
+              type: "uint256",
+            },
+          ],
+          name: "joinWorldAsPlayer",
+          outputs: [],
+          stateMutability: "payable",
           type: "function",
         },
         {
@@ -516,7 +1041,7 @@ const deployedContracts = {
           name: "owner",
           outputs: [
             {
-              internalType: "address payable",
+              internalType: "address",
               name: "",
               type: "address",
             },
@@ -526,7 +1051,7 @@ const deployedContracts = {
         },
         {
           inputs: [],
-          name: "price",
+          name: "priceToCreate",
           outputs: [
             {
               internalType: "uint256",
@@ -538,23 +1063,55 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
+          inputs: [],
+          name: "priceToJoinGM",
+          outputs: [
             {
               internalType: "uint256",
-              name: "index",
+              name: "",
               type: "uint256",
             },
           ],
-          name: "removeMemo",
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "priceToJoinPlayer",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "withdrawFunds",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
         },
         {
-          inputs: [],
-          name: "withdrawTips",
-          outputs: [],
-          stateMutability: "nonpayable",
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "worlds",
+          outputs: [
+            {
+              internalType: "contract World",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
           type: "function",
         },
         {
