@@ -46,6 +46,7 @@
     "prettier": "^2.8.4",
     "solidity-coverage": "^0.8.5",
     "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
     "typechain": "^8.1.0",
     "typescript": "^5.1.6"
   },
