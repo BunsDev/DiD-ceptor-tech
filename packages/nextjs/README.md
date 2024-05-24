@@ -5,7 +5,7 @@
 Below is an example of how to call user API
 
 ```
-POST localhost:3000/api/user
+POST http://localhost:3000/api/user
 Content-Type: application/json
  
 {
