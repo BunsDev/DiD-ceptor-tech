@@ -1,4 +1,5 @@
 // @ts-check
+const { MONGO_CONN_STR, MONGO_DB_NAME } = process.env;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -12,14 +13,14 @@ const nextConfig = {
   serverRuntimeConfig: {
     providerConfig: {
       networks: [
-          { name: "mainnet", rpcUrl: "https://eth.drpc.org" },
-          { name: "sepolia", rpcUrl: "https://sepolia.drpc.org", registry: "0x03d5003bf0e79c5f5223588f347eba39afbc3818" }
-      ]
+        { name: "mainnet", rpcUrl: "https://eth.drpc.org" },
+        { name: "sepolia", rpcUrl: "https://sepolia.drpc.org", registry: "0x03d5003bf0e79c5f5223588f347eba39afbc3818" },
+      ],
     },
     mongoConfig: {
-      connectionStr: "mongodb+srv://verinta:BFWmxukoOsNdIx4x@ceptorclub.rq4oohp.mongodb.net/",
-      DB: "CeptorClub_allan"
-    }
+      connectionStr: MONGO_CONN_STR,
+      db: MONGO_DB_NAME,
+    },
   },
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };

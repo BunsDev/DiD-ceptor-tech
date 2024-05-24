@@ -1,17 +1,20 @@
+import getConfig from "next/config";
 import { DuplicateUserError } from "../../models/errors";
 import { User } from "../../models/user";
 import { InsertOneResult, MongoClient, MongoServerError, WithId } from "mongodb";
 
-if (!process.env.MONGO_CONN_STR) {
-  throw new Error("MONGO_CONN_STR is missing, please check your env file");
+const { serverRuntimeConfig } = getConfig();
+
+if (!serverRuntimeConfig.mongoConfig.connectionStr) {
+  throw new Error("mongo connection string is missing, please check MONGO_CONN_STR in your env file");
 }
 
-if (!process.env.MONGO_DB) {
-  throw new Error("MONGO_DB is missing, please check your env file");
+if (!serverRuntimeConfig.mongoConfig.db) {
+  throw new Error("mongo db name is missing, please check MONGO_DB_NAME in your env file");
 }
 
-const client = new MongoClient(process.env.MONGO_CONN_STR);
-const usersCollection = client.db(process.env.MONGO_DB).collection<User>("User");
+const client = new MongoClient(serverRuntimeConfig.mongoConfig.connectionStr);
+const usersCollection = client.db(serverRuntimeConfig.mongoConfig.db).collection<User>("User");
 
 //function to connect to mongoDB and save a user to the database
 export async function saveUser(user: User): Promise<InsertOneResult<User>> {
