@@ -26,6 +26,8 @@ contract CCExampleClient is ICCGatewayClient {
     }
 
     function request(string[] calldata args, bytes[] calldata bytesArgs) external {
+        require(subscriptionId != 0, "Subscription ID not set");
+
         gateway.sendRequest(subscriptionId, args, bytesArgs, encryptedSecretsReference);
     }
 
