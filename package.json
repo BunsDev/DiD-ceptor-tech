@@ -1,6 +1,6 @@
 {
   "name": "se-2",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "workspaces": {
     "packages": [
@@ -32,11 +32,13 @@
     "postinstall": "husky install",
     "precommit": "lint-staged",
     "vercel": "yarn workspace @se-2/nextjs vercel",
-    "vercel:yolo": "yarn workspace @se-2/nextjs vercel:yolo"
+    "vercel:yolo": "yarn workspace @se-2/nextjs vercel:yolo",
+    "release": "standard-version"
   },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
     "husky": "^8.0.1",
-    "lint-staged": "^13.0.3"
+    "lint-staged": "^13.0.3",
+    "standard-version": "^9.5.0"
   }
 }
