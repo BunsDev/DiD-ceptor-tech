@@ -11,17 +11,20 @@ const MIN_LINK_AMOUNT = "3";
 
 let _distributionAmount: BigNumberish;
 
-export async function getBalance(hre: HardhatRuntimeEnvironment) {
+export async function getBalance(hre: HardhatRuntimeEnvironment, address?: string): Promise<bigint> {
   const {
     contracts: { token: linkTokenAddress },
   } = await getNetworkConfig(hre);
 
-  const { deployer } = await hre.getNamedAccounts();
+  if (!address) {
+    const { deployer } = await hre.getNamedAccounts();
+    address = deployer;
+  }
   // @ts-expect-error: LinkToken.default exists.
   const linkContract = new hre.ethers.Contract(linkTokenAddress, LinkToken.default, hre.ethers.provider);
 
-  const balance = await linkContract.balanceOf(deployer);
-  console.log(`Deployer LINK balance: ${formatEther(balance)} LINK. | ${deployer}`);
+  const balance = await linkContract.balanceOf(address);
+  console.log(`Deployer LINK balance: ${formatEther(balance)} LINK. | ${address}`);
 
   return balance;
 }
