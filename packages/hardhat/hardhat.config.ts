@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
 dotenv.config();
-import { HardhatUserConfig } from "hardhat/config";
+
 import "@nomicfoundation/hardhat-ethers";
 import "@nomicfoundation/hardhat-chai-matchers";
 import "@typechain/hardhat";
@@ -9,6 +9,8 @@ import "solidity-coverage";
 import "@nomicfoundation/hardhat-verify";
 import "hardhat-deploy";
 import "hardhat-deploy-ethers";
+
+import { ChainLinkUserConfig } from "@/interfaces";
 
 // If not set, it uses ours Alchemy's default API key.
 // You can get your own at https://dashboard.alchemyapi.io
@@ -20,9 +22,9 @@ const deployerPrivateKey =
 // If not set, it uses ours Etherscan default API key.
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW";
 
-const config: HardhatUserConfig = {
+const config: ChainLinkUserConfig = {
   solidity: {
-    version: "0.8.17",
+    version: "0.8.20",
     settings: {
       optimizer: {
         enabled: true,
@@ -41,6 +43,20 @@ const config: HardhatUserConfig = {
   networks: {
     // View the networks that are pre-configured.
     // If the network you are looking for is not here you can add new network settings
+    localhost: {
+      contracts: {
+        token: "0x0000000000000000000000000000000000000000",
+      },
+      functions: {
+        // fill with your local router address
+        router: "0x0000000000000000000000000000000000000000",
+        donId: {
+          // fill with your local donId
+          onChain: "0x0000000000000000000000000000000000000000000000000000000000000000",
+          offChain: "fun-ethereum-local-1",
+        },
+      },
+    },
     hardhat: {
       forking: {
         url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
