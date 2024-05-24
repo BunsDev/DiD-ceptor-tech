@@ -16,8 +16,8 @@
     "verify": "hardhat etherscan-verify",
     "hardhat-verify": "hardhat verify",
     "link:balance": "hardhat link-balance",
-    "link:gw:subs": "hardhat createAndFundSubs",
-    "link:gw:subs-fund": "hardhat createAndFundSubs --fund"
+    "link:gw:upsert": "hardhat upsert-gateway-requests",
+    "link:gw:upsert-fund": "hardhat upsert-gateway-requests --fund"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.7.0",

@@ -5,7 +5,7 @@ import { createSubscriptions } from "..";
 import { scriptsToDeploy, upsertScripts } from "@/functions";
 import { getConsumer, registerScripts } from "@/scripts/gateway";
 
-task("createAndFundSubs", "Creates and fund subscriptions for scripts")
+task("upsert-gateway-requests", "Creates and optionally fund subscriptions for scripts. Register requests in Gateway.")
   .addFlag("fund", "Fund subscriptions")
   .setAction(async (params, hre) => {
     const { deployer } = await hre.getNamedAccounts();
