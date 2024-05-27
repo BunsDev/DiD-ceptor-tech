@@ -11,13 +11,18 @@ export async function POST(request: Request) {
   const resolver = new Resolver(ethrResolver);
 
   const user: User = await request.json();
-  const did = parse(user.id);
-  const doc = await resolver.resolve(user.id);
-  if (doc.didResolutionMetadata.error || did === null) {
-    return new Response(`invalid user id: ${user.id}.`, { status: 400 });
+  try {
+    await resolver.resolve(user.id);
+  } catch (err) {
+    return new Response(`resolve error: invalid user id: ${user.id} ${err}.`, { status: 400 });
   }
 
+  const did = parse(user.id);
+  if (!did) {
+    return new Response(`parse error: invalid user id: ${user.id}.`, { status: 400 });
+  }
   user.address = did.id;
+
   try {
     await saveUser(user);
     return new Response(`user ${user.address} ${user.name} joined.`, { status: 200 });
