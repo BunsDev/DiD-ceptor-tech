@@ -1,5 +1,5 @@
 // @ts-check
-const { MONGO_CONN_STR, MONGO_DB_NAME } = process.env;
+const { MONGO_CONN_STR, MONGO_DB_NAME, RABIITMQ_URL, RABBITMQ_QUEUE } = process.env;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -21,6 +21,10 @@ const nextConfig = {
       connectionStr: MONGO_CONN_STR,
       db: MONGO_DB_NAME,
     },
+    queueConfig: {
+      rabbitMqUrl: RABIITMQ_URL,
+      rabbitMqQueue: RABBITMQ_QUEUE
+    }
   },
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
