@@ -20,7 +20,7 @@ export async function POST(request: Request) {
   user.address = did.id;
   try {
     await saveUser(user);
-    return new Response(`user ${user.address} ${user.name} joined.`, { status: 400 });
+    return new Response(`user ${user.address} ${user.name} joined.`, { status: 200 });
   } catch (err) {
     if (err instanceof DuplicateUserError) {
       return new Response(`user ${user.id} already exists.`, { status: 400 });
