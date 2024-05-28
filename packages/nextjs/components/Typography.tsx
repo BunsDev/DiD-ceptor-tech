@@ -1,12 +1,12 @@
 import * as React from "react";
 
 interface TypographyProps {
-  text: string;
+  children: string;
   variant: "title" | "desc";
   className?: string;
 }
 
-const Typography: React.FC<TypographyProps> = ({ text, variant, className = "" }) => {
+const Typography: React.FC<TypographyProps> = ({ children, variant, className = "" }) => {
   const baseStyles = "text-center";
 
   const titleStyles =
@@ -15,7 +15,7 @@ const Typography: React.FC<TypographyProps> = ({ text, variant, className = "" }
 
   const combinedStyles = `${baseStyles} ${variant === "title" ? titleStyles : descStyles} ${className}`;
 
-  return <div className={combinedStyles}>{text}</div>;
+  return <div className={combinedStyles}>{children}</div>;
 };
 
 export default Typography;
