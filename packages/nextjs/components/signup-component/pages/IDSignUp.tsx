@@ -1,46 +1,23 @@
 import React from "react";
-import BackButton from "../BackButton";
-import Button from "../Button";
-import Typography from "~~/components/Typography";
+import InputField from "../InputField";
+import Typography from "~~/components/signup-component/Typography";
 
-interface IDSignUp {
-  setTab: React.Dispatch<React.SetStateAction<number>>;
+interface IDSignUpProps {
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
 }
-const IDSignUp: React.FC<IDSignUp> = ({ setTab }) => {
-  const handleNext = () => {
-    setTab(0);
-  };
-  const handleBack = () => {
-    setTab(0);
+
+const IDSignUp: React.FC<IDSignUpProps> = ({ inputValue, setInputValue }) => {
+  const handleInputChange = (value: string) => {
+    setInputValue(value);
+    localStorage.setItem("etheriumID", value); // Store input value in localStorage
   };
 
   return (
-    <>
-      <BackButton onClick={handleBack} />
-      <div
-        className="justify-center flex flex-col h-screen
-          items-center gap-10"
-      >
-        <Typography variant="title">Input your ID with Etherium</Typography>
-        <Typography variant="desc">
-          Use the following questions to describe your character and the art that you would like Artist Name to create
-          in their style. If you already have a character created with Ceptor Club, select the Import button and we will
-          fill out the questions for you!
-        </Typography>
-        <section
-          className="grid grid-cols-1 
-            md:grid-cols-2 gap-4 w-full 
-            text-center md:w-[824px] "
-        >
-          <Button variant="fill" onClick={handleNext}>
-            Next
-          </Button>
-          <Button variant="outline" onClick={handleBack}>
-            Back
-          </Button>
-        </section>
-      </div>
-    </>
+    <div className="justify-center flex flex-col h-screen items-center gap-10 lg:w-3/5">
+      <Typography variant="title">Input your ID with Ethereum</Typography>
+      <InputField type="text" label="Ethereum Address" value={inputValue} onChange={handleInputChange} />
+    </div>
   );
 };
 
