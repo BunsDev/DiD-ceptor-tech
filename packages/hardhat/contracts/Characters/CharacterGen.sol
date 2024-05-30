@@ -12,9 +12,9 @@ import {IVRFCoordinatorV2Plus} from "@chainlink/contracts/src/v0.8/vrf/dev/inter
 import {VRFConsumerBaseV2Plus} from "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
 import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
 import {Names} from "./Names.sol";
-import {Backgrounds} from "./BGs.sol";
+import {Backgrounds} from "./Backgrounds.sol";
 import {Classes} from "./Classes.sol";
-import {BackstoryGenerator} from "./BackstoryGenerator.sol";
+// import {BackstoryGenerator} from "./BackstoryGenerator.sol";
 
 /*
 In TTRPGs, Rule Zero grants the Game Master (GM) the authority to modify rules to enhance gameplay and maintain balance, ensuring that all players have an enjoyable experience. This principle can be applied to smart contracts in decentralized gaming, where flexibility is key to adapting to unforeseen scenarios and maintaining fairness. Just as a GM might adjust the difficulty of encounters or allow rerolls to prevent a total party kill, a smart contract can include mechanisms for modifying certain parameters, such as reroll limits, to keep the game balanced and engaging. This flexibility ensures that the gaming experience remains fun and fair, adhering to the spirit of Rule Zero.
@@ -62,7 +62,7 @@ contract CharacterGen is VRFConsumerBaseV2Plus {
 
     // Define events to log significant actions
     event CharacterCreated(address indexed owner, uint256 requestId);
-    event CharacterUpdated(address indexed owner, string alignment, string background);
+    event CharacterUpdated(address indexed owner, string alignment, string background, string class, string name);
     event ScoresSwapped(address indexed owner);
     event RequestFulfilled(uint256 requestId, uint256[] randomWords);
     event RandomWordsSaved(address indexed owner);
@@ -146,7 +146,7 @@ contract CharacterGen is VRFConsumerBaseV2Plus {
         randomNumber = (randomWord2 >> 32) % 13;
         characters[msg.sender].class = getClass(randomNumber);
 
-        emit CharacterUpdated(msg.sender, alignment, characters[msg.sender].background, characters[msg.sender].class);
+        emit CharacterUpdated(msg.sender, alignment, characters[msg.sender].background, characters[msg.sender].class, characters[msg.sender].name);
     }
 
      // Function to allow the game master to update character details
@@ -187,15 +187,16 @@ contract CharacterGen is VRFConsumerBaseV2Plus {
     }
 
     // Function to get the class of the character based on a random number
-    function getClass(uint256 randomNumber) private pure returns (string memory) {
-        return classesContract.classes(randomNumber % classesContract.classesLength());
+    function getClass(uint256 randomNumber) private view returns (string memory) {
+    return classesContract.classes(randomNumber % classesContract.classesLength());
+
     }
 
-    function getBackground(uint256 randomNumber) private pure returns (string memory) {
-        return backgroundsContract.backstories(randomNumber % backgroundsContract.backstoriesLength());
+    function getBackground(uint256 randomNumber) private view returns (string memory) {
+        return backgroundsContract.backgrounds(randomNumber % backgroundsContract.backgroundsLength());
     }
 
-    function getName(uint256 randomNumber) private pure returns (string memory) {
+    function getName(uint256 randomNumber) private view returns (string memory) {
         return namesContract.names(randomNumber % namesContract.namesLength());
     }
 

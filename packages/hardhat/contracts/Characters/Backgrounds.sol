@@ -2,16 +2,17 @@
 /  simply provide an on-chain querable array of public domain random backstory
 /  other smart contracts can import this or an interface of it to get a backstory
 /  if that contract has a source verifiable of randomness, thats very cool
+/  Ideally, this can be upgraded to request a functions call from the Gateway
 */
 
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.19;
 
-contract OpenSourceRandomBackstory {
+contract Backgrounds {
 
     // note: backstory are as random as you make them
     // the alphabetical list of d&d 5e srd backgrounds
-    string[15] public backstories = [
+    string[15] public backgrounds = [
     "Acolyte",
     "Ceptor",
     "Charlatan",
@@ -29,5 +30,7 @@ contract OpenSourceRandomBackstory {
     "Vampire"
     ];
     
-    
+    function backgroundsLength() public view returns (uint256) {
+        return backgrounds.length;
+    }
 }

@@ -5,9 +5,9 @@
 */
 
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.19;
 
-contract OpenSourceRandomNames {
+contract Names {
 
     // note: names are as random as you make them
     // the alphabetical list
@@ -34,4 +34,7 @@ contract OpenSourceRandomNames {
     "Winnie"
     ];
     
+    function namesLength() public view returns (uint256) {
+        return names.length;
+    }
 }
