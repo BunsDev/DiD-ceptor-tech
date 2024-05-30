@@ -3,7 +3,7 @@ pragma solidity 0.8.19;
 
 // Deploy this contract on Sepolia
 
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol"; //Source "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol" not found: File import callback not supported(6275)
 
 interface TokenInterface {
     function mint(address account, uint256 amount) external;
