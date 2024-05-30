@@ -25,16 +25,7 @@ const SignUp: React.FC = () => {
   const [inputInitiative, setInputInitiative] = React.useState("");
   const [inputContactMethod, setInputContactMethod] = React.useState("");
   const [inputInDiscord, setInputInDiscord] = React.useState("");
-  const [circlesData, setCirclesData] = React.useState([
-    { isFilled: true },
-    { isFilled: false },
-    { isFilled: false },
-    { isFilled: false },
-    { isFilled: false },
-    { isFilled: false },
-    { isFilled: false },
-    { isFilled: false },
-  ]);
+  const [circlesData, setCirclesData] = React.useState(Array.from({ length: 8 }, (_, i) => ({ isFilled: i === 0 })));
 
   const [showModal, setShowModal] = React.useState(false);
 
@@ -42,20 +33,15 @@ const SignUp: React.FC = () => {
     setShowModal(true);
   };
 
-  const handleNext = () => {
-    const newCirclesData = circlesData.map((circle, index) => ({
-      isFilled: index < tab + 1,
-    }));
-    setCirclesData(newCirclesData);
-    setTab(tab + 1);
-  };
+  const handleNextStep = (backward?: boolean) => {
+    if (backward && tab === 0) window.history.back();
 
-  const handleBack = () => {
+    const nextTab = Math.max(Math.min(backward ? tab - 1 : tab + 1, circlesData.length), 0);
     const newCirclesData = circlesData.map((circle, index) => ({
-      isFilled: index < tab - 1,
+      isFilled: index < nextTab,
     }));
     setCirclesData(newCirclesData);
-    setTab(tab - 1);
+    setTab(nextTab);
   };
 
   const handleCircleClick = (index: number) => {
@@ -73,7 +59,7 @@ const SignUp: React.FC = () => {
       className="flex flex-col items-center pt-5 pr-20 pb-10 pl-5
       bg-black max-md:pr-5 h-screen"
     >
-      <BackButton onClick={handleBack} />
+      <BackButton onClick={() => handleNextStep(true)} />
       {tab !== 0 && (
         // Inside SignUp component
         <section className="flex flex-col px-5 max-w-[520px]">
@@ -81,7 +67,12 @@ const SignUp: React.FC = () => {
             <>
               <div className="flex gap-5 max-md:flex-wrap">
                 {circlesData.map(({ isFilled }, index) => (
-                  <Circle key={index} isFilled={isFilled} onClick={() => handleCircleClick(index)} />
+                  <Circle
+                    key={index}
+                    tooltip={stepLabels[index]}
+                    isFilled={isFilled}
+                    onClick={() => handleCircleClick(index)}
+                  />
                 ))}
               </div>
               <p className="self-center mt-7 text-lg leading-7 text-center text-white">
@@ -111,19 +102,19 @@ const SignUp: React.FC = () => {
       lg:w-[824px]"
       >
         {tab === 0 ? (
-          <Button variant="fill" onClick={handleNext}>
+          <Button variant="fill" onClick={() => handleNextStep()}>
             Sign Up
           </Button>
-        ) : tab === 8 ? (
+        ) : tab === circlesData.length ? (
           <Button variant="fill" onClick={handleSubmit}>
             Submit
           </Button>
         ) : (
-          <Button variant="fill" onClick={handleNext}>
+          <Button variant="fill" onClick={() => handleNextStep()}>
             Next
           </Button>
         )}
-        <Button variant="outline" onClick={handleBack}>
+        <Button variant="outline" onClick={() => handleNextStep(true)}>
           Back
         </Button>
       </section>
