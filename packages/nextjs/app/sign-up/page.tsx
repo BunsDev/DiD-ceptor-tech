@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { SignUp } from "./actions";
+import { toast } from "react-hot-toast";
 import BackButton from "~~/components/signup-component/BackButton";
 import Button from "~~/components/signup-component/Button";
 import Circle from "~~/components/signup-component/CircularSignUp";
@@ -14,8 +16,9 @@ import JoinWithUs from "~~/components/signup-component/pages/JoinWithUs";
 import NameSignUp from "~~/components/signup-component/pages/NameSignUp";
 import ProjectSignUp from "~~/components/signup-component/pages/ProjectSignUp";
 import RoleSignUp from "~~/components/signup-component/pages/RoleSignUp";
+import { User } from "~~/models/user";
 
-const SignUp: React.FC = () => {
+const SignUpPage: React.FC = () => {
   const [tab, setTab] = React.useState(0);
   const [inputValue, setInputValue] = React.useState("");
   const [inputName, setInputName] = React.useState("");
@@ -24,13 +27,33 @@ const SignUp: React.FC = () => {
   const [inputProject, setInputProject] = React.useState("");
   const [inputInitiative, setInputInitiative] = React.useState("");
   const [inputContactMethod, setInputContactMethod] = React.useState("");
-  const [inputInDiscord, setInputInDiscord] = React.useState("");
+  const [inputInDiscord, setInputInDiscord] = React.useState(false);
   const [circlesData, setCirclesData] = React.useState(Array.from({ length: 8 }, (_, i) => ({ isFilled: i === 0 })));
 
+  const [loading, setLoading] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
 
-  const handleSubmit = () => {
-    setShowModal(true);
+  const handleSubmit = async () => {
+    setLoading(true);
+
+    try {
+      await SignUp({
+        id: `did:ethr:0xaa36a7:${inputValue}`, // TODO: Get network and id from config or something.
+        name: inputName,
+        email: inputEmail,
+        role: inputRole,
+        projects: [inputProject],
+        initiative: Number(inputInitiative),
+        contactMethod: inputContactMethod,
+        indiscord: inputInDiscord,
+      } as User);
+      setShowModal(true);
+    } catch (error: any) {
+      // TODO: Properly handle errors.
+      toast.error(error.message);
+    }
+
+    setLoading(false);
   };
 
   const handleNextStep = (backward?: boolean) => {
@@ -107,7 +130,7 @@ const SignUp: React.FC = () => {
           </Button>
         ) : tab === circlesData.length ? (
           <Button variant="fill" onClick={handleSubmit}>
-            Submit
+            {loading ? <span className="loading loading-infinity loading-lg"></span> : "Submit"}
           </Button>
         ) : (
           <Button variant="fill" onClick={() => handleNextStep()}>
@@ -123,4 +146,4 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default SignUpPage;
