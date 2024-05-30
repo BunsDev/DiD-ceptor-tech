@@ -4,10 +4,15 @@ import * as React from "react";
 import BackButton from "~~/components/signup-component/BackButton";
 import Button from "~~/components/signup-component/Button";
 import Circle from "~~/components/signup-component/CircularSignUp";
+import ModalRequestJoin from "~~/components/signup-component/modal-signup/ModalRequestJoin";
+import ContactMethodSignUp from "~~/components/signup-component/pages/ContactMethodSignUp";
 import EmailSignUp from "~~/components/signup-component/pages/EmailSignUp";
 import IDSignUp from "~~/components/signup-component/pages/IDSignUp";
+import InDiscordSignUp from "~~/components/signup-component/pages/InDiscordSignUp";
+import InitiativeSignUp from "~~/components/signup-component/pages/InitiativeSignUp";
 import JoinWithUs from "~~/components/signup-component/pages/JoinWithUs";
 import NameSignUp from "~~/components/signup-component/pages/NameSignUp";
+import ProjectSignUp from "~~/components/signup-component/pages/ProjectSignUp";
 import RoleSignUp from "~~/components/signup-component/pages/RoleSignUp";
 
 const SignUp: React.FC = () => {
@@ -16,6 +21,10 @@ const SignUp: React.FC = () => {
   const [inputName, setInputName] = React.useState("");
   const [inputEmail, setInputEmail] = React.useState("");
   const [inputRole, setInputRole] = React.useState("");
+  const [inputProject, setInputProject] = React.useState("");
+  const [inputInitiative, setInputInitiative] = React.useState("");
+  const [inputContactMethod, setInputContactMethod] = React.useState("");
+  const [inputInDiscord, setInputInDiscord] = React.useState("");
   const [circlesData, setCirclesData] = React.useState([
     { isFilled: true },
     { isFilled: false },
@@ -25,11 +34,13 @@ const SignUp: React.FC = () => {
     { isFilled: false },
     { isFilled: false },
     { isFilled: false },
-    { isFilled: false },
-    { isFilled: false },
-    { isFilled: false },
-    { isFilled: false },
   ]);
+
+  const [showModal, setShowModal] = React.useState(false);
+
+  const handleSubmit = () => {
+    setShowModal(true);
+  };
 
   const handleNext = () => {
     const newCirclesData = circlesData.map((circle, index) => ({
@@ -55,7 +66,7 @@ const SignUp: React.FC = () => {
     setTab(index + 1);
   };
 
-  const stepLabels = ["ID", "Name", "Email"];
+  const stepLabels = ["ID", "Name", "Email", "Role", "Project", "Initiative", "Contact Method"];
 
   return (
     <main
@@ -86,6 +97,12 @@ const SignUp: React.FC = () => {
       {tab === 2 && <NameSignUp inputName={inputName} setInputName={setInputName} />}
       {tab === 3 && <EmailSignUp inputEmail={inputEmail} setInputEmail={setInputEmail} />}
       {tab === 4 && <RoleSignUp inputRole={inputRole} setInputRole={setInputRole} />}
+      {tab === 5 && <ProjectSignUp inputProject={inputProject} setInputProject={setInputProject} />}
+      {tab === 6 && <InitiativeSignUp inputInitiative={inputInitiative} setInputInitiative={setInputInitiative} />}
+      {tab === 7 && (
+        <ContactMethodSignUp inputContactMethod={inputContactMethod} setInputContactMethod={setInputContactMethod} />
+      )}
+      {tab === 8 && <InDiscordSignUp inputInDiscord={inputInDiscord} setInputInDiscord={setInputInDiscord} />}
 
       {/* Add other components for subsequent tabs here */}
       <section
@@ -97,6 +114,10 @@ const SignUp: React.FC = () => {
           <Button variant="fill" onClick={handleNext}>
             Sign Up
           </Button>
+        ) : tab === 8 ? (
+          <Button variant="fill" onClick={handleSubmit}>
+            Submit
+          </Button>
         ) : (
           <Button variant="fill" onClick={handleNext}>
             Next
@@ -106,6 +127,7 @@ const SignUp: React.FC = () => {
           Back
         </Button>
       </section>
+      {showModal && <ModalRequestJoin />}
     </main>
   );
 };
