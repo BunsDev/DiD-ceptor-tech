@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](///compare/v0.1.1...v0.1.2) (2024-05-30)
+
+
+### Features
+
+* **nextjs:** 👻 App Providers | Wagmi & Rainbow 4627808
+* **nextjs:** 👻 Eth ID | SignUp 54e4c35
+* **nextjs:** 👻 Submit 658f8b4
+
+
+### Bug Fixes
+
+* **nextjs:** 👻 Steps handler 9a7d55e
+
 ### [0.1.1](///compare/v0.1.0...v0.1.1) (2024-05-30)
 
 
