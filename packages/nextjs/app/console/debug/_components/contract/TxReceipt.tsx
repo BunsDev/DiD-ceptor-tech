@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { TransactionReceipt } from "viem";
+import { displayTxResult } from "~console/debug/_components/contract";
 import { CheckCircleIcon, DocumentDuplicateIcon } from "@heroicons/react/24/outline";
-import { displayTxResult } from "~~/app/debug/_components/contract";
 
 export const TxReceipt = (
   txResult: string | number | bigint | Record<string, any> | TransactionReceipt | undefined,

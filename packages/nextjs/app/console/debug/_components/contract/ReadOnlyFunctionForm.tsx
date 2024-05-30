@@ -12,7 +12,7 @@ import {
   getInitialFormState,
   getParsedContractFunctionArgs,
   transformAbiFunction,
-} from "~~/app/debug/_components/contract";
+} from "~console/debug/_components/contract";
 import { getParsedError, notification } from "~~/utils/scaffold-eth";
 
 type ReadOnlyFunctionFormProps = {

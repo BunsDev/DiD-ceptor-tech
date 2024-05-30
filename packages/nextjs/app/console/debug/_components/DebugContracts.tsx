@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
+import { ContractUI } from "~console/debug/_components/contract";
 import { BarsArrowUpIcon } from "@heroicons/react/20/solid";
-import { ContractUI } from "~~/app/debug/_components/contract";
 import { ContractName } from "~~/utils/scaffold-eth/contract";
 import { getAllContracts } from "~~/utils/scaffold-eth/contractsData";
 
