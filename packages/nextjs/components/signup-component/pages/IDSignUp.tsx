@@ -1,5 +1,5 @@
 import React from "react";
-import InputField from "../InputField";
+import { AddressInput } from "~~/components/scaffold-eth";
 import Typography from "~~/components/signup-component/Typography";
 
 interface IDSignUpProps {
@@ -16,7 +16,15 @@ const IDSignUp: React.FC<IDSignUpProps> = ({ inputValue, setInputValue }) => {
   return (
     <div className="justify-center flex flex-col h-screen items-center gap-10 lg:w-3/5">
       <Typography variant="title">Input your Ethereum Address</Typography>
-      <InputField type="text" label="Ethereum Address" value={inputValue} onChange={handleInputChange} />
+      <div className="w-full">
+        <Typography variant="label">Ethereum address</Typography>
+        <AddressInput
+          value={inputValue}
+          placeholder="Address Or ENS Name"
+          className="w-full rounded-lg"
+          onChange={handleInputChange}
+        />
+      </div>
     </div>
   );
 };
