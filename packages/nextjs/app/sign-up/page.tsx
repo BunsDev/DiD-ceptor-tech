@@ -66,7 +66,7 @@ const SignUp: React.FC = () => {
     setTab(index + 1);
   };
 
-  const stepLabels = ["ID", "Name", "Email", "Role", "Project", "Initiative", "Contact Method"];
+  const stepLabels = ["ID", "Name", "Email", "Role", "Project", "Initiative", "Contact Method", "In Discord"];
 
   return (
     <main
