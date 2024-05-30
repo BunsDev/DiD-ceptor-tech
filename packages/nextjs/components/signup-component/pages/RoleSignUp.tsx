@@ -31,7 +31,11 @@ const RoleSignUp: React.FC<RoleSignUpProps> = ({ inputRole, setInputRole }) => {
         <h2 className="self-center text-base text-gray-200">Select One: {inputRole}</h2>
         <div className="flex flex-wrap justify-center w-full gap-5 my-5 text-xl text-white">
           {dataSelections.map(dataSelection => (
-            <SelectionData key={dataSelection} onClick={() => handleRoleSelect(dataSelection)}>
+            <SelectionData
+              key={dataSelection}
+              selected={selectedRole === dataSelection}
+              onClick={() => handleRoleSelect(dataSelection)}
+            >
               {dataSelection}
             </SelectionData>
           ))}

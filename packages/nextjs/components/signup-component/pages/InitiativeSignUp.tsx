@@ -31,7 +31,11 @@ const InitiativeSignUp: React.FC<InitiativeSignUpProps> = ({ inputInitiative, se
         <h2 className="self-center text-base text-gray-200">Select One: {inputInitiative}</h2>
         <div className="flex flex-wrap justify-center w-full gap-5 my-5 text-xl text-white">
           {dataSelections.map(dataSelection => (
-            <SelectionData key={dataSelection} onClick={() => handleProjectSelect(dataSelection)}>
+            <SelectionData
+              key={dataSelection}
+              selected={selectedData === dataSelection}
+              onClick={() => handleProjectSelect(dataSelection)}
+            >
               {dataSelection}
             </SelectionData>
           ))}
