@@ -2,13 +2,15 @@ import type { HardhatRuntimeEnvironment } from "hardhat/types";
 import type { DeployFunction } from "hardhat-deploy/types";
 import { Contract } from "ethers";
 
+import { contractName } from "./00_deploy_gateway";
+
 /**
  * Deploys a contract named "CCGateway" using the deployer account and
  * constructor arguments set to the deployer address
  *
  * @param hre HardhatRuntimeEnvironment object.
  */
-const contractName = "CCGateway";
+
 const CLIENTS = ["CCExampleClient"]; // List of contract names to be registered in the gateway as clients.
 
 const grantClientsRole: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
