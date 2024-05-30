@@ -2,6 +2,8 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { Contract } from "ethers";
 
+import { contractName as GatewayName } from "./00_deploy_gateway";
+
 /**
  * Deploys a contract named "CCExampleClient" using the deployer account and
  * constructor arguments set to the deployer address
@@ -14,7 +16,7 @@ const deployCCExampleClient: DeployFunction = async function (hre: HardhatRuntim
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  const Gateway = await hre.ethers.getContract<Contract>("CCGateway", deployer);
+  const Gateway = await hre.ethers.getContract<Contract>(GatewayName, deployer);
   const gwAddress = await Gateway.getAddress();
 
   await deploy(contractName, {

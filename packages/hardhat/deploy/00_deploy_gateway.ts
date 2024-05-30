@@ -9,7 +9,7 @@ import { getNetworkConfig } from "@/scripts/LINK/utils";
  *
  * @param hre HardhatRuntimeEnvironment object.
  */
-const contractName = "CCGateway";
+export const contractName = "CCGateway";
 
 const deployCCGateway: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const {
