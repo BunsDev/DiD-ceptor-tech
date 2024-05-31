@@ -9,7 +9,8 @@ interface ProjectSignUpProps {
 
 const ProjectSignUp: React.FC<ProjectSignUpProps> = ({ inputProject, setInputProject }) => {
   const labelStepName = "User Project";
-  const [selectedProject, setSelectedProject] = useState<string>("");
+  const storedValue = localStorage.getItem(labelStepName);
+  const [selectedProject, setSelectedProject] = useState<string>(storedValue || "");
 
   useEffect(() => {
     if (selectedProject) {
@@ -40,11 +41,11 @@ const ProjectSignUp: React.FC<ProjectSignUpProps> = ({ inputProject, setInputPro
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen gap-10">
+    <div className="flex flex-col items-center justify-center h-screen pb-2 gap-10">
       <Typography variant="title">Choose Project You Are Interested In</Typography>
       <section className="flex flex-col items-center w-4/5 px-5 text-center leading-[150%] mx-auto">
         <h2 className="self-center text-base text-gray-200">Select One: {inputProject}</h2>
-        <div className="flex flex-wrap justify-center w-full gap-5 my-5 text-xl text-white">
+        <div className="flex flex-wrap justify-center w-full gap-5 my-5 text-xl text-white h-96 md:h-[450px] lg:h-auto overflow-y-auto">
           {dataSelections.map(dataSelection => (
             <SelectionData
               key={dataSelection}
