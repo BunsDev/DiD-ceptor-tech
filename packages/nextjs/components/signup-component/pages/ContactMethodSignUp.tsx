@@ -9,7 +9,8 @@ interface ContactMethodSignUpProps {
 
 const ContactMethodSignUp: React.FC<ContactMethodSignUpProps> = ({ inputContactMethod, setInputContactMethod }) => {
   const labelStepName = "User Contact Method";
-  const [selectedData, setSelectedData] = useState<string>("");
+  const storedValue = localStorage.getItem(labelStepName);
+  const [selectedData, setSelectedData] = useState<string>(storedValue || "");
 
   useEffect(() => {
     if (selectedData) {

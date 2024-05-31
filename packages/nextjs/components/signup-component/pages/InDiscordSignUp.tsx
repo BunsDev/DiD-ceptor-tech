@@ -9,7 +9,8 @@ interface InDiscordSignUpProps {
 
 const InDiscordSignUp: React.FC<InDiscordSignUpProps> = ({ setInputInDiscord }) => {
   const labelStepName = "User InDiscord";
-  const [selectedData, setSelectedData] = useState<string>("");
+  const storedValue = localStorage.getItem(labelStepName);
+  const [selectedData, setSelectedData] = useState<string>(storedValue || "");
 
   useEffect(() => {
     if (selectedData) {

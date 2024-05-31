@@ -9,7 +9,8 @@ interface InitiativeSignUpProps {
 
 const InitiativeSignUp: React.FC<InitiativeSignUpProps> = ({ inputInitiative, setInputInitiative }) => {
   const labelStepName = "User Initiative";
-  const [selectedData, setSelectedData] = useState<string>("");
+  const storedValue = localStorage.getItem(labelStepName);
+  const [selectedData, setSelectedData] = useState<string>(storedValue || "");
 
   useEffect(() => {
     if (selectedData) {

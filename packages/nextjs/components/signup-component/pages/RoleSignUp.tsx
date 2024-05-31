@@ -9,7 +9,8 @@ interface RoleSignUpProps {
 
 const RoleSignUp: React.FC<RoleSignUpProps> = ({ inputRole, setInputRole }) => {
   const labelStepName = "User Role";
-  const [selectedRole, setSelectedRole] = useState<string>("");
+  const storedValue = localStorage.getItem(labelStepName);
+  const [selectedRole, setSelectedRole] = useState<string>(storedValue || "");
 
   useEffect(() => {
     if (selectedRole) {

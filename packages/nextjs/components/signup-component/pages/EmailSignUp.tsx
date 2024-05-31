@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import InputField from "../InputField";
 import Typography from "~~/components/signup-component/Typography";
 
@@ -9,6 +9,12 @@ interface EmailSignUpProps {
 
 const EmailSignUp: React.FC<EmailSignUpProps> = ({ inputEmail, setInputEmail }) => {
   const labelStepName = "Email Address";
+  useEffect(() => {
+    const storedValue = localStorage.getItem(labelStepName);
+    if (storedValue) {
+      setInputEmail(storedValue);
+    }
+  }, [setInputEmail]);
   const handleInputChange = (value: string) => {
     setInputEmail(value);
     localStorage.setItem(labelStepName, value); // Store input value in localStorage

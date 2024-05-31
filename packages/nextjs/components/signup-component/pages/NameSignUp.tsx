@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import InputField from "../InputField";
 import Typography from "~~/components/signup-component/Typography";
 
@@ -9,6 +9,12 @@ interface NameSignUpProps {
 
 const NameSignUp: React.FC<NameSignUpProps> = ({ inputName, setInputName }) => {
   const labelStepName = "Full Name";
+  useEffect(() => {
+    const storedValue = localStorage.getItem(labelStepName);
+    if (storedValue) {
+      setInputName(storedValue);
+    }
+  }, [setInputName]);
   const handleInputChange = (value: string) => {
     setInputName(value);
     localStorage.setItem(labelStepName, value); // Store input value in localStorage
