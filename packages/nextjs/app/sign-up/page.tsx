@@ -80,7 +80,7 @@ const SignUpPage: React.FC = () => {
   return (
     <main
       className="flex flex-col items-center pt-5 pr-20 pb-10 pl-5
-      bg-black max-md:pr-5 h-screen"
+      bg-black max-md:pr-5 md:h-screen h-auto"
     >
       <BackButton onClick={() => handleNextStep(true)} />
       {tab !== 0 && (
