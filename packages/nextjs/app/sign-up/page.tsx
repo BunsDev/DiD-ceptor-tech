@@ -48,6 +48,7 @@ const SignUpPage: React.FC = () => {
         indiscord: inputInDiscord,
       } as User);
       setShowModal(true);
+      // TODO: Clean all the variable from localstorage since it was successfully submitted
     } catch (error: any) {
       // TODO: Properly handle errors.
       toast.error(error.message);
@@ -78,52 +79,50 @@ const SignUpPage: React.FC = () => {
   const stepLabels = ["ID", "Name", "Email", "Role", "Project", "Initiative", "Contact Method", "In Discord"];
 
   return (
-    <main
-      className="flex flex-col items-center pt-5 pr-20 pb-10 pl-5
-      bg-black max-md:pr-5 h-screen"
-    >
-      <BackButton onClick={() => handleNextStep(true)} />
-      {tab !== 0 && (
-        // Inside SignUp component
-        <section className="flex flex-col px-5 max-w-[520px]">
-          {tab !== 0 && (
-            <>
-              <div className="flex gap-5 max-md:flex-wrap">
-                {circlesData.map(({ isFilled }, index) => (
-                  <Circle
-                    key={index}
-                    tooltip={stepLabels[index]}
-                    isFilled={isFilled}
-                    onClick={() => handleCircleClick(index)}
-                  />
-                ))}
-              </div>
-              <p className="self-center mt-7 text-lg leading-7 text-center text-white">
-                Step {tab} of {circlesData.length}: User {stepLabels[tab - 1]}
-              </p>
-            </>
-          )}
-        </section>
-      )}
+    <>
+      <header className="w-full px-5 pt-5 flex flex-col items-center">
+        <BackButton onClick={() => handleNextStep(true)} />
+        {tab !== 0 && (
+          // Inside SignUp component
+          <section className="flex flex-col px-5 max-w-md">
+            {tab !== 0 && (
+              <>
+                <div className="flex gap-5 max-md:flex-wrap">
+                  {circlesData.map(({ isFilled }, index) => (
+                    <Circle
+                      key={index}
+                      tooltip={stepLabels[index]}
+                      isFilled={isFilled}
+                      onClick={() => handleCircleClick(index)}
+                    />
+                  ))}
+                </div>
+                <p className="self-center mt-7 text-lg leading-7 text-center text-white">
+                  Step {tab} of {circlesData.length}: User {stepLabels[tab - 1]}
+                </p>
+              </>
+            )}
+          </section>
+        )}
+      </header>
 
-      {tab === 0 && <JoinWithUs setTab={setTab} />}
-      {tab === 1 && <IDSignUp inputValue={inputValue} setInputValue={setInputValue} />}
-      {tab === 2 && <NameSignUp inputName={inputName} setInputName={setInputName} />}
-      {tab === 3 && <EmailSignUp inputEmail={inputEmail} setInputEmail={setInputEmail} />}
-      {tab === 4 && <RoleSignUp inputRole={inputRole} setInputRole={setInputRole} />}
-      {tab === 5 && <ProjectSignUp inputProject={inputProject} setInputProject={setInputProject} />}
-      {tab === 6 && <InitiativeSignUp inputInitiative={inputInitiative} setInputInitiative={setInputInitiative} />}
-      {tab === 7 && (
-        <ContactMethodSignUp inputContactMethod={inputContactMethod} setInputContactMethod={setInputContactMethod} />
-      )}
-      {tab === 8 && <InDiscordSignUp inputInDiscord={inputInDiscord} setInputInDiscord={setInputInDiscord} />}
+      <section className="flex flex-1 flex-col overflow-hidden item-center justify-center p-5 max-w-4xl">
+        {tab === 0 && <JoinWithUs setTab={setTab} />}
+        {tab === 1 && <IDSignUp inputValue={inputValue} setInputValue={setInputValue} />}
+        {tab === 2 && <NameSignUp inputName={inputName} setInputName={setInputName} />}
+        {tab === 3 && <EmailSignUp inputEmail={inputEmail} setInputEmail={setInputEmail} />}
+        {tab === 4 && <RoleSignUp inputRole={inputRole} setInputRole={setInputRole} />}
+        {tab === 5 && <ProjectSignUp inputProject={inputProject} setInputProject={setInputProject} />}
+        {tab === 6 && <InitiativeSignUp inputInitiative={inputInitiative} setInputInitiative={setInputInitiative} />}
+        {tab === 7 && (
+          <ContactMethodSignUp inputContactMethod={inputContactMethod} setInputContactMethod={setInputContactMethod} />
+        )}
+        {tab === 8 && <InDiscordSignUp inputInDiscord={inputInDiscord} setInputInDiscord={setInputInDiscord} />}
 
-      {/* Add other components for subsequent tabs here */}
-      <section
-        className="grid grid-cols-1 
-      lg:grid-cols-2 gap-4 w-full text-center 
-      lg:w-[824px]"
-      >
+        {/* Add other components for subsequent tabs here */}
+      </section>
+
+      <section className="grid grid-cols-1 lg:grid-cols-2 pb-10 max-md:px-5 max-lg:max-w-md gap-4 w-full text-center lg:w-[824px]">
         {tab === 0 ? (
           <Button variant="fill" onClick={() => handleNextStep()}>
             Sign Up
@@ -142,7 +141,7 @@ const SignUpPage: React.FC = () => {
         </Button>
       </section>
       {showModal && <ModalRequestJoin />}
-    </main>
+    </>
   );
 };
 
