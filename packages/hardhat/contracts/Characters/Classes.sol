@@ -5,7 +5,7 @@
 */
 
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity ^0.8.0;
 
 contract Classes {
 
@@ -27,8 +27,8 @@ contract Classes {
     "Ceptor"
     ];
 
-function classesLength() public view returns (uint256) {
-    return classes.length;
-}
-    
+    function classesLength() public view returns (uint256) {
+        return classes.length;
+    }
+
 }

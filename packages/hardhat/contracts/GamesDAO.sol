@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity ^0.8.0;
 
 // Chainlink Bootcamp's TokenShop as scaffold, GamesDAO manages the minting and pricing of GamesToken based on Chainlink price feeds.
 // It allows for gamemaster proposals on token pricing, which can be voted on by allowed players and gamemasters.
@@ -7,7 +7,7 @@ pragma solidity 0.8.19;
 // Initially deploying on Polygon Amoy Testnet, I plan to deploy these on Scroll, ZkSync, Optimism, and Metis
 // Since only Polygon and Avax and Ethereum are currently supported by CCIP, the next version will CCIPGamesDAO on Polygon first.
 
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 // for CCIP, see CCIPGamesDAO.sol (not written yet at this time)
 
 interface TokenInterface {
@@ -72,7 +72,7 @@ contract GamesDAO {
     // Calculate the amount of MATIC required to buy one GamesToken
     function getMATICForOneGT() public view returns (uint256) {
         uint256 maticPriceInUSD = uint256(getChainlinkDataFeedLatestAnswer());
-        return (10**10 / maticPriceInUSD) * gamesTokenPriceInCents;
+        return (10 ** 10 / maticPriceInUSD) * gamesTokenPriceInCents;
     }
 
     // Calculate the total MATIC required for a given number of GamesTokens
@@ -84,14 +84,14 @@ contract GamesDAO {
     function buyAmountTokens(uint256 numberOfGTs) public payable onlyAllowed {
         uint256 requiredMATIC = getMATICForGTs(numberOfGTs);
         require(msg.value >= requiredMATIC, "Insufficient MATIC sent");
-        minter.mint(msg.sender, numberOfGTs * 10**18);
+        minter.mint(msg.sender, numberOfGTs * 10 ** 18);
     }
 
     // Allow players to buy GamesTokens based on the MATIC sent
     function buyTokens() public payable onlyAllowed {
         uint256 numberOfGTs = msg.value / getMATICForOneGT();
         require(numberOfGTs > 0, "Insufficient MATIC sent");
-        minter.mint(msg.sender, numberOfGTs * 10**18);
+        minter.mint(msg.sender, numberOfGTs * 10 ** 18);
     }
 
     // Allow the owner to withdraw contract balance
@@ -114,7 +114,13 @@ contract GamesDAO {
     // Create a proposal for changing the token price
     function createProposal(uint256 newPrice) external onlyAllowed {
         require(proposal.deadline == 0 || block.timestamp > proposal.deadline, "Previous proposal still active");
-        proposal = Proposal({newPrice: newPrice, votesFor: 0, votesAgainst: 0, deadline: block.timestamp + 1 weeks, executed: false});
+
+        proposal.newPrice = newPrice;
+        proposal.votesFor = 0;
+        proposal.votesAgainst = 0;
+        proposal.deadline = block.timestamp + 1 weeks;
+        proposal.executed = false;
+
         emit ProposalCreated(newPrice, proposal.deadline);
     }
 

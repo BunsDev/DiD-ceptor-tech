@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity ^0.8.0;
 
 // Games Token deployed on Polygon Amoy
 
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 /**
  * @title GamesDAO
@@ -89,7 +89,7 @@ contract GamesDAOv2 {
      */
     function getMATICForOneGT() public view returns (uint256) {
         uint256 maticPriceInUSD = uint256(getChainlinkDataFeedLatestAnswer());
-        return (10**10 / maticPriceInUSD) * gamesTokenPriceInCents;
+        return (10 ** 10 / maticPriceInUSD) * gamesTokenPriceInCents;
     }
 
     /**
@@ -108,7 +108,7 @@ contract GamesDAOv2 {
     function buyAmountTokens(uint256 numberOfGTs) public payable onlyAllowed {
         uint256 requiredMATIC = getMATICForGTs(numberOfGTs);
         require(msg.value >= requiredMATIC, "Insufficient MATIC sent");
-        minter.mint(msg.sender, numberOfGTs * 10**18);
+        minter.mint(msg.sender, numberOfGTs * 10 ** 18);
     }
 
     /**
@@ -117,7 +117,7 @@ contract GamesDAOv2 {
     function buyTokens() public payable onlyAllowed {
         uint256 numberOfGTs = msg.value / getMATICForOneGT();
         require(numberOfGTs > 0, "Insufficient MATIC sent");
-        minter.mint(msg.sender, numberOfGTs * 10**18);
+        minter.mint(msg.sender, numberOfGTs * 10 ** 18);
     }
 
     /**
@@ -151,13 +151,13 @@ contract GamesDAOv2 {
      */
     function createProposal(uint256 newPrice) external onlyAllowed {
         require(proposal.deadline == 0 || block.timestamp > proposal.deadline, "Previous proposal still active");
-        proposal = Proposal({
-            newPrice: newPrice,
-            votesFor: 0,
-            votesAgainst: 0,
-            deadline: block.timestamp + 1 weeks,
-            executed: false
-        });
+
+        proposal.newPrice = newPrice;
+        proposal.votesFor = 0;
+        proposal.votesAgainst = 0;
+        proposal.deadline = block.timestamp + 1 weeks;
+        proposal.executed = false;
+
         emit ProposalCreated(newPrice, proposal.deadline);
     }
 

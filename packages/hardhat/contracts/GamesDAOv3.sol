@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity ^0.8.0;
 
 // Games Token deployed on Polygon Amoy
 
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
-import "@openzeppelin/contracts@4.6.0/access/AccessControl.sol";
+import "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 
 /**
  * @title GamesDAO
@@ -24,9 +24,10 @@ contract GamesDAOv3 is AccessControl {
 
     bytes32 public constant GAMEMASTER_ROLE = keccak256("GAMEMASTER_ROLE");
     bytes32 public constant PLAYER_ROLE = keccak256("PLAYER_ROLE");
-    uint256 public constant TOKEN_DECIMAL_MULTIPLIER = 10**18;
+    uint256 public constant TOKEN_DECIMAL_MULTIPLIER = 10 ** 18;
+    mapping(address => bool) public allowedPlayers;
 
-    enum ProposalType { CHANGE_PRICE, SEND_FUNDS, UPDATE_CATCHPHRASE }
+    enum ProposalType {CHANGE_PRICE, SEND_FUNDS, UPDATE_CATCHPHRASE}
 
     struct Proposal {
         ProposalType proposalType;
@@ -45,6 +46,7 @@ contract GamesDAOv3 is AccessControl {
     }
 
     struct Gamemaster {
+        bool registered;
         string catchphrase;
         string stylePrompt;
     }
@@ -61,7 +63,7 @@ contract GamesDAOv3 is AccessControl {
     event PlayerCatchphraseUpdated(address indexed player, string catchphrase);
     event GamemasterCatchphraseUpdated(address indexed gamemaster, string catchphrase);
     event GamemasterStylePromptUpdated(address indexed gamemaster, string stylePrompt);
-    
+
     /**
      * @dev Sets the owner, roles and initializes the MATIC/USD price feed on the Polygon Amoy Testnet.
      */
@@ -85,7 +87,8 @@ contract GamesDAOv3 is AccessControl {
      * @dev Ensures only allowed players or gamemasters can call the modified function.
      */
     modifier onlyAllowed() {
-        require(allowedPlayers[msg.sender] || gamemasters[msg.sender], "Not allowed");
+        // TODO: VERIFY THIS CONDITION
+        require(allowedPlayers[msg.sender] || gamemasters[msg.sender].registered, "Not allowed");
         _;
     }
 
@@ -112,7 +115,7 @@ contract GamesDAOv3 is AccessControl {
      */
     function getMATICForOneGT() public view returns (uint256) {
         uint256 maticPriceInUSD = uint256(getChainlinkDataFeedLatestAnswer());
-        return (10**10 / maticPriceInUSD) * gamesTokenPriceInCents;
+        return (10 ** 10 / maticPriceInUSD) * gamesTokenPriceInCents;
     }
 
     /**
@@ -164,7 +167,8 @@ contract GamesDAOv3 is AccessControl {
      * @param gamemaster The address of the gamemaster to be added.
      */
     function addGamemaster(address gamemaster) external onlyOwner {
-        gamemasters[gamemaster] = true;
+        // TODO: Verify this change. The struct was altered to include a registered boolean.
+        gamemasters[gamemaster].registered = true;
         emit GamemasterAdded(gamemaster);
     }
 
@@ -174,14 +178,14 @@ contract GamesDAOv3 is AccessControl {
      */
     function createProposal(uint256 newPrice) external onlyAllowed {
         require(proposal.deadline == 0 || block.timestamp > proposal.deadline, "Previous proposal still active");
-        proposal = Proposal({
-            newPrice: newPrice,
-            votesFor: 0,
-            votesAgainst: 0,
-            deadline: block.timestamp + 1 weeks,
-            executed: false
-        });
-        emit ProposalCreated(newPrice, proposal.deadline);
+
+        proposal.newPrice = newPrice;
+        proposal.votesFor = 0;
+        proposal.votesAgainst = 0;
+        proposal.deadline = block.timestamp + 1 weeks;
+        proposal.executed = false;
+
+        emit ProposalCreated(newPrice, 0, "", proposal.deadline, ProposalType.CHANGE_PRICE);
     }
 
     /**
@@ -208,7 +212,9 @@ contract GamesDAOv3 is AccessControl {
         require(!proposal.executed, "Proposal already executed");
         if (proposal.votesFor > proposal.votesAgainst) {
             gamesTokenPriceInCents = proposal.newPrice;
-            emit ProposalExecuted(proposal.newPrice);
+
+            // TODO: This should be updated to include the amount, catchphrase and extract the corresponding ProposalType.
+            emit ProposalExecuted(proposal.newPrice, 0, "", ProposalType.CHANGE_PRICE);
         }
         proposal.executed = true;
     }
@@ -217,26 +223,26 @@ contract GamesDAOv3 is AccessControl {
  * @notice Allows a player to update their catchphrase.
  * @param catchphrase The new catchphrase for the player.
  */
-function updatePlayerCatchphrase(string calldata catchphrase) external onlyRole(PLAYER_ROLE) {
-    players[msg.sender].catchphrase = catchphrase;
-    emit PlayerCatchphraseUpdated(msg.sender, catchphrase);
-}
+    function updatePlayerCatchphrase(string calldata catchphrase) external onlyRole(PLAYER_ROLE) {
+        players[msg.sender].catchphrase = catchphrase;
+        emit PlayerCatchphraseUpdated(msg.sender, catchphrase);
+    }
 
 /**
  * @notice Allows a gamemaster to update their catchphrase.
  * @param catchphrase The new catchphrase for the gamemaster.
  */
-function updateGamemasterCatchphrase(string calldata catchphrase) external onlyRole(GAMEMASTER_ROLE) {
-    gamemasters[msg.sender].catchphrase = catchphrase;
-    emit GamemasterCatchphraseUpdated(msg.sender, catchphrase);
-}
+    function updateGamemasterCatchphrase(string calldata catchphrase) external onlyRole(GAMEMASTER_ROLE) {
+        gamemasters[msg.sender].catchphrase = catchphrase;
+        emit GamemasterCatchphraseUpdated(msg.sender, catchphrase);
+    }
 
 /**
  * @notice Allows a gamemaster to update their style prompt.
  * @param stylePrompt The new style prompt for the gamemaster.
  */
-function updateGamemasterStylePrompt(string calldata stylePrompt) external onlyRole(GAMEMASTER_ROLE) {
-    gamemasters[msg.sender].stylePrompt = stylePrompt;
-    emit GamemasterStylePromptUpdated(msg.sender, stylePrompt);
-}
+    function updateGamemasterStylePrompt(string calldata stylePrompt) external onlyRole(GAMEMASTER_ROLE) {
+        gamemasters[msg.sender].stylePrompt = stylePrompt;
+        emit GamemasterStylePromptUpdated(msg.sender, stylePrompt);
+    }
 }

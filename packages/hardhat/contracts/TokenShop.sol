@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity ^0.8.0;
 
 // Games Token deployed on Polygon Amoy
 
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol"; //Source "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol" not found: File import callback not supported(6275)
+import "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 interface TokenInterface {
     function mint(address account, uint256 amount) external;

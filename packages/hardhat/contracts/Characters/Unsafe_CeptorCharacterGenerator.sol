@@ -60,7 +60,7 @@ contract CeptorCharacterGenerator is VRFConsumerBaseV2Plus {
     requestToSender[requestId] = msg.sender;
     emit CharacterCreated(msg.sender, requestId);
 }
-    function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
+    function fulfillRandomWords(uint256 requestId, uint256[] calldata randomWords) internal override {
         address owner = requestToSender[requestId];
         uint256[6] memory abilities;
         for (uint i = 0; i < 6; ++i) {  // ++i saves 2 gas

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity ^0.8.0;
 // In the game of D&D, creating a new character can be a lot of fun, or take ages and prevent you from playing
 // This contract is a simple example of how you can use Chainlink VRF to generate a random character
 // A character has 6 ability scores, a class, a name, an alignment, and a background
@@ -62,7 +62,7 @@ contract CharacterGen is VRFConsumerBaseV2Plus {
 
     // Define events to log significant actions
     event CharacterCreated(address indexed owner, uint256 requestId);
-    event CharacterUpdated(address indexed owner, string alignment, string background, string class, string name);
+    event CharacterUpdated(address indexed owner, string alignment, string background, string _class, string name);
     event ScoresSwapped(address indexed owner);
     event RequestFulfilled(uint256 requestId, uint256[] randomWords);
     event RandomWordsSaved(address indexed owner);
@@ -110,7 +110,7 @@ contract CharacterGen is VRFConsumerBaseV2Plus {
     }
 
     // Callback function to handle the VRF response and save the random words
-    function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
+    function fulfillRandomWords(uint256 requestId, uint256[] calldata randomWords) internal override {
         address owner = requestToSender[requestId];
         require(characters[owner].randomWord == 0, "Random words already fulfilled");
 
@@ -150,7 +150,7 @@ contract CharacterGen is VRFConsumerBaseV2Plus {
     }
 
      // Function to allow the game master to update character details
-    function gameMasterUpdateCharacter(address player, string calldata name, string calldata alignment, string calldata background, string calldata class) external onlyGameMaster {
+    function gameMasterUpdateCharacter(address player, string calldata name, string calldata alignment, string calldata background, string calldata _class) external onlyGameMaster {
         require(characters[player].randomWord != 0, "Random words not fulfilled, that player needs to be created first");
 
         // Update character name, alignment, class, and background if provided
@@ -163,11 +163,11 @@ contract CharacterGen is VRFConsumerBaseV2Plus {
         if (bytes(background).length > 0) {
             characters[player].background = background;
         }
-        if (bytes(class).length > 0) {
-            characters[player].class = class;
+        if (bytes(_class).length > 0) {
+            characters[player].class = _class;
         }
 
-        emit CharacterUpdated(player, alignment, background, class, name);
+        emit CharacterUpdated(player, alignment, background, _class, name);
     }
 
 
