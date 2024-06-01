@@ -179,10 +179,30 @@ const config: ChainLinkUserConfig = {
     base: {
       url: `https://base-mainnet.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
+      contracts: {
+        token: "0x88Fb150BDc53A65fe94Dea0c9BA0a6dAf8C6e196",
+      },
+      functions: {
+        router: "0xf9b8fc078197181c841c296c876945aaa425b278",
+        donId: {
+          onChain: "0x66756e2d626173652d6d61696e6e65742d310000000000000000000000000000",
+          offChain: "fun-base-mainnet-1",
+        },
+      },
     },
     baseSepolia: {
       url: `https://base-sepolia.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
+      contracts: {
+        token: "0xe4ab69c077896252fafbd49efd26b5d171a32410",
+      },
+      functions: {
+        router: "0xf9B8fc078197181C841c296C876945aaa425B278",
+        donId: {
+          onChain: "0x66756e2d626173652d7365706f6c69612d310000000000000000000000000000",
+          offChain: "fun-base-sepolia-1",
+        },
+      },
     },
     scrollSepolia: {
       url: "https://sepolia-rpc.scroll.io",
