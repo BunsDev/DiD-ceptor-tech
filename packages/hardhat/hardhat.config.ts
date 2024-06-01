@@ -34,6 +34,11 @@ const config: ChainLinkUserConfig = {
       },
     },
   },
+  gasReporter: {
+    enabled: true,
+    currency: "USD",
+    gasPrice: 100,
+  },
   defaultNetwork: "localhost",
   namedAccounts: {
     deployer: {

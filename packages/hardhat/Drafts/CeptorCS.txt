@@ -1,0 +1,90 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
+
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@chainlink/contracts/src/v0.8/vrf/VRFConsumerBaseV2.sol";
+
+contract CeptorCharacterSheets is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
+    struct Stats {
+        uint8 strength;
+        uint8 dexterity;
+        uint8 constitution;
+        uint8 intelligence;
+        uint8 wisdom;
+        uint8 charisma;
+        uint8 luck;
+    }
+
+    struct Character {
+        Stats stats;
+        string name;
+        uint swapsLeft;
+    }
+
+    mapping(address => uint256) public ownerToTokenId;
+    mapping(uint256 => Character) public tokenIdToCharacter;
+
+    uint256 public tokenIdCounter;
+    bytes32 public keyHash;
+    uint256 public fee;
+    uint64 public subscriptionId;
+
+    event CharacterCreated(uint256 indexed tokenId, address owner);
+    event StatsSwapped(uint256 indexed tokenId, address owner);
+
+    constructor(
+        address vrfCoordinator,
+        address linkToken,
+        bytes32 _keyHash,
+        uint64 _subscriptionId
+    ) 
+        VRFConsumerBaseV2(vrfCoordinator)
+        ERC721("CeptorCharacterSheets", "CCS")
+    {
+        keyHash = _keyHash;
+        fee = 0.1 * 10**18; // Chainlink VRF fee
+        subscriptionId = _subscriptionId;
+        tokenIdCounter = 1;
+    }
+
+    function createCharacter(string memory name) external {
+        require(ownerToTokenId[msg.sender] == 0, "Owner already has a character");
+        uint256 tokenId = tokenIdCounter++;
+        ownerToTokenId[msg.sender] = tokenId;
+        tokenIdToCharacter[tokenId] = Character({
+            name: name,
+            stats: Stats(0, 0, 0, 0, 0, 0, 0),
+            swapsLeft: 3
+        });
+        _safeMint(msg.sender, tokenId);
+        emit CharacterCreated(tokenId, msg.sender);
+        requestStats(tokenId);
+    }
+
+    function requestStats(uint256 tokenId) internal {
+        require(LINK.balanceOf(address(this)) >= fee, "Not enough LINK");
+        requestRandomWords(keyHash, subscriptionId, 3, fee, 1);
+    }
+
+    function fulfillRandomWords(uint256, uint256[] memory randomWords) internal override {
+        uint256 tokenId = ownerToTokenId[msg.sender];
+        Character storage character = tokenIdToCharacter[tokenId];
+        character.stats.strength = uint8(randomWords[0] % 16 + 3);
+        character.stats.dexterity = uint8(randomWords[1] % 16 + 3);
+        character.stats.constitution = uint8(randomWords[2] % 16 + 3);
+        character.stats.intelligence = uint8(randomWords[3] % 16 + 3);
+        character.stats.wisdom = uint8(randomWords[4] % 16 + 3);
+        character.stats.charisma = uint8(randomWords[5] % 16 + 3);
+        character.stats.luck = uint8(randomWords[6] % 16 + 3);
+    }
+
+    function swapStats(uint256 tokenId) external {
+        require(ownerOf(tokenId) == msg.sender, "Not the owner");
+        Character storage character = tokenIdToCharacter[tokenId];
+        require(character.swapsLeft > 0, "No swaps left");
+        character.swapsLeft--;
+        requestStats(tokenId);
+        emit StatsSwapped(tokenId, msg.sender);
+    }
+}
