@@ -1,0 +1,42 @@
+{
+  "31337": {
+    "00_backstory_gpt.ts": {
+      "name": "00_backstory_gpt.ts",
+      "path": "/Users/uklok/Software Development/learning/BlockMagic Hackathon/Ceptor-scaffold-OP/packages/hardhat/functions/00_backstory_gpt.ts",
+      "source": "// [1] ARGUMENT DECLARATION //\n\n// gets: character class for the backstory.\nconst CHARACTER_CLASS = args[0]; // --------------> |   Wizard\n\n// gets: character race for the backstory.\nconst CHARACTER_RACE = args[1]; // --------------> |   Elf\n\nconst CHARACTER_NAME = args[2]; // --------------> |   Eldon\n// [2] PROMPT ENGINEERING //\n\nconst prompt = `Generate a D&D 5e backstory for ${CHARACTER_NAME}, a Level 1 ${CHARACTER_CLASS} who is a ${CHARACTER_RACE}. The backstory should be extremely short, dense, powerful, engaging, coherent, and suitable for a fantasy RPG setting. Just reply with the one paragraph backstory and nothing else.`;\n\n// [3] AI DATA REQUEST //\n\n// requests: OpenAI API using Functions\nconst openAIRequest = await Functions.makeHttpRequest({\n  url: `https://api.openai.com/v1/chat/completions`,\n  method: \"POST\",\n  headers: {\n    \"Content-Type\": \"application/json\",\n    Authorization: `Bearer ${secrets.apiKey}`,\n  },\n  data: {\n    model: \"gpt-3.5-turbo\",\n    messages: [\n      {\n        role: \"system\",\n        content: \"You are generating a character backstory.\",\n      },\n      {\n        role: \"user\",\n        content: prompt,\n      },\n    ],\n  },\n  timeout: 10_000,\n  maxTokens: 100,\n  responseType: \"json\",\n});\n\nconst response = await openAIRequest;\n\n// finds: the response and returns the result (as a string).\nconst backstory = response.data?.choices[0].message.content;\n\nconsole.log(`Generated backstory: %s`, backstory);\n\nreturn Functions.encodeString(backstory || \"Failed\");\n",
+      "checksum": "c7e0ee9db83cc9004e86af02fb95d0e40c7b61824c69e6e2e96e217164ede9a4",
+      "subscriptionId": 1,
+      "consumerAddress": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788"
+    }
+  },
+  "80002": {
+    "00_backstory_gpt.ts": {
+      "name": "00_backstory_gpt.ts",
+      "path": "/Users/uklok/Software Development/learning/BlockMagic Hackathon/Ceptor-scaffold-OP/packages/hardhat/functions/00_backstory_gpt.ts",
+      "source": "// [1] ARGUMENT DECLARATION //\n\n// gets: character class for the backstory.\nconst CHARACTER_CLASS = args[0]; // --------------> |   Wizard\n\n// gets: character race for the backstory.\nconst CHARACTER_RACE = args[1]; // --------------> |   Elf\n\nconst CHARACTER_NAME = args[2]; // --------------> |   Eldon\n// [2] PROMPT ENGINEERING //\n\nconst prompt = `Generate a D&D 5e backstory for ${CHARACTER_NAME}, a Level 1 ${CHARACTER_CLASS} who is a ${CHARACTER_RACE}. The backstory should be extremely short, dense, powerful, engaging, coherent, and suitable for a fantasy RPG setting. Just reply with the one paragraph backstory and nothing else.`;\n\n// [3] AI DATA REQUEST //\n\n// requests: OpenAI API using Functions\nconst openAIRequest = await Functions.makeHttpRequest({\n  url: `https://api.openai.com/v1/chat/completions`,\n  method: \"POST\",\n  headers: {\n    \"Content-Type\": \"application/json\",\n    Authorization: `Bearer ${secrets.apiKey}`,\n  },\n  data: {\n    model: \"gpt-3.5-turbo\",\n    messages: [\n      {\n        role: \"system\",\n        content: \"You are generating a character backstory.\",\n      },\n      {\n        role: \"user\",\n        content: prompt,\n      },\n    ],\n  },\n  timeout: 10_000,\n  maxTokens: 100,\n  responseType: \"json\",\n});\n\nconst response = await openAIRequest;\n\n// finds: the response and returns the result (as a string).\nconst backstory = response.data?.choices[0].message.content;\n\nconsole.log(`Generated backstory: %s`, backstory);\n\nreturn Functions.encodeString(backstory || \"Failed\");\n",
+      "checksum": "c7e0ee9db83cc9004e86af02fb95d0e40c7b61824c69e6e2e96e217164ede9a4",
+      "subscriptionId": 238,
+      "consumerAddress": "0x49885C79f881c70e2847cCAcEa5664Fa7D968B26"
+    }
+  },
+  "84532": {
+    "00_backstory_gpt.ts": {
+      "name": "00_backstory_gpt.ts",
+      "path": "/Users/uklok/Software Development/learning/BlockMagic Hackathon/Ceptor-scaffold-OP/packages/hardhat/functions/00_backstory_gpt.ts",
+      "source": "// [1] ARGUMENT DECLARATION //\n\n// gets: character class for the backstory.\nconst CHARACTER_CLASS = args[0]; // --------------> |   Wizard\n\n// gets: character race for the backstory.\nconst CHARACTER_RACE = args[1]; // --------------> |   Elf\n\nconst CHARACTER_NAME = args[2]; // --------------> |   Eldon\n// [2] PROMPT ENGINEERING //\n\nconst prompt = `Generate a D&D 5e backstory for ${CHARACTER_NAME}, a Level 1 ${CHARACTER_CLASS} who is a ${CHARACTER_RACE}. The backstory should be extremely short, dense, powerful, engaging, coherent, and suitable for a fantasy RPG setting. Just reply with the one paragraph backstory and nothing else.`;\n\n// [3] AI DATA REQUEST //\n\n// requests: OpenAI API using Functions\nconst openAIRequest = await Functions.makeHttpRequest({\n  url: `https://api.openai.com/v1/chat/completions`,\n  method: \"POST\",\n  headers: {\n    \"Content-Type\": \"application/json\",\n    Authorization: `Bearer ${secrets.apiKey}`,\n  },\n  data: {\n    model: \"gpt-3.5-turbo\",\n    messages: [\n      {\n        role: \"system\",\n        content: \"You are generating a character backstory.\",\n      },\n      {\n        role: \"user\",\n        content: prompt,\n      },\n    ],\n  },\n  timeout: 10_000,\n  maxTokens: 100,\n  responseType: \"json\",\n});\n\nconst response = await openAIRequest;\n\n// finds: the response and returns the result (as a string).\nconst backstory = response.data?.choices[0].message.content;\n\nconsole.log(`Generated backstory: %s`, backstory);\n\nreturn Functions.encodeString(backstory || \"Failed\");\n",
+      "checksum": "c7e0ee9db83cc9004e86af02fb95d0e40c7b61824c69e6e2e96e217164ede9a4",
+      "subscriptionId": 56,
+      "consumerAddress": "0xe9926D1122669816E6403175B998aDD6DD776d26"
+    }
+  },
+  "11155420": {
+    "00_backstory_gpt.ts": {
+      "name": "00_backstory_gpt.ts",
+      "path": "/Users/uklok/Software Development/learning/BlockMagic Hackathon/Ceptor-scaffold-OP/packages/hardhat/functions/00_backstory_gpt.ts",
+      "source": "// [1] ARGUMENT DECLARATION //\n\n// gets: character class for the backstory.\nconst CHARACTER_CLASS = args[0]; // --------------> |   Wizard\n\n// gets: character race for the backstory.\nconst CHARACTER_RACE = args[1]; // --------------> |   Elf\n\nconst CHARACTER_NAME = args[2]; // --------------> |   Eldon\n// [2] PROMPT ENGINEERING //\n\nconst prompt = `Generate a D&D 5e backstory for ${CHARACTER_NAME}, a Level 1 ${CHARACTER_CLASS} who is a ${CHARACTER_RACE}. The backstory should be extremely short, dense, powerful, engaging, coherent, and suitable for a fantasy RPG setting. Just reply with the one paragraph backstory and nothing else.`;\n\n// [3] AI DATA REQUEST //\n\n// requests: OpenAI API using Functions\nconst openAIRequest = await Functions.makeHttpRequest({\n  url: `https://api.openai.com/v1/chat/completions`,\n  method: \"POST\",\n  headers: {\n    \"Content-Type\": \"application/json\",\n    Authorization: `Bearer ${secrets.apiKey}`,\n  },\n  data: {\n    model: \"gpt-3.5-turbo\",\n    messages: [\n      {\n        role: \"system\",\n        content: \"You are generating a character backstory.\",\n      },\n      {\n        role: \"user\",\n        content: prompt,\n      },\n    ],\n  },\n  timeout: 10_000,\n  maxTokens: 100,\n  responseType: \"json\",\n});\n\nconst response = await openAIRequest;\n\n// finds: the response and returns the result (as a string).\nconst backstory = response.data?.choices[0].message.content;\n\nconsole.log(`Generated backstory: %s`, backstory);\n\nreturn Functions.encodeString(backstory || \"Failed\");\n",
+      "checksum": "c7e0ee9db83cc9004e86af02fb95d0e40c7b61824c69e6e2e96e217164ede9a4",
+      "subscriptionId": 190,
+      "consumerAddress": "0xe9926D1122669816E6403175B998aDD6DD776d26"
+    }
+  }
+}

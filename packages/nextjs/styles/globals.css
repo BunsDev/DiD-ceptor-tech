@@ -1,6 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Milonga&family=Oswald:wght@200..700&display=swap');
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+
+
 
 :root,
 [data-theme] {
@@ -29,4 +35,13 @@ p {
 
 .btn.btn-ghost {
   @apply shadow-none;
+}
+
+/* Add custom font classes */
+.font-oswald {
+  font-family: 'Oswald', sans-serif;
+}
+
+.font-milonga {
+  font-family: 'Milonga', cursive;
 }

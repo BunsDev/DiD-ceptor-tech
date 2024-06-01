@@ -20,6 +20,7 @@ type HeaderMenuLink = {
   icon?: React.ReactNode;
 };
 
+const CONSOLE_PATH = "/console";
 export const menuLinks: HeaderMenuLink[] = [
   {
     label: "Home",
@@ -35,7 +36,7 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/games",
     icon: <PuzzlePieceIcon className="h-4 w-4" />,
   },
-];
+].map(link => ({ ...link, href: `${CONSOLE_PATH}${link.href}` }));
 
 export const HeaderMenuLinks = () => {
   const pathname = usePathname();

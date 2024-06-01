@@ -6,230 +6,79 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
   31337: {
-    BuyMeACeptor: {
-      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    CCExampleClient: {
+      address: "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
       abi: [
         {
-          inputs: [],
+          inputs: [
+            {
+              internalType: "address",
+              name: "gatewayAddress",
+              type: "address",
+            },
+          ],
           stateMutability: "nonpayable",
           type: "constructor",
         },
         {
-          inputs: [],
-          name: "InsufficientFunds",
-          type: "error",
-        },
-        {
-          inputs: [
-            {
-              internalType: "string",
-              name: "message",
-              type: "string",
-            },
-          ],
-          name: "InvalidArguments",
-          type: "error",
-        },
-        {
-          inputs: [],
-          name: "OnlyOwner",
-          type: "error",
-        },
-        {
           anonymous: false,
           inputs: [
             {
-              indexed: true,
-              internalType: "address",
-              name: "buyer",
-              type: "address",
+              indexed: false,
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
             },
             {
               indexed: false,
-              internalType: "uint256",
-              name: "price",
-              type: "uint256",
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "error",
+              type: "string",
             },
           ],
-          name: "BuyMeACeptorWorldEvent",
+          name: "ErrorReceived",
           type: "event",
         },
         {
           anonymous: false,
           inputs: [
             {
-              indexed: true,
-              internalType: "address",
-              name: "gameMasterAddress",
-              type: "address",
+              indexed: false,
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
             },
             {
               indexed: false,
-              internalType: "uint256",
-              name: "time",
-              type: "uint256",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "vibe",
-              type: "string",
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
             },
             {
               indexed: false,
               internalType: "string",
-              name: "gameMasterName",
-              type: "string",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "gameMasterTwitterHandle",
-              type: "string",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "description",
+              name: "response",
               type: "string",
             },
           ],
-          name: "NewWorld",
+          name: "ResponseReceived",
           type: "event",
         },
         {
           inputs: [
             {
-              internalType: "string",
-              name: "vibe",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "gameMasterName",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "gameMasterTwitterHandle",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "description",
-              type: "string",
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
             },
           ],
-          name: "buyWorld",
-          outputs: [],
-          stateMutability: "payable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "getWorlds",
-          outputs: [
-            {
-              components: [
-                {
-                  internalType: "string",
-                  name: "vibe",
-                  type: "string",
-                },
-                {
-                  internalType: "string",
-                  name: "gameMasterName",
-                  type: "string",
-                },
-                {
-                  internalType: "string",
-                  name: "gameMasterTwitterHandle",
-                  type: "string",
-                },
-                {
-                  internalType: "string",
-                  name: "description",
-                  type: "string",
-                },
-                {
-                  internalType: "uint256",
-                  name: "time",
-                  type: "uint256",
-                },
-                {
-                  internalType: "address",
-                  name: "gameMasterAddress",
-                  type: "address",
-                },
-              ],
-              internalType: "struct World[]",
-              name: "",
-              type: "tuple[]",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "index",
-              type: "uint256",
-            },
-            {
-              internalType: "string",
-              name: "description",
-              type: "string",
-            },
-          ],
-          name: "modifyWorldDescription",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "owner",
-          outputs: [
-            {
-              internalType: "address payable",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "price",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "index",
-              type: "uint256",
-            },
-          ],
-          name: "removeWorld",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "withdrawTips",
+          name: "callback",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -237,239 +86,168 @@ const deployedContracts = {
         {
           inputs: [
             {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
+              internalType: "string[]",
+              name: "args",
+              type: "string[]",
+            },
+            {
+              internalType: "bytes[]",
+              name: "bytesArgs",
+              type: "bytes[]",
             },
           ],
-          name: "worlds",
-          outputs: [
-            {
-              internalType: "string",
-              name: "vibe",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "gameMasterName",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "gameMasterTwitterHandle",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "description",
-              type: "string",
-            },
-            {
-              internalType: "uint256",
-              name: "time",
-              type: "uint256",
-            },
-            {
-              internalType: "address",
-              name: "gameMasterAddress",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
+          name: "request",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
-          stateMutability: "payable",
-          type: "receive",
+          inputs: [
+            {
+              internalType: "bytes",
+              name: "_encryptedSecretsReference",
+              type: "bytes",
+            },
+          ],
+          name: "updateEncryptedSecretsReference",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "_subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "updateSubscriptionId",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
         },
       ],
-      inheritedFunctions: {},
+      inheritedFunctions: {
+        callback: "contracts/interfaces/ICCGatewayClient.sol",
+      },
     },
-    CCG: {
-      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+    CCGateway: {
+      address: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
       abi: [
         {
-          inputs: [],
+          inputs: [
+            {
+              internalType: "address",
+              name: "router",
+              type: "address",
+            },
+            {
+              internalType: "bytes32",
+              name: "initialDonId",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "initialOwner",
+              type: "address",
+            },
+          ],
           stateMutability: "nonpayable",
           type: "constructor",
         },
         {
-          inputs: [
-            {
-              internalType: "address",
-              name: "have",
-              type: "address",
-            },
-            {
-              internalType: "address",
-              name: "want",
-              type: "address",
-            },
-          ],
-          name: "OnlyCoordinatorCanFulfill",
+          inputs: [],
+          name: "AccessControlBadConfirmation",
           type: "error",
         },
         {
           inputs: [
             {
               internalType: "address",
-              name: "have",
+              name: "account",
               type: "address",
             },
             {
-              internalType: "address",
-              name: "owner",
-              type: "address",
-            },
-            {
-              internalType: "address",
-              name: "coordinator",
-              type: "address",
+              internalType: "bytes32",
+              name: "neededRole",
+              type: "bytes32",
             },
           ],
-          name: "OnlyOwnerOrCoordinator",
+          name: "AccessControlUnauthorizedAccount",
           type: "error",
         },
         {
           inputs: [],
-          name: "ZeroAddress",
+          name: "CCGOnlyManagerAllowed",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          name: "CCGOnlySameSourceAllowed",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          name: "CCGRequestAlreadyFulfilled",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CCGRequestNameEmpty",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "CCGRequestNotRegistered",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EmptyArgs",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EmptySource",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "NoInlineSecrets",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "OnlyRouterCanFulfill",
           type: "error",
         },
         {
           anonymous: false,
           inputs: [
             {
-              indexed: false,
-              internalType: "address",
-              name: "owner",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "uint256",
-              name: "requestId",
-              type: "uint256",
-            },
-          ],
-          name: "CharacterCreated",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: false,
-              internalType: "address",
-              name: "owner",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "alignment",
-              type: "string",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "background",
-              type: "string",
-            },
-          ],
-          name: "CharacterUpdated",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: false,
-              internalType: "address",
-              name: "vrfCoordinator",
-              type: "address",
-            },
-          ],
-          name: "CoordinatorSet",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
               indexed: true,
-              internalType: "address",
-              name: "from",
-              type: "address",
-            },
-            {
-              indexed: true,
-              internalType: "address",
-              name: "to",
-              type: "address",
-            },
-          ],
-          name: "OwnershipTransferRequested",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: "address",
-              name: "from",
-              type: "address",
-            },
-            {
-              indexed: true,
-              internalType: "address",
-              name: "to",
-              type: "address",
-            },
-          ],
-          name: "OwnershipTransferred",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: false,
-              internalType: "address",
-              name: "randomNamesContract",
-              type: "address",
-            },
-          ],
-          name: "RandomNamesContractSet",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: false,
-              internalType: "address",
-              name: "owner",
-              type: "address",
-            },
-          ],
-          name: "RandomWordSaved",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: false,
-              internalType: "uint256",
-              name: "requestId",
-              type: "uint256",
-            },
-            {
-              indexed: false,
-              internalType: "uint256[]",
-              name: "randomWords",
-              type: "uint256[]",
+              internalType: "bytes32",
+              name: "id",
+              type: "bytes32",
             },
           ],
           name: "RequestFulfilled",
@@ -479,116 +257,98 @@ const deployedContracts = {
           anonymous: false,
           inputs: [
             {
-              indexed: false,
+              indexed: true,
+              internalType: "bytes32",
+              name: "id",
+              type: "bytes32",
+            },
+          ],
+          name: "RequestSent",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "previousAdminRole",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "newAdminRole",
+              type: "bytes32",
+            },
+          ],
+          name: "RoleAdminChanged",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
               internalType: "address",
-              name: "owner",
+              name: "account",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
               type: "address",
             },
           ],
-          name: "ScoresSwapped",
+          name: "RoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "RoleRevoked",
           type: "event",
         },
         {
           inputs: [],
-          name: "acceptOwnership",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          name: "characters",
+          name: "CLIENT_ROLE",
           outputs: [
             {
-              internalType: "uint256",
-              name: "randomWord",
-              type: "uint256",
-            },
-            {
-              internalType: "string",
-              name: "class",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "playerName",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "name",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "alignment",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "background",
-              type: "string",
-            },
-            {
-              internalType: "uint8",
-              name: "swaps",
-              type: "uint8",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "string",
-              name: "playerName",
-              type: "string",
-            },
-          ],
-          name: "createCharacter",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "string",
-              name: "alignment",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "background",
-              type: "string",
-            },
-          ],
-          name: "finalizeCharacterDetails",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "owner",
-              type: "address",
-            },
-          ],
-          name: "getCharacterAbilities",
-          outputs: [
-            {
-              internalType: "uint256[6]",
+              internalType: "bytes32",
               name: "",
-              type: "uint256[6]",
+              type: "bytes32",
             },
           ],
           stateMutability: "view",
@@ -596,12 +356,12 @@ const deployedContracts = {
         },
         {
           inputs: [],
-          name: "owner",
+          name: "DEFAULT_ADMIN_ROLE",
           outputs: [
             {
-              internalType: "address",
+              internalType: "bytes32",
               name: "",
-              type: "address",
+              type: "bytes32",
             },
           ],
           stateMutability: "view",
@@ -609,12 +369,25 @@ const deployedContracts = {
         },
         {
           inputs: [],
-          name: "randomNamesContract",
+          name: "MANAGER_ROLE",
           outputs: [
             {
-              internalType: "contract OpenSourceRandomNames",
+              internalType: "bytes32",
               name: "",
-              type: "address",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "donId",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
             },
           ],
           stateMutability: "view",
@@ -623,29 +396,141 @@ const deployedContracts = {
         {
           inputs: [
             {
-              internalType: "uint256",
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "getRequest",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "string",
+                  name: "name",
+                  type: "string",
+                },
+                {
+                  internalType: "uint32",
+                  name: "callbackGasLimit",
+                  type: "uint32",
+                },
+                {
+                  components: [
+                    {
+                      internalType: "enum FunctionsRequest.Location",
+                      name: "codeLocation",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "enum FunctionsRequest.Location",
+                      name: "secretsLocation",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "enum FunctionsRequest.CodeLanguage",
+                      name: "language",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "string",
+                      name: "source",
+                      type: "string",
+                    },
+                    {
+                      internalType: "bytes",
+                      name: "encryptedSecretsReference",
+                      type: "bytes",
+                    },
+                    {
+                      internalType: "string[]",
+                      name: "args",
+                      type: "string[]",
+                    },
+                    {
+                      internalType: "bytes[]",
+                      name: "bytesArgs",
+                      type: "bytes[]",
+                    },
+                  ],
+                  internalType: "struct FunctionsRequest.Request",
+                  name: "config",
+                  type: "tuple",
+                },
+              ],
+              internalType: "struct ICCGateway.CCGRequest",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
               name: "requestId",
-              type: "uint256",
+              type: "bytes32",
             },
             {
-              internalType: "uint256[]",
-              name: "randomWords",
-              type: "uint256[]",
+              internalType: "bool",
+              name: "remove",
+              type: "bool",
             },
           ],
-          name: "rawFulfillRandomWords",
-          outputs: [],
+          name: "getResponse",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "uint64",
+                  name: "subscriptionId",
+                  type: "uint64",
+                },
+                {
+                  internalType: "address",
+                  name: "source",
+                  type: "address",
+                },
+                {
+                  internalType: "enum ICCGatewayClient.CCGResponseState",
+                  name: "state",
+                  type: "uint8",
+                },
+                {
+                  internalType: "bytes",
+                  name: "data",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "error",
+                  type: "bytes",
+                },
+              ],
+              internalType: "struct ICCGatewayClient.CCGResponse",
+              name: "response",
+              type: "tuple",
+            },
+          ],
           stateMutability: "nonpayable",
           type: "function",
         },
         {
-          inputs: [],
-          name: "s_vrfCoordinator",
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+          ],
+          name: "getRoleAdmin",
           outputs: [
             {
-              internalType: "contract IVRFCoordinatorV2Plus",
+              internalType: "bytes32",
               name: "",
-              type: "address",
+              type: "bytes32",
             },
           ],
           stateMutability: "view",
@@ -654,12 +539,17 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
               internalType: "address",
-              name: "_vrfCoordinator",
+              name: "account",
               type: "address",
             },
           ],
-          name: "setCoordinator",
+          name: "grantRole",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -667,12 +557,22 @@ const deployedContracts = {
         {
           inputs: [
             {
-              internalType: "address",
-              name: "_randomNamesContract",
-              type: "address",
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes",
+              name: "response",
+              type: "bytes",
+            },
+            {
+              internalType: "bytes",
+              name: "err",
+              type: "bytes",
             },
           ],
-          name: "setRandomNamesContract",
+          name: "handleOracleFulfillment",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -680,94 +580,452 @@ const deployedContracts = {
         {
           inputs: [
             {
-              internalType: "uint8",
-              name: "index1",
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+            {
+              internalType: "enum FunctionsRequest.Location",
+              name: "codeLocation",
               type: "uint8",
             },
             {
-              internalType: "uint8",
-              name: "index2",
+              internalType: "string",
+              name: "source",
+              type: "string",
+            },
+            {
+              internalType: "enum FunctionsRequest.Location",
+              name: "secretsLocation",
               type: "uint8",
             },
-          ],
-          name: "swapScores",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
             {
-              internalType: "address",
-              name: "to",
-              type: "address",
+              internalType: "bytes",
+              name: "encryptedSecretsReference",
+              type: "bytes",
             },
-          ],
-          name: "transferOwnership",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
+            {
+              internalType: "uint32",
+              name: "callbackGasLimit",
+              type: "uint32",
+            },
             {
               internalType: "string",
               name: "name",
               type: "string",
             },
+          ],
+          name: "registerRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
             {
-              internalType: "string",
-              name: "alignment",
-              type: "string",
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "removeRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
             },
             {
+              internalType: "address",
+              name: "callerConfirmation",
+              type: "address",
+            },
+          ],
+          name: "renounceRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+            {
+              internalType: "string[]",
+              name: "args",
+              type: "string[]",
+            },
+            {
+              internalType: "bytes[]",
+              name: "bytesArgs",
+              type: "bytes[]",
+            },
+            {
+              internalType: "bytes",
+              name: "encryptedSecretsReference",
+              type: "bytes",
+            },
+          ],
+          name: "sendRequest",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "newDonId",
+              type: "bytes32",
+            },
+          ],
+          name: "setDonId",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "subscriptions",
+          outputs: [
+            {
+              internalType: "uint64",
+              name: "",
+              type: "uint64",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes4",
+              name: "interfaceId",
+              type: "bytes4",
+            },
+          ],
+          name: "supportsInterface",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {
+        getResponse: "contracts/interfaces/ICCGateway.sol",
+        sendRequest: "contracts/interfaces/ICCGateway.sol",
+        handleOracleFulfillment: "@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol",
+        DEFAULT_ADMIN_ROLE: "@openzeppelin/contracts/access/AccessControl.sol",
+        getRoleAdmin: "@openzeppelin/contracts/access/AccessControl.sol",
+        grantRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        hasRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        renounceRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        revokeRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        supportsInterface: "@openzeppelin/contracts/access/AccessControl.sol",
+      },
+    },
+  },
+  80002: {
+    CCExampleClient: {
+      address: "0x145445CeEBC394aE3aAbC475Eb4927Eb7037deD6",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "gatewayAddress",
+              type: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+            {
+              indexed: false,
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
               internalType: "string",
-              name: "background",
+              name: "error",
               type: "string",
             },
           ],
-          name: "updateCharacterDetails",
+          name: "ErrorReceived",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+            {
+              indexed: false,
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "response",
+              type: "string",
+            },
+          ],
+          name: "ResponseReceived",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          name: "callback",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string[]",
+              name: "args",
+              type: "string[]",
+            },
+            {
+              internalType: "bytes[]",
+              name: "bytesArgs",
+              type: "bytes[]",
+            },
+          ],
+          name: "request",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes",
+              name: "_encryptedSecretsReference",
+              type: "bytes",
+            },
+          ],
+          name: "updateEncryptedSecretsReference",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "_subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "updateSubscriptionId",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
         },
       ],
       inheritedFunctions: {
-        acceptOwnership: "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
-        owner: "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
-        rawFulfillRandomWords: "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
-        s_vrfCoordinator: "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
-        setCoordinator: "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
-        transferOwnership: "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
+        callback: "contracts/interfaces/ICCGatewayClient.sol",
       },
     },
-    WorldFactory: {
-      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+    CCGateway: {
+      address: "0x49885C79f881c70e2847cCAcEa5664Fa7D968B26",
       abi: [
         {
-          inputs: [],
+          inputs: [
+            {
+              internalType: "address",
+              name: "router",
+              type: "address",
+            },
+            {
+              internalType: "bytes32",
+              name: "initialDonId",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "initialOwner",
+              type: "address",
+            },
+          ],
           stateMutability: "nonpayable",
           type: "constructor",
         },
         {
           inputs: [],
-          name: "InsufficientFunds",
+          name: "AccessControlBadConfirmation",
           type: "error",
         },
         {
           inputs: [
             {
-              internalType: "string",
-              name: "message",
-              type: "string",
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              internalType: "bytes32",
+              name: "neededRole",
+              type: "bytes32",
             },
           ],
-          name: "InvalidArguments",
+          name: "AccessControlUnauthorizedAccount",
           type: "error",
         },
         {
           inputs: [],
-          name: "OnlyOwner",
+          name: "CCGOnlyManagerAllowed",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          name: "CCGOnlySameSourceAllowed",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          name: "CCGRequestAlreadyFulfilled",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CCGRequestNameEmpty",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "CCGRequestNotRegistered",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EmptyArgs",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EmptySource",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "NoInlineSecrets",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "OnlyRouterCanFulfill",
           type: "error",
         },
         {
@@ -775,24 +1033,12 @@ const deployedContracts = {
           inputs: [
             {
               indexed: true,
-              internalType: "address",
-              name: "worldContract",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "uint256",
-              name: "gameId",
-              type: "uint256",
-            },
-            {
-              indexed: false,
-              internalType: "address",
-              name: "player",
-              type: "address",
+              internalType: "bytes32",
+              name: "id",
+              type: "bytes32",
             },
           ],
-          name: "GameJoined",
+          name: "RequestFulfilled",
           type: "event",
         },
         {
@@ -800,24 +1046,12 @@ const deployedContracts = {
           inputs: [
             {
               indexed: true,
-              internalType: "address",
-              name: "worldContract",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "uint256",
-              name: "gameId",
-              type: "uint256",
-            },
-            {
-              indexed: false,
-              internalType: "address",
-              name: "player",
-              type: "address",
+              internalType: "bytes32",
+              name: "id",
+              type: "bytes32",
             },
           ],
-          name: "GameLeft",
+          name: "RequestSent",
           type: "event",
         },
         {
@@ -825,24 +1059,24 @@ const deployedContracts = {
           inputs: [
             {
               indexed: true,
-              internalType: "address",
-              name: "worldContract",
-              type: "address",
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
             },
             {
-              indexed: false,
-              internalType: "uint256",
-              name: "gameId",
-              type: "uint256",
+              indexed: true,
+              internalType: "bytes32",
+              name: "previousAdminRole",
+              type: "bytes32",
             },
             {
-              indexed: false,
-              internalType: "address",
-              name: "reviewer",
-              type: "address",
+              indexed: true,
+              internalType: "bytes32",
+              name: "newAdminRole",
+              type: "bytes32",
             },
           ],
-          name: "GameReviewed",
+          name: "RoleAdminChanged",
           type: "event",
         },
         {
@@ -850,36 +1084,24 @@ const deployedContracts = {
           inputs: [
             {
               indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
               internalType: "address",
-              name: "worldContract",
+              name: "account",
               type: "address",
             },
             {
-              indexed: false,
-              internalType: "uint256",
-              name: "gameId",
-              type: "uint256",
-            },
-            {
-              indexed: false,
+              indexed: true,
               internalType: "address",
-              name: "gameMaster",
+              name: "sender",
               type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "uint256",
-              name: "startTime",
-              type: "uint256",
-            },
-            {
-              indexed: false,
-              internalType: "uint256",
-              name: "endTime",
-              type: "uint256",
             },
           ],
-          name: "GameScheduled",
+          name: "RoleGranted",
           type: "event",
         },
         {
@@ -887,210 +1109,421 @@ const deployedContracts = {
           inputs: [
             {
               indexed: true,
-              internalType: "address",
-              name: "worldContract",
-              type: "address",
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
             },
-            {
-              indexed: false,
-              internalType: "uint256",
-              name: "gameId",
-              type: "uint256",
-            },
-          ],
-          name: "GameStarted",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
             {
               indexed: true,
               internalType: "address",
-              name: "worldContract",
+              name: "account",
               type: "address",
             },
-            {
-              indexed: false,
-              internalType: "address",
-              name: "player",
-              type: "address",
-            },
-          ],
-          name: "PlayerJoinedWorld",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
             {
               indexed: true,
               internalType: "address",
-              name: "worldCreator",
+              name: "sender",
               type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "address",
-              name: "worldContract",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "uint256",
-              name: "time",
-              type: "uint256",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "vibe",
-              type: "string",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "gameMasterName",
-              type: "string",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "gameMasterTwitterHandle",
-              type: "string",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "description",
-              type: "string",
             },
           ],
-          name: "WorldCreated",
+          name: "RoleRevoked",
           type: "event",
+        },
+        {
+          inputs: [],
+          name: "CLIENT_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "DEFAULT_ADMIN_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "MANAGER_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "donId",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
         },
         {
           inputs: [
             {
-              internalType: "string",
-              name: "vibe",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "gameMasterName",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "gameMasterTwitterHandle",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "description",
-              type: "string",
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
             },
           ],
-          name: "createWorld",
+          name: "getRequest",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "string",
+                  name: "name",
+                  type: "string",
+                },
+                {
+                  internalType: "uint32",
+                  name: "callbackGasLimit",
+                  type: "uint32",
+                },
+                {
+                  components: [
+                    {
+                      internalType: "enum FunctionsRequest.Location",
+                      name: "codeLocation",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "enum FunctionsRequest.Location",
+                      name: "secretsLocation",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "enum FunctionsRequest.CodeLanguage",
+                      name: "language",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "string",
+                      name: "source",
+                      type: "string",
+                    },
+                    {
+                      internalType: "bytes",
+                      name: "encryptedSecretsReference",
+                      type: "bytes",
+                    },
+                    {
+                      internalType: "string[]",
+                      name: "args",
+                      type: "string[]",
+                    },
+                    {
+                      internalType: "bytes[]",
+                      name: "bytesArgs",
+                      type: "bytes[]",
+                    },
+                  ],
+                  internalType: "struct FunctionsRequest.Request",
+                  name: "config",
+                  type: "tuple",
+                },
+              ],
+              internalType: "struct ICCGateway.CCGRequest",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+            {
+              internalType: "bool",
+              name: "remove",
+              type: "bool",
+            },
+          ],
+          name: "getResponse",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "uint64",
+                  name: "subscriptionId",
+                  type: "uint64",
+                },
+                {
+                  internalType: "address",
+                  name: "source",
+                  type: "address",
+                },
+                {
+                  internalType: "enum ICCGatewayClient.CCGResponseState",
+                  name: "state",
+                  type: "uint8",
+                },
+                {
+                  internalType: "bytes",
+                  name: "data",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "error",
+                  type: "bytes",
+                },
+              ],
+              internalType: "struct ICCGatewayClient.CCGResponse",
+              name: "response",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+          ],
+          name: "getRoleAdmin",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantRole",
           outputs: [],
-          stateMutability: "payable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "getWorlds",
-          outputs: [
-            {
-              internalType: "contract World[]",
-              name: "",
-              type: "address[]",
-            },
-          ],
-          stateMutability: "view",
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
           inputs: [
             {
-              internalType: "uint256",
-              name: "worldIndex",
-              type: "uint256",
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes",
+              name: "response",
+              type: "bytes",
+            },
+            {
+              internalType: "bytes",
+              name: "err",
+              type: "bytes",
             },
           ],
-          name: "joinWorldAsGM",
+          name: "handleOracleFulfillment",
           outputs: [],
-          stateMutability: "payable",
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
           inputs: [
             {
-              internalType: "uint256",
-              name: "worldIndex",
-              type: "uint256",
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
             },
-          ],
-          name: "joinWorldAsPlayer",
-          outputs: [],
-          stateMutability: "payable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "owner",
-          outputs: [
             {
               internalType: "address",
-              name: "",
+              name: "account",
               type: "address",
             },
           ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "priceToCreate",
+          name: "hasRole",
           outputs: [
             {
-              internalType: "uint256",
+              internalType: "bool",
               name: "",
-              type: "uint256",
+              type: "bool",
             },
           ],
           stateMutability: "view",
           type: "function",
         },
         {
-          inputs: [],
-          name: "priceToJoinGM",
-          outputs: [
+          inputs: [
             {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+            {
+              internalType: "enum FunctionsRequest.Location",
+              name: "codeLocation",
+              type: "uint8",
+            },
+            {
+              internalType: "string",
+              name: "source",
+              type: "string",
+            },
+            {
+              internalType: "enum FunctionsRequest.Location",
+              name: "secretsLocation",
+              type: "uint8",
+            },
+            {
+              internalType: "bytes",
+              name: "encryptedSecretsReference",
+              type: "bytes",
+            },
+            {
+              internalType: "uint32",
+              name: "callbackGasLimit",
+              type: "uint32",
+            },
+            {
+              internalType: "string",
+              name: "name",
+              type: "string",
             },
           ],
-          stateMutability: "view",
+          name: "registerRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
-          inputs: [],
-          name: "priceToJoinPlayer",
-          outputs: [
+          inputs: [
             {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
             },
           ],
-          stateMutability: "view",
+          name: "removeRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
-          inputs: [],
-          name: "withdrawFunds",
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "callerConfirmation",
+              type: "address",
+            },
+          ],
+          name: "renounceRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+            {
+              internalType: "string[]",
+              name: "args",
+              type: "string[]",
+            },
+            {
+              internalType: "bytes[]",
+              name: "bytesArgs",
+              type: "bytes[]",
+            },
+            {
+              internalType: "bytes",
+              name: "encryptedSecretsReference",
+              type: "bytes",
+            },
+          ],
+          name: "sendRequest",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "newDonId",
+              type: "bytes32",
+            },
+          ],
+          name: "setDonId",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -1103,32 +1536,60 @@ const deployedContracts = {
               type: "uint256",
             },
           ],
-          name: "worlds",
+          name: "subscriptions",
           outputs: [
             {
-              internalType: "contract World",
+              internalType: "uint64",
               name: "",
-              type: "address",
+              type: "uint64",
             },
           ],
           stateMutability: "view",
           type: "function",
         },
         {
-          stateMutability: "payable",
-          type: "receive",
+          inputs: [
+            {
+              internalType: "bytes4",
+              name: "interfaceId",
+              type: "bytes4",
+            },
+          ],
+          name: "supportsInterface",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
         },
       ],
-      inheritedFunctions: {},
+      inheritedFunctions: {
+        getResponse: "contracts/interfaces/ICCGateway.sol",
+        sendRequest: "contracts/interfaces/ICCGateway.sol",
+        handleOracleFulfillment: "@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol",
+        DEFAULT_ADMIN_ROLE: "@openzeppelin/contracts/access/AccessControl.sol",
+        getRoleAdmin: "@openzeppelin/contracts/access/AccessControl.sol",
+        grantRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        hasRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        renounceRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        revokeRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        supportsInterface: "@openzeppelin/contracts/access/AccessControl.sol",
+      },
     },
-    YourContract: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  },
+  84532: {
+    CCExampleClient: {
+      address: "0xe1fA8f43D89afE8fcBA4FABbd3e6e6a4C3360409",
       abi: [
         {
           inputs: [
             {
               internalType: "address",
-              name: "_owner",
+              name: "gatewayAddress",
               type: "address",
             },
           ],
@@ -1139,31 +1600,233 @@ const deployedContracts = {
           anonymous: false,
           inputs: [
             {
-              indexed: true,
-              internalType: "address",
-              name: "greetingSetter",
-              type: "address",
+              indexed: false,
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+            {
+              indexed: false,
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
             },
             {
               indexed: false,
               internalType: "string",
-              name: "newGreeting",
+              name: "error",
               type: "string",
             },
+          ],
+          name: "ErrorReceived",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
             {
               indexed: false,
-              internalType: "bool",
-              name: "premium",
-              type: "bool",
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
             },
             {
               indexed: false,
-              internalType: "uint256",
-              name: "value",
-              type: "uint256",
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "response",
+              type: "string",
             },
           ],
-          name: "GreetingChange",
+          name: "ResponseReceived",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          name: "callback",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string[]",
+              name: "args",
+              type: "string[]",
+            },
+            {
+              internalType: "bytes[]",
+              name: "bytesArgs",
+              type: "bytes[]",
+            },
+          ],
+          name: "request",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes",
+              name: "_encryptedSecretsReference",
+              type: "bytes",
+            },
+          ],
+          name: "updateEncryptedSecretsReference",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "_subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "updateSubscriptionId",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {
+        callback: "contracts/interfaces/ICCGatewayClient.sol",
+      },
+    },
+    CCGateway: {
+      address: "0xe9926D1122669816E6403175B998aDD6DD776d26",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "router",
+              type: "address",
+            },
+            {
+              internalType: "bytes32",
+              name: "initialDonId",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "initialOwner",
+              type: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          inputs: [],
+          name: "AccessControlBadConfirmation",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              internalType: "bytes32",
+              name: "neededRole",
+              type: "bytes32",
+            },
+          ],
+          name: "AccessControlUnauthorizedAccount",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CCGOnlyManagerAllowed",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          name: "CCGOnlySameSourceAllowed",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          name: "CCGRequestAlreadyFulfilled",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CCGRequestNameEmpty",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "CCGRequestNotRegistered",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EmptyArgs",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EmptySource",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "NoInlineSecrets",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "OnlyRouterCanFulfill",
+          type: "error",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "id",
+              type: "bytes32",
+            },
+          ],
+          name: "RequestFulfilled",
           type: "event",
         },
         {
@@ -1171,28 +1834,97 @@ const deployedContracts = {
           inputs: [
             {
               indexed: true,
+              internalType: "bytes32",
+              name: "id",
+              type: "bytes32",
+            },
+          ],
+          name: "RequestSent",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "previousAdminRole",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "newAdminRole",
+              type: "bytes32",
+            },
+          ],
+          name: "RoleAdminChanged",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
               internalType: "address",
-              name: "user",
+              name: "account",
               type: "address",
             },
             {
-              indexed: false,
-              internalType: "uint256",
-              name: "number",
-              type: "uint256",
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
             },
           ],
-          name: "NumberUpdated",
+          name: "RoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "RoleRevoked",
           type: "event",
         },
         {
           inputs: [],
-          name: "greeting",
+          name: "CLIENT_ROLE",
           outputs: [
             {
-              internalType: "string",
+              internalType: "bytes32",
               name: "",
-              type: "string",
+              type: "bytes32",
             },
           ],
           stateMutability: "view",
@@ -1200,20 +1932,241 @@ const deployedContracts = {
         },
         {
           inputs: [],
-          name: "owner",
+          name: "DEFAULT_ADMIN_ROLE",
           outputs: [
             {
-              internalType: "address",
+              internalType: "bytes32",
               name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "MANAGER_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "donId",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "getRequest",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "string",
+                  name: "name",
+                  type: "string",
+                },
+                {
+                  internalType: "uint32",
+                  name: "callbackGasLimit",
+                  type: "uint32",
+                },
+                {
+                  components: [
+                    {
+                      internalType: "enum FunctionsRequest.Location",
+                      name: "codeLocation",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "enum FunctionsRequest.Location",
+                      name: "secretsLocation",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "enum FunctionsRequest.CodeLanguage",
+                      name: "language",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "string",
+                      name: "source",
+                      type: "string",
+                    },
+                    {
+                      internalType: "bytes",
+                      name: "encryptedSecretsReference",
+                      type: "bytes",
+                    },
+                    {
+                      internalType: "string[]",
+                      name: "args",
+                      type: "string[]",
+                    },
+                    {
+                      internalType: "bytes[]",
+                      name: "bytesArgs",
+                      type: "bytes[]",
+                    },
+                  ],
+                  internalType: "struct FunctionsRequest.Request",
+                  name: "config",
+                  type: "tuple",
+                },
+              ],
+              internalType: "struct ICCGateway.CCGRequest",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+            {
+              internalType: "bool",
+              name: "remove",
+              type: "bool",
+            },
+          ],
+          name: "getResponse",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "uint64",
+                  name: "subscriptionId",
+                  type: "uint64",
+                },
+                {
+                  internalType: "address",
+                  name: "source",
+                  type: "address",
+                },
+                {
+                  internalType: "enum ICCGatewayClient.CCGResponseState",
+                  name: "state",
+                  type: "uint8",
+                },
+                {
+                  internalType: "bytes",
+                  name: "data",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "error",
+                  type: "bytes",
+                },
+              ],
+              internalType: "struct ICCGatewayClient.CCGResponse",
+              name: "response",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+          ],
+          name: "getRoleAdmin",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
               type: "address",
             },
           ],
-          stateMutability: "view",
+          name: "grantRole",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
-          inputs: [],
-          name: "premium",
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes",
+              name: "response",
+              type: "bytes",
+            },
+            {
+              internalType: "bytes",
+              name: "err",
+              type: "bytes",
+            },
+          ],
+          name: "handleOracleFulfillment",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasRole",
           outputs: [
             {
               internalType: "bool",
@@ -1227,93 +2180,981 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+            {
+              internalType: "enum FunctionsRequest.Location",
+              name: "codeLocation",
+              type: "uint8",
+            },
+            {
               internalType: "string",
-              name: "_newGreeting",
+              name: "source",
+              type: "string",
+            },
+            {
+              internalType: "enum FunctionsRequest.Location",
+              name: "secretsLocation",
+              type: "uint8",
+            },
+            {
+              internalType: "bytes",
+              name: "encryptedSecretsReference",
+              type: "bytes",
+            },
+            {
+              internalType: "uint32",
+              name: "callbackGasLimit",
+              type: "uint32",
+            },
+            {
+              internalType: "string",
+              name: "name",
               type: "string",
             },
           ],
-          name: "setGreeting",
-          outputs: [],
-          stateMutability: "payable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "_number",
-              type: "uint256",
-            },
-          ],
-          name: "storeNumber",
+          name: "registerRequest",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
         },
         {
-          inputs: [],
-          name: "totalCounter",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
           inputs: [
             {
-              internalType: "address",
-              name: "",
-              type: "address",
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
             },
           ],
-          name: "userGreetingCounter",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          name: "userNumbers",
-          outputs: [
-            {
-              internalType: "uint256",
-              name: "",
-              type: "uint256",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "withdraw",
+          name: "removeRequest",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
         },
         {
-          stateMutability: "payable",
-          type: "receive",
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "callerConfirmation",
+              type: "address",
+            },
+          ],
+          name: "renounceRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+            {
+              internalType: "string[]",
+              name: "args",
+              type: "string[]",
+            },
+            {
+              internalType: "bytes[]",
+              name: "bytesArgs",
+              type: "bytes[]",
+            },
+            {
+              internalType: "bytes",
+              name: "encryptedSecretsReference",
+              type: "bytes",
+            },
+          ],
+          name: "sendRequest",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "newDonId",
+              type: "bytes32",
+            },
+          ],
+          name: "setDonId",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "subscriptions",
+          outputs: [
+            {
+              internalType: "uint64",
+              name: "",
+              type: "uint64",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes4",
+              name: "interfaceId",
+              type: "bytes4",
+            },
+          ],
+          name: "supportsInterface",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
         },
       ],
-      inheritedFunctions: {},
+      inheritedFunctions: {
+        getResponse: "contracts/interfaces/ICCGateway.sol",
+        sendRequest: "contracts/interfaces/ICCGateway.sol",
+        handleOracleFulfillment: "@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol",
+        DEFAULT_ADMIN_ROLE: "@openzeppelin/contracts/access/AccessControl.sol",
+        getRoleAdmin: "@openzeppelin/contracts/access/AccessControl.sol",
+        grantRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        hasRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        renounceRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        revokeRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        supportsInterface: "@openzeppelin/contracts/access/AccessControl.sol",
+      },
+    },
+  },
+  11155420: {
+    CCExampleClient: {
+      address: "0xe1fA8f43D89afE8fcBA4FABbd3e6e6a4C3360409",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "gatewayAddress",
+              type: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+            {
+              indexed: false,
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "error",
+              type: "string",
+            },
+          ],
+          name: "ErrorReceived",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+            {
+              indexed: false,
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "response",
+              type: "string",
+            },
+          ],
+          name: "ResponseReceived",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          name: "callback",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string[]",
+              name: "args",
+              type: "string[]",
+            },
+            {
+              internalType: "bytes[]",
+              name: "bytesArgs",
+              type: "bytes[]",
+            },
+          ],
+          name: "request",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes",
+              name: "_encryptedSecretsReference",
+              type: "bytes",
+            },
+          ],
+          name: "updateEncryptedSecretsReference",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "_subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "updateSubscriptionId",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {
+        callback: "contracts/interfaces/ICCGatewayClient.sol",
+      },
+    },
+    CCGateway: {
+      address: "0xe9926D1122669816E6403175B998aDD6DD776d26",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "router",
+              type: "address",
+            },
+            {
+              internalType: "bytes32",
+              name: "initialDonId",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "initialOwner",
+              type: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          inputs: [],
+          name: "AccessControlBadConfirmation",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              internalType: "bytes32",
+              name: "neededRole",
+              type: "bytes32",
+            },
+          ],
+          name: "AccessControlUnauthorizedAccount",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CCGOnlyManagerAllowed",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          name: "CCGOnlySameSourceAllowed",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          name: "CCGRequestAlreadyFulfilled",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CCGRequestNameEmpty",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "CCGRequestNotRegistered",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EmptyArgs",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EmptySource",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "NoInlineSecrets",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "OnlyRouterCanFulfill",
+          type: "error",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "id",
+              type: "bytes32",
+            },
+          ],
+          name: "RequestFulfilled",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "id",
+              type: "bytes32",
+            },
+          ],
+          name: "RequestSent",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "previousAdminRole",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "newAdminRole",
+              type: "bytes32",
+            },
+          ],
+          name: "RoleAdminChanged",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "RoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "RoleRevoked",
+          type: "event",
+        },
+        {
+          inputs: [],
+          name: "CLIENT_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "DEFAULT_ADMIN_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "MANAGER_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "donId",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "getRequest",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "string",
+                  name: "name",
+                  type: "string",
+                },
+                {
+                  internalType: "uint32",
+                  name: "callbackGasLimit",
+                  type: "uint32",
+                },
+                {
+                  components: [
+                    {
+                      internalType: "enum FunctionsRequest.Location",
+                      name: "codeLocation",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "enum FunctionsRequest.Location",
+                      name: "secretsLocation",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "enum FunctionsRequest.CodeLanguage",
+                      name: "language",
+                      type: "uint8",
+                    },
+                    {
+                      internalType: "string",
+                      name: "source",
+                      type: "string",
+                    },
+                    {
+                      internalType: "bytes",
+                      name: "encryptedSecretsReference",
+                      type: "bytes",
+                    },
+                    {
+                      internalType: "string[]",
+                      name: "args",
+                      type: "string[]",
+                    },
+                    {
+                      internalType: "bytes[]",
+                      name: "bytesArgs",
+                      type: "bytes[]",
+                    },
+                  ],
+                  internalType: "struct FunctionsRequest.Request",
+                  name: "config",
+                  type: "tuple",
+                },
+              ],
+              internalType: "struct ICCGateway.CCGRequest",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+            {
+              internalType: "bool",
+              name: "remove",
+              type: "bool",
+            },
+          ],
+          name: "getResponse",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "uint64",
+                  name: "subscriptionId",
+                  type: "uint64",
+                },
+                {
+                  internalType: "address",
+                  name: "source",
+                  type: "address",
+                },
+                {
+                  internalType: "enum ICCGatewayClient.CCGResponseState",
+                  name: "state",
+                  type: "uint8",
+                },
+                {
+                  internalType: "bytes",
+                  name: "data",
+                  type: "bytes",
+                },
+                {
+                  internalType: "bytes",
+                  name: "error",
+                  type: "bytes",
+                },
+              ],
+              internalType: "struct ICCGatewayClient.CCGResponse",
+              name: "response",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+          ],
+          name: "getRoleAdmin",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes",
+              name: "response",
+              type: "bytes",
+            },
+            {
+              internalType: "bytes",
+              name: "err",
+              type: "bytes",
+            },
+          ],
+          name: "handleOracleFulfillment",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+            {
+              internalType: "enum FunctionsRequest.Location",
+              name: "codeLocation",
+              type: "uint8",
+            },
+            {
+              internalType: "string",
+              name: "source",
+              type: "string",
+            },
+            {
+              internalType: "enum FunctionsRequest.Location",
+              name: "secretsLocation",
+              type: "uint8",
+            },
+            {
+              internalType: "bytes",
+              name: "encryptedSecretsReference",
+              type: "bytes",
+            },
+            {
+              internalType: "uint32",
+              name: "callbackGasLimit",
+              type: "uint32",
+            },
+            {
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+          ],
+          name: "registerRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "removeRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "callerConfirmation",
+              type: "address",
+            },
+          ],
+          name: "renounceRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+            {
+              internalType: "string[]",
+              name: "args",
+              type: "string[]",
+            },
+            {
+              internalType: "bytes[]",
+              name: "bytesArgs",
+              type: "bytes[]",
+            },
+            {
+              internalType: "bytes",
+              name: "encryptedSecretsReference",
+              type: "bytes",
+            },
+          ],
+          name: "sendRequest",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "requestId",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "newDonId",
+              type: "bytes32",
+            },
+          ],
+          name: "setDonId",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "subscriptions",
+          outputs: [
+            {
+              internalType: "uint64",
+              name: "",
+              type: "uint64",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes4",
+              name: "interfaceId",
+              type: "bytes4",
+            },
+          ],
+          name: "supportsInterface",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {
+        getResponse: "contracts/interfaces/ICCGateway.sol",
+        sendRequest: "contracts/interfaces/ICCGateway.sol",
+        handleOracleFulfillment: "@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol",
+        DEFAULT_ADMIN_ROLE: "@openzeppelin/contracts/access/AccessControl.sol",
+        getRoleAdmin: "@openzeppelin/contracts/access/AccessControl.sol",
+        grantRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        hasRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        renounceRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        revokeRole: "@openzeppelin/contracts/access/AccessControl.sol",
+        supportsInterface: "@openzeppelin/contracts/access/AccessControl.sol",
+      },
     },
   },
 } as const;
