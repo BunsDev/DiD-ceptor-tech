@@ -1,17 +1,17 @@
 import getConfig from "next/config";
 import amqplib from "amqplib";
 
-const { serverRuntimeConfig } = getConfig();
+const { serverRuntimeConfig: { queueConfig: queueConfig } } = getConfig();
 
-if (!serverRuntimeConfig.queueConfig.rabbitMqUrl) {
+if (!queueConfig.rabbitMqUrl) {
   throw new Error("rabbitmq url is missing, please check RABIITMQ_URL in your env file");
 }
 
-if (!serverRuntimeConfig.queueConfig.rabbitMqQueue) {
+if (!queueConfig.rabbitMqQueue) {
   throw new Error("rabbitmq queue is missing, please check RABBITMQ_QUEUE in your env file");
 }
 
-const connection = await amqplib.connect(serverRuntimeConfig.queueConfig.rabbitMqUrl);
+const connection = await amqplib.connect(queueConfig.rabbitMqUrl);
 connection.on("error", async err => {
   console.log(err);
   if (err instanceof Error) {
@@ -27,9 +27,10 @@ channel.on("error", err => {
   }
 });
 
-export async function send(msgs: string[]) {
-  channel.assertQueue(serverRuntimeConfig.queueConfig.rabbitMqQueue, { durable: false });
+export async function send(msgs: any[]) {
+  channel.assertQueue(queueConfig.rabbitMqQueue, { durable: false });
   for (const msg of msgs) {
-    channel.sendToQueue(serverRuntimeConfig.queueConfig.rabbitMqQueue, Buffer.from(msg));
+    const content = JSON.stringify(msg);
+    channel.sendToQueue(queueConfig.rabbitMqQueue, Buffer.from(content));
   }
 }

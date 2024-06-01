@@ -1,13 +1,13 @@
 import getConfig from "next/config";
 import { DuplicateUserError } from "../../../models/errors";
 import { User } from "../../../models/user";
-import { saveUser } from "../../../services/mongo/mongo";
+import { saveUser, getAllUsers } from "../../../services/mongo/mongo";
 import { Resolver, parse } from "did-resolver";
 import ethr from "ethr-did-resolver";
 
 export async function POST(request: Request) {
-  const { serverRuntimeConfig } = getConfig();
-  const ethrResolver = ethr.getResolver(serverRuntimeConfig.providerConfig);
+  const { serverRuntimeConfig: { providerConfig: providerConfig } } = getConfig();
+  const ethrResolver = ethr.getResolver(providerConfig);
   const resolver = new Resolver(ethrResolver);
 
   const user: User = await request.json();
@@ -30,11 +30,24 @@ export async function POST(request: Request) {
     if (err instanceof DuplicateUserError) {
       return new Response(`user ${user.id} already exists.`, { status: 400 });
     } else {
-      console.log(err);
+      console.log('user join error: ', err);
       if (err instanceof Error) {
         console.log(err.stack);
       }
       return new Response(`internal server error.`, { status: 500 });
     }
+  }
+}
+
+export async function GET() {
+  try {
+    const users = await getAllUsers();
+    return Response.json(users, { status: 200 });
+  } catch (err) {
+    console.log('get all users error: ',err);
+    if (err instanceof Error) {
+      console.log(err.stack);
+    }
+    return new Response(`internal server error.`, { status: 500 });
   }
 }

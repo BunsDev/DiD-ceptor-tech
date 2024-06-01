@@ -1,6 +1,11 @@
 const withBuilderDevTools = require("@builder.io/dev-tools/next")();
 // @ts-check
-const { MONGO_CONN_STR, MONGO_DB_NAME, RABIITMQ_URL, RABBITMQ_QUEUE } = process.env;
+const { 
+  DEPLOYER_PRIVATE_KEY,
+  MONGO_CONN_STR, MONGO_DB_NAME, 
+  RABIITMQ_URL, RABBITMQ_QUEUE, RABBITMQ_ENDPOINT, 
+  SENDGRID_SERVER, SENDGRID_APIKEY, SENDGRID_ACCOUNT 
+} = process.env;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withBuilderDevTools({
@@ -15,7 +20,14 @@ const nextConfig = withBuilderDevTools({
     providerConfig: {
       networks: [
         { name: "mainnet", rpcUrl: "https://eth.drpc.org" },
-        { name: "sepolia", rpcUrl: "https://sepolia.drpc.org", registry: "0x03d5003bf0e79c5f5223588f347eba39afbc3818" },
+        { 
+          name: "sepolia",
+          chainId: "0xaa36a7",
+          rpcUrl: "https://sepolia.drpc.org", 
+          registry: "0x03d5003bf0e79c5f5223588f347eba39afbc3818",
+          deployerPrivateKey: DEPLOYER_PRIVATE_KEY,
+          router: "0xb83E47C2bC239B3bf370bc41e1459A34b41238D0"
+        },
       ],
     },
     mongoConfig: {
@@ -24,7 +36,13 @@ const nextConfig = withBuilderDevTools({
     },
     queueConfig: {
       rabbitMqUrl: RABIITMQ_URL,
-      rabbitMqQueue: RABBITMQ_QUEUE
+      rabbitMqQueue: RABBITMQ_QUEUE,
+      rabbitMqEndport: RABBITMQ_ENDPOINT
+    },
+    emailConfig: {
+      sendGridServer: SENDGRID_SERVER,
+      sendGridApiKey: SENDGRID_APIKEY,
+      sender: SENDGRID_ACCOUNT,
     }
   },
   webpack: config => {
