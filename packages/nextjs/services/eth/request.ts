@@ -9,12 +9,14 @@ export async function makeRequest(network: string, args: any[]) {
     }
   } = getConfig();
 
-  const networkConfig = providerConfig.networks.find((x: any) => x.name === network || x.chainId === network);
+  const networkConfig = providerConfig.networks.find((x: any) => x.name === network);
   const provider = new JsonRpcProvider(networkConfig.rpcUrl);
   const wallet = new Wallet(networkConfig.deployerPrivateKey);
   const signer = wallet.connect(provider); // create ethers signer for signing transactions
 
-  const exampleClientContract = deployedContracts[11155111].CCExampleClient;
+  const { chainId } = await provider.getNetwork();
+
+  const exampleClientContract = (<any>deployedContracts)[chainId.toString()].CCExampleClient;
   const contract = new Contract(
     exampleClientContract.address,
     exampleClientContract.abi,

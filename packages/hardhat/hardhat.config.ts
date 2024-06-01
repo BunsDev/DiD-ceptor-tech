@@ -56,6 +56,7 @@ const config: ChainLinkUserConfig = {
           onChain: "0x0000000000000000000000000000000000000000000000000000000000000000",
           offChain: "fun-ethereum-local-1",
         },
+        secretsUploadEndpoints: []
       },
     },
     hardhat: {
@@ -76,6 +77,10 @@ const config: ChainLinkUserConfig = {
           onChain: "0x66756e2d657468657265756d2d6d61696e6e65742d3100000000000000000000",
           offChain: "fun-ethereum-mainnet-1",
         },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.chain.link/",
+          "https://02.functions-gateway.chain.link/"
+        ]
       },
     },
     sepolia: {
@@ -90,6 +95,10 @@ const config: ChainLinkUserConfig = {
           onChain: "0x66756e2d657468657265756d2d7365706f6c69612d3100000000000000000000",
           offChain: "fun-ethereum-sepolia-1",
         },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.testnet.chain.link/",
+          "https://02.functions-gateway.testnet.chain.link/",
+        ]
       },
     },
     arbitrum: {
@@ -116,6 +125,10 @@ const config: ChainLinkUserConfig = {
           onChain: "0x66756e2d6f7074696d69736d2d7365706f6c69612d3100000000000000000000",
           offChain: "fun-optimism-sepolia-1",
         },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.testnet.chain.link/",
+          "https://02.functions-gateway.testnet.chain.link/",
+        ]
       },
     },
     polygon: {
@@ -130,6 +143,10 @@ const config: ChainLinkUserConfig = {
           onChain: "0x66756e2d706f6c79676f6e2d6d61696e6e65742d310000000000000000000000",
           offChain: "fun-polygon-mainnet-1",
         },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.chain.link/",
+          "https://02.functions-gateway.chain.link/",
+        ]
       },
     },
     polygonMumbai: {
@@ -144,6 +161,7 @@ const config: ChainLinkUserConfig = {
           onChain: "0x66756e2d706f6c79676f6e2d6d756d6261692d31000000000000000000000000",
           offChain: "fun-polygon-mumbai-1",
         },
+        secretsUploadEndpoints: []
       },
     },
     polygonAmoy: {
@@ -158,6 +176,10 @@ const config: ChainLinkUserConfig = {
           onChain: "0x66756e2d706f6c79676f6e2d616d6f792d310000000000000000000000000000",
           offChain: "fun-polygon-amoy-1",
         },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.testnet.chain.link/",
+          "https://02.functions-gateway.testnet.chain.link/",
+        ]
       },
     },
     polygonZkEvm: {
@@ -234,6 +256,7 @@ const config: ChainLinkUserConfig = {
           onChain: "0x66756e2d6176616c616e6368652d6d61696e6e65742d31000000000000000000",
           offChain: "fun-avalanche-mainnet-1",
         },
+        secretsUploadEndpoints: []
       },
     },
     fuji: {
@@ -250,6 +273,7 @@ const config: ChainLinkUserConfig = {
           onChain: "0x66756e2d6176616c616e6368652d66756a692d31000000000000000000000000",
           offChain: "fun-avalanche-fuji-1",
         },
+        secretsUploadEndpoints: []
       },
     },
   },

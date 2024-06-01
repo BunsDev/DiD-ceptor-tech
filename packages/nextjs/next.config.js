@@ -22,7 +22,6 @@ const nextConfig = withBuilderDevTools({
         { name: "mainnet", rpcUrl: "https://eth.drpc.org" },
         { 
           name: "sepolia",
-          chainId: "0xaa36a7",
           rpcUrl: "https://sepolia.drpc.org", 
           registry: "0x03d5003bf0e79c5f5223588f347eba39afbc3818",
           deployerPrivateKey: DEPLOYER_PRIVATE_KEY,

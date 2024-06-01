@@ -7,6 +7,7 @@ export interface ChainLinkContractsConfig {
 export interface ChainLinkFunctionsConfig {
   donId: { onChain: string; offChain: string };
   router: string;
+  secretsUploadEndpoints: string[];
 }
 
 export type ChainLinkNetworkUserConfig = HttpNetworkUserConfig & {
