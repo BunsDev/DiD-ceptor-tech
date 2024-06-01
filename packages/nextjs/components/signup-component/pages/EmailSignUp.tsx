@@ -21,7 +21,7 @@ const EmailSignUp: React.FC<EmailSignUpProps> = ({ inputEmail, setInputEmail }) 
   };
 
   return (
-    <div className="justify-center flex flex-col h-screen items-center gap-10 lg:w-3/5">
+    <div className="justify-center flex flex-col items-center gap-10">
       <Typography variant="title">Ceptor wants your email so we can invite you to join us</Typography>
       <InputField type="email" label={labelStepName} value={inputEmail} onChange={handleInputChange} />
     </div>

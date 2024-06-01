@@ -21,7 +21,7 @@ const NameSignUp: React.FC<NameSignUpProps> = ({ inputName, setInputName }) => {
   };
 
   return (
-    <div className="justify-center flex flex-col h-screen items-center gap-10 lg:w-3/5">
+    <div className="justify-center flex flex-col items-center gap-10">
       <Typography variant="title">What should we call you? (Your real, player or character name.)</Typography>
       <InputField type="text" label={labelStepName} value={inputName} onChange={handleInputChange} />
     </div>

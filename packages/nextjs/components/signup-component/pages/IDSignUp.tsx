@@ -21,7 +21,7 @@ const IDSignUp: React.FC<IDSignUpProps> = ({ inputValue, setInputValue }) => {
   };
 
   return (
-    <div className="justify-center flex flex-col h-screen items-center gap-10 lg:w-3/5">
+    <div className="justify-center flex flex-col items-center gap-10">
       <Typography variant="title">Input your Ethereum Address</Typography>
       <div className="w-full">
         <Typography variant="label">Ethereum address</Typography>

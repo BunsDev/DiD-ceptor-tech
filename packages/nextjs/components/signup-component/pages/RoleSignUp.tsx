@@ -26,7 +26,7 @@ const RoleSignUp: React.FC<RoleSignUpProps> = ({ inputRole, setInputRole }) => {
   const dataSelections = ["Volunteer", "Contributor", "Brand Ambassador", "Staff", "Investor", "Artist", "Other"];
 
   return (
-    <div className="justify-center flex flex-col h-screen items-center gap-10 lg:w-3/5">
+    <div className="justify-center flex flex-col items-center gap-10">
       <Typography variant="title">Choose your Role</Typography>
       <section className="flex flex-col px-5 text-center leading-[150%]">
         <h2 className="self-center text-base text-gray-200">Select One: {inputRole}</h2>

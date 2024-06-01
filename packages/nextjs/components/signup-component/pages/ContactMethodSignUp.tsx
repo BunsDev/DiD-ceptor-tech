@@ -26,7 +26,7 @@ const ContactMethodSignUp: React.FC<ContactMethodSignUpProps> = ({ inputContactM
   const dataSelections = ["Email"];
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen gap-10">
+    <div className="flex flex-col items-center justify-center gap-10">
       <Typography variant="title">Prefer Contact Method</Typography>
       <section className="flex flex-col items-center w-4/5 px-5 text-center leading-[150%] mx-auto">
         <h2 className="self-center text-base text-gray-200">Select One: {inputContactMethod}</h2>
