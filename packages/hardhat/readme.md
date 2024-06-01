@@ -10,7 +10,7 @@ Welcome to the Ceptor Games BlockMagic Hackathon project! This project is built 
 
 ## Project Components
 
-1. **GamesDAO.sol**: This contract manages the minting and pricing of GamesTokens based on Chainlink price feeds. It allows gamemaster proposals on token pricing, which can be voted on by allowed players and gamemasters.
+1. **[GamesDAOv3.sol](./contracts/GamesDAOv3.sol)**: This contract manages the minting and pricing of GamesTokens based on Chainlink price feeds. It allows gamemaster proposals on token pricing, which can be voted on by allowed players and gamemasters.
 2. **GamesToken.sol**: An ERC20 token contract for GamesToken (GT), which is minted and managed by the GamesDAO.
 3. **Backgrounds.sol**: Provides an on-chain queryable array of D&D 5e SRD backgrounds.
 4. **CharacterGen.sol**: Uses Chainlink VRF to generate random D&D characters with abilities, class, name, alignment, and background.
