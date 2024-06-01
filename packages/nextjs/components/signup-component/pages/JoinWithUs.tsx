@@ -8,7 +8,7 @@ interface JoinWithUsProps {
 const JoinWithUs: React.FC<JoinWithUsProps> = () => {
   return (
     <>
-      <div className="justify-center flex flex-col h-screen items-center gap-10">
+      <div className="justify-center flex flex-col items-center gap-10">
         <Typography variant="title">Join With Us</Typography>
         <Typography variant="desc">
           Use the following questions to describe your character and the art that you would like Artist Name to create

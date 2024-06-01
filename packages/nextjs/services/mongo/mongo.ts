@@ -1,7 +1,7 @@
 import getConfig from "next/config";
-import { DuplicateUserError } from "../../models/errors";
-import { User } from "../../models/user";
 import { InsertOneResult, MongoClient, MongoServerError, WithId } from "mongodb";
+import { DuplicateUserError } from "~~/models/errors";
+import { User } from "~~/models/user";
 
 const { serverRuntimeConfig } = getConfig();
 
