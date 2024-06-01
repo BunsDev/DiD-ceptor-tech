@@ -1,11 +1,10 @@
 import "@rainbow-me/rainbowkit/styles.css";
-import { ConsoleLayout } from "~console/_components";
 import { AppProviders } from "~~/components/AppProviders";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <AppProviders>
-      <ConsoleLayout>{children}</ConsoleLayout>
+      <main className="flex flex-col items-center bg-black h-dvh overflow-hidden">{children}</main>
     </AppProviders>
   );
 };

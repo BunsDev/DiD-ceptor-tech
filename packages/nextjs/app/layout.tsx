@@ -2,6 +2,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "~~/components/ThemeProvider";
 import "~~/styles/globals.css";
 
@@ -54,6 +55,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <ThemeProvider enableSystem>{children}</ThemeProvider>
         <Analytics />
         <SpeedInsights />
+        <Toaster position="bottom-right" reverseOrder={true} />
       </body>
     </html>
   );

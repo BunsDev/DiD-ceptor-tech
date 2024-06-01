@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "./Typography";
 
 interface InputFieldProps {
@@ -9,36 +9,41 @@ interface InputFieldProps {
 }
 
 const InputField: React.FC<InputFieldProps> = ({ label, value, onChange, type }) => {
-  if (type === "textarea") {
-    return (
-      <div className="flex flex-col w-full">
-        <Typography variant="label" className="text-left">
-          {label}
-        </Typography>
-        <textarea
-          className="justify-center self-stretch p-3 
-                               text-sm rounded-lg border border-solid 
-                               border-neutral-400 text-neutral-400"
-          value={value}
-          onChange={e => onChange(e.target.value)}
-        />
-      </div>
-    );
-  }
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  useEffect(() => {
+    if (type === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      setIsValidEmail(emailRegex.test(value));
+    }
+  }, [value, type]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    onChange(e.target.value);
+    if (!hasInteracted) {
+      setHasInteracted(true);
+    }
+  };
+
+  const inputClasses =
+    "justify-center self-stretch p-3 text-sm rounded-lg border border-solid border-neutral-400 text-neutral-400";
 
   return (
     <div className="flex flex-col w-full">
       <Typography variant="label" className="text-left">
         {label}
       </Typography>
-      <input
-        type={type}
-        className="justify-center self-stretch p-3 
-                           text-sm rounded-lg border border-solid 
-                           border-neutral-400 text-neutral-400"
-        value={value}
-        onChange={e => onChange(e.target.value)}
-      />
+      {type === "textarea" ? (
+        <textarea className={inputClasses} value={value} onChange={handleChange} />
+      ) : (
+        <input type={type} className={inputClasses} value={value} onChange={handleChange} />
+      )}
+      {type === "email" && hasInteracted && !isValidEmail && (
+        <Typography variant="label" className="text-red-400">
+          Please enter a valid email address.
+        </Typography>
+      )}
     </div>
   );
 };
