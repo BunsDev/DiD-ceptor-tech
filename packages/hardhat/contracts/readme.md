@@ -11,7 +11,7 @@ inside schedules there are sessions
 
 1. [GamesToken ERC20](GamesToken.sol) - A contract that is an ERC20 token that is used to pay for the creation of a world, and to pay for the creation of a game. Also can be spent to buy a random character from the portal.
 
-1. [TokenShop](TokenShop.sol) - A contract that has a ledger of allowed players, gamemasters, and tracks + mints the ERC20 Games Token for Chainlink Price Feeds = $20 USD (or $0.2 for testing). It also allows a gamemaster to propose a new price for the token, and all allowed players and gamemasters to vote on the price. if you are a player and gamemaster, you get 2 votes!
+1. [TokenShop](TokenShop.sol) - A contract that has a ledger of allowed players, gamemasters, and tracks + mints the ERC20 Games Token for Chainlink Price Feeds = $20 USD (or $0.02 for testing). It also allows a gamemaster to propose a new price for the token, and all allowed players and gamemasters to vote on the price. if you are a player and gamemaster, you get 2 votes!
 
 ### Random notes
 
@@ -21,4 +21,41 @@ inside schedules there are sessions
 
 1. Auction Price Machine -- Like a Dutch Auction, but with a price multiplier based on the rarity tier (total sum of the 6 ability scores in 5 tiers: minimum being 3*6 and maximum being 18*6)
 
-![Flowchart of Random Character Auction](./Characters/random%20character%20auction.png)
+Links for Auction & NFT references:
+https://github.com/smartcontractkit/chainlink-automation-templates/tree/main/batch-nft-reveal
+https://github.com/solangegueiros/chainlink-bootcamp-2024/tree/main
+
+## Flowcharts
+
+![Flowchart of Random Character Auction](./square.png)
+
+## Improvements
+In our voting mechanism, I track both votesFor and votesAgainst. Consider using a single integer where a positive value increases for a “for” vote and decreases for an “against”. This reduces the storage operations:
+
+```solidity
+mapping(address => bool) public hasVoted;
+
+function vote(bool voteFor) external onlyAllowed {
+    require(!hasVoted[msg.sender], "Already voted");
+    hasVoted[msg.sender] = true;
+
+    proposal.voteCount += voteFor ? 1 : -1;
+    emit Voted(msg.sender, voteFor);
+}
+```
+
+Consider if I can use smaller type sizes and pack the struct better...
+
+```solidity
+struct Proposal {
+        ProposalType proposalType;
+        string catchphrase;
+        uint32 newPrice; // could these be uint64?
+        uint32 amount; // could these be uint64?
+        uint32 votesFor; // could these be uint64?
+        uint32 votesAgainst; // could these be uint64? 
+        uint256 deadline;
+        bool executed;
+        mapping(address => bool) voters;
+    }
+    ```

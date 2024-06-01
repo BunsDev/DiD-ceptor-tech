@@ -16,7 +16,15 @@ contract GamesToken is ERC20, AccessControl {
         _mint(to, amount);
     }
 
+    function addMinter(address minter) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        _grantRole(MINTER_ROLE, minter);
+    }
+
+    function removeMinter(address minter) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        _revokeRole(MINTER_ROLE, minter);
+    }
+
     function decimals() public pure override returns (uint8) {
-        return 2;
+        return 18;
     }
 }

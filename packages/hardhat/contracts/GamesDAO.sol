@@ -1,22 +1,25 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
-// Games Token deployed on Polygon Amoy
+// Chainlink Bootcamp's TokenShop as scaffold, GamesDAO manages the minting and pricing of GamesToken based on Chainlink price feeds.
+// It allows for gamemaster proposals on token pricing, which can be voted on by allowed players and gamemasters.
+// Written in the Chainlink BlockMagic Hackathon for Ceptor Games Team by Tippi Fifestarr. We will progressively decentralize.
+// Initially deploying on Polygon Amoy Testnet, I plan to deploy these on Scroll, ZkSync, Optimism, and Metis
+// Since only Polygon and Avax and Ethereum are currently supported by CCIP, the next version will CCIPGamesDAO on Polygon first.
 
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol"; //Source "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol" not found: File import callback not supported(6275)
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+// for CCIP, see CCIPGamesDAO.sol (not written yet at this time)
 
 interface TokenInterface {
     function mint(address account, uint256 amount) external;
 }
 
-contract TokenShop {
-
+contract GamesDAO {
     AggregatorV3Interface internal priceFeed;
-    // gamesToken is 18 decimal places, and we want to sell 1 token for 0.02 usd
     TokenInterface public minter;
-    uint256 public gamesTokenPriceInCents = 2; // for testing 1 token = 0.02 usd, in the chainlink 8 decimal place return format
+    uint256 public gamesTokenPriceInCents = 2; // 1 token = 0.02 USD
     address public owner;
-    
+
     mapping(address => bool) public allowedPlayers;
     mapping(address => bool) public gamemasters;
 
@@ -38,82 +41,16 @@ contract TokenShop {
     event ProposalExecuted(uint256 newPrice);
 
     constructor() {
-        /**
-        * Network: Polygon Amoy
-        * Aggregator: MATIC/USD
-        * Address: 0x001382149eBa3441043c1c66972b4772963f5D43
-        */
+        // Initialize the price feed for MATIC/USD on Polygon
         priceFeed = AggregatorV3Interface(0x001382149eBa3441043c1c66972b4772963f5D43);
         owner = msg.sender;
         allowedPlayers[owner] = true;
         gamemasters[owner] = true;
     }
 
-    /**
-    * Allow the admin to change the token address
-    */
-    function setTokenAddress(address tokenAddress) external onlyOwner {
-        minter = TokenInterface(tokenAddress);
-    }
-
-    /**
-    * Returns the latest answer
-    */
-    function getChainlinkDataFeedLatestAnswer() public view returns (int) {
-        (
-            /*uint80 roundID*/,
-            int price,
-            /*uint startedAt*/,
-            /*uint timeStamp*/,
-            /*uint80 answeredInRound*/
-        ) = priceFeed.latestRoundData();
-        return price;
-    }
-
-    function getMATICForOneGT() public view returns (uint256) {
-    uint256 maticPriceInUSD = uint256(getChainlinkDataFeedLatestAnswer()); // MATIC price in USD with 8 decimal places
-    uint256 maticForOneCent = 10**10 / maticPriceInUSD; // Calculate MATIC amount for one cent
-    uint256 maticForOneGT = maticForOneCent * gamesTokenPriceInCents; // tokenPrice is in cents
-    return maticForOneGT;
-}
-
-    function getMATICForGTs(uint256 numberOfGTs) public view returns (uint256) {
-    uint256 maticForOneGT = getMATICForOneGT();
-    uint256 totalMATICForGTs = maticForOneGT * numberOfGTs;
-    return totalMATICForGTs;
-}
-
-    function buyAmountTokens(uint256 numberOfGTs) public payable onlyAllowed {
-    uint256 requiredMATIC = getMATICForGTs(numberOfGTs);
-    require(msg.value >= requiredMATIC, "Insufficient MATIC sent");
-
-    minter.mint(msg.sender, numberOfGTs * 10**18); // Minting tokens with proper decimal adjustment
-}
-
-    // based on the amount sent in, give the number of tokens as long as its over the price of one token
-    function buyTokens() public payable onlyAllowed {
-        require(msg.value >= getMATICForOneGT(), "Insufficient MATIC sent");
-        uint256 numberOfGTs = msg.value / getMATICForOneGT();
-        minter.mint(msg.sender, numberOfGTs * 10**18); // Minting tokens with proper decimal adjustment
-    }
-
     modifier onlyOwner() {
-        require(msg.sender == owner);
+        require(msg.sender == owner, "Only owner can call this function");
         _;
-    }
-
-    function withdraw() external onlyOwner {
-        payable(owner).transfer(address(this).balance);
-    }
-
-    function allowPlayer(address player) external onlyOwner {
-        allowedPlayers[player] = true;
-        emit PlayerAllowed(player);
-    }
-
-    function addGamemaster(address gamemaster) external onlyOwner {
-        gamemasters[gamemaster] = true;
-        emit GamemasterAdded(gamemaster);
     }
 
     modifier onlyAllowed() {
@@ -121,45 +58,87 @@ contract TokenShop {
         _;
     }
 
+    // Set the token contract address for minting
+    function setTokenAddress(address tokenAddress) external onlyOwner {
+        minter = TokenInterface(tokenAddress);
+    }
+
+    // Retrieve the latest price of MATIC in USD
+    function getChainlinkDataFeedLatestAnswer() public view returns (int) {
+        (, int price,,,) = priceFeed.latestRoundData();
+        return price;
+    }
+
+    // Calculate the amount of MATIC required to buy one GamesToken
+    function getMATICForOneGT() public view returns (uint256) {
+        uint256 maticPriceInUSD = uint256(getChainlinkDataFeedLatestAnswer());
+        return (10**10 / maticPriceInUSD) * gamesTokenPriceInCents;
+    }
+
+    // Calculate the total MATIC required for a given number of GamesTokens
+    function getMATICForGTs(uint256 numberOfGTs) public view returns (uint256) {
+        return getMATICForOneGT() * numberOfGTs;
+    }
+
+    // Allow players to buy a specified number of GamesTokens
+    function buyAmountTokens(uint256 numberOfGTs) public payable onlyAllowed {
+        uint256 requiredMATIC = getMATICForGTs(numberOfGTs);
+        require(msg.value >= requiredMATIC, "Insufficient MATIC sent");
+        minter.mint(msg.sender, numberOfGTs * 10**18);
+    }
+
+    // Allow players to buy GamesTokens based on the MATIC sent
+    function buyTokens() public payable onlyAllowed {
+        uint256 numberOfGTs = msg.value / getMATICForOneGT();
+        require(numberOfGTs > 0, "Insufficient MATIC sent");
+        minter.mint(msg.sender, numberOfGTs * 10**18);
+    }
+
+    // Allow the owner to withdraw contract balance
+    function withdraw() external onlyOwner {
+        payable(owner).transfer(address(this).balance);
+    }
+
+    // Allow the owner to permit a player to participate
+    function allowPlayer(address player) external onlyOwner {
+        allowedPlayers[player] = true;
+        emit PlayerAllowed(player);
+    }
+
+    // Allow the owner to designate a gamemaster
+    function addGamemaster(address gamemaster) external onlyOwner {
+        gamemasters[gamemaster] = true;
+        emit GamemasterAdded(gamemaster);
+    }
+
+    // Create a proposal for changing the token price
     function createProposal(uint256 newPrice) external onlyAllowed {
         require(proposal.deadline == 0 || block.timestamp > proposal.deadline, "Previous proposal still active");
-
-        proposal.newPrice = newPrice;
-        proposal.votesFor = 0;
-        proposal.votesAgainst = 0;
-        proposal.deadline = block.timestamp + 1 weeks;
-        proposal.executed = false;
-
+        proposal = Proposal({newPrice: newPrice, votesFor: 0, votesAgainst: 0, deadline: block.timestamp + 1 weeks, executed: false});
         emit ProposalCreated(newPrice, proposal.deadline);
     }
 
+    // Allow allowed users to vote on the active proposal
     function vote(bool voteFor) external onlyAllowed {
         require(block.timestamp <= proposal.deadline, "Voting period has ended");
         require(!proposal.voters[msg.sender], "Already voted");
-
         proposal.voters[msg.sender] = true;
-
         if (voteFor) {
             proposal.votesFor += 1;
         } else {
             proposal.votesAgainst += 1;
         }
-
         emit Voted(msg.sender, voteFor);
     }
 
+    // Execute the proposal if voting is complete and conditions are met
     function executeProposal() external onlyAllowed {
         require(block.timestamp > proposal.deadline, "Voting period not ended yet");
         require(!proposal.executed, "Proposal already executed");
-
-        uint256 totalVotes = proposal.votesFor + proposal.votesAgainst;
-        uint256 requiredVotes = totalVotes / 2;
-
-        if (proposal.votesFor >= requiredVotes) {
+        if (proposal.votesFor > proposal.votesAgainst) {
             gamesTokenPriceInCents = proposal.newPrice;
             emit ProposalExecuted(proposal.newPrice);
         }
-
         proposal.executed = true;
     }
 }
