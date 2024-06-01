@@ -12,7 +12,13 @@ export type ScaffoldConfig = {
 
 const { NODE_ENV } = process.env;
 
-const targetNetworks = [chains.hardhat, chains.optimismSepolia, chains.baseSepolia, chains.polygonAmoy];
+const targetNetworks = [
+  chains.hardhat,
+  chains.optimismSepolia,
+  chains.baseSepolia,
+  chains.polygonAmoy,
+  chains.avalancheFuji,
+];
 if (NODE_ENV === "production") targetNetworks.shift();
 
 const scaffoldConfig = {

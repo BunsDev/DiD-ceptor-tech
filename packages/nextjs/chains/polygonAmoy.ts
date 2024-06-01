@@ -1,5 +1,6 @@
 import { defineChain } from "viem";
 
+// if we want to add other chains, copy this, and import that new one into the index.ts
 export const polygonAmoy = defineChain({
   id: 80_002,
   name: "Polygon Amoy",
