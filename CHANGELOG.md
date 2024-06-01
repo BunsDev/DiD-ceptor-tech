@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](///compare/v0.1.3...v0.1.4) (2024-06-01)
+
+
+### Features
+
+* **hardhat:** 👻 Base | Main & Sepolia 1bd453b
+* **hardhat:** 👻 Functions eb7799b
+* **hardhat:** 👻 Gateway 33d01c8
+* **nextjs:** 👻 Networks 7b4c5d9
+
+### [0.1.3](///compare/v0.1.2...v0.1.3) (2024-06-01)
+
+
+### Features
+
+* Store selected values in local storage for SignUp pages 2955848
+
 ### [0.1.2](///compare/v0.1.1...v0.1.2) (2024-05-30)
 
 
