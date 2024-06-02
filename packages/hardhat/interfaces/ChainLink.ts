@@ -7,6 +7,7 @@ export interface ChainLinkContractsConfig {
 export interface ChainLinkFunctionsConfig {
   donId: { onChain: string; offChain: string };
   router: string;
+  secretsUploadEndpoints: string[];
 }
 
 export type ChainLinkNetworkUserConfig = HttpNetworkUserConfig & {
@@ -21,3 +22,8 @@ export type ChainLinkNetworksUserConfig = Pick<NetworksUserConfig, "hardhat"> & 
 export type ChainLinkUserConfig = Omit<HardhatUserConfig, "networks"> & {
   networks?: ChainLinkNetworksUserConfig;
 };
+
+export interface DONSecret {
+  ttl: number; // time to live in minutes
+  secrets: Record<string, string>;
+}

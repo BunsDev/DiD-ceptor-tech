@@ -11,7 +11,7 @@ import { contractName } from "./00_deploy_gateway";
  * @param hre HardhatRuntimeEnvironment object.
  */
 
-const CLIENTS = ["CCExampleClient"]; // List of contract names to be registered in the gateway as clients.
+const CLIENTS = ["CCExampleClient", "CCNotificationClient"]; // List of contract names to be registered in the gateway as clients.
 
 const grantClientsRole: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();

@@ -5,11 +5,13 @@ import { Resolver, parse } from "did-resolver";
 import ethr from "ethr-did-resolver";
 import { DuplicateUserError } from "~~/models/errors";
 import { User } from "~~/models/user";
-import { saveUser } from "~~/services/mongo/mongo";
+import { getAllUsers, saveUser } from "~~/services/mongo/mongo";
 
 export async function SignUp(user: User) {
-  const { serverRuntimeConfig } = getConfig();
-  const ethrResolver = ethr.getResolver(serverRuntimeConfig.providerConfig);
+  const {
+    serverRuntimeConfig: { providerConfig: providerConfig },
+  } = getConfig();
+  const ethrResolver = ethr.getResolver(providerConfig);
   const resolver = new Resolver(ethrResolver);
 
   const did = parse(user.id);
@@ -17,8 +19,8 @@ export async function SignUp(user: User) {
   if (doc.didResolutionMetadata.error || did === null) {
     throw Error(`Invalid user id: ${user.id}.`);
   }
-
   user.address = did.id;
+
   try {
     await saveUser(user);
     return `user ${user.address} ${user.name} joined.`;
@@ -28,5 +30,17 @@ export async function SignUp(user: User) {
     } else {
       throw new Error(`Internal server error: ${err}.`);
     }
+  }
+}
+
+export async function GET() {
+  try {
+    return await getAllUsers();
+  } catch (err) {
+    console.log("get all users error: ", err);
+    if (err instanceof Error) {
+      console.log(err.stack);
+    }
+    throw new Error(`internal server error.`);
   }
 }

@@ -4,21 +4,21 @@ import crypto from "node:crypto";
 import type { Address } from "hardhat-deploy/dist/types";
 
 const FUNCTIONS_FOLDER = __dirname;
-const FUNCTIONS_PATTERN = /(\d+)_\w+(\.[jt]s)/g;
+const FUNCTIONS_PATTERN = /(\d+)_(\w+)(\.[jt]s)/g;
 const MAP_NAME = "link_functions_map.json";
 
 type SourceCode = string;
 type ScriptName = string;
 type ChainId = string | number;
-type ScriptsMap = Record<ScriptName, Script>;
-type ChainMap = Record<ChainId, ScriptsMap>;
+export type ScriptsMap = Record<ScriptName, Script>;
+export type ChainMap = Record<ChainId, ScriptsMap>;
 export interface Script {
   name: ScriptName;
   path: string;
   source: SourceCode;
   checksum: string;
   subscriptionId?: number;
-  secret?: string; // TODO: encrypt the secret and store it in the IPFS (DONHosted).
+  secret?: { reference: string; validUntil: number };
   consumerAddress?: Address;
 }
 
@@ -76,6 +76,7 @@ async function loadScript(name: ScriptName) {
   // const uglified = minify({ [name]: source });
   // if (uglified.error) throw uglified.error;
 
+  // TODO: Replace name with the script name not the file name
   return {
     name,
     path,
@@ -119,4 +120,4 @@ async function upsertScripts(scripts: Array<Script>, chainId: ChainId) {
   return map;
 }
 
-export { scriptsToDeploy, upsertScripts };
+export { scriptsToDeploy, upsertScripts, loadMap };

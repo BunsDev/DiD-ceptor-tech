@@ -57,6 +57,8 @@ contract CCGateway is ICCGateway, FunctionsClient, AccessControl {
         if (bytes(name).length == 0) {revert CCGRequestNameEmpty();}
 
         CCGRequest storage req = _requests[subscriptionId];
+        if(bytes(req.name).length == 0) {subscriptions.push(subscriptionId);}
+
         req.name = name;
         req.callbackGasLimit = callbackGasLimit;
 
@@ -66,8 +68,6 @@ contract CCGateway is ICCGateway, FunctionsClient, AccessControl {
         req.config.source = source;
         req.config.secretsLocation = secretsLocation;
         req.config.encryptedSecretsReference = encryptedSecretsReference;
-
-        subscriptions.push(subscriptionId);
     }
 
     function removeRequest(uint64 subscriptionId) external onlyManager {
@@ -84,7 +84,7 @@ contract CCGateway is ICCGateway, FunctionsClient, AccessControl {
         subscriptions.pop();
     }
 
-    function getRequest(uint64 subscriptionId) external view onlyManager returns (CCGRequest memory) {
+    function getRequest(uint64 subscriptionId) external view returns (CCGRequest memory) {
         if (bytes(_requests[subscriptionId].name).length == 0) {revert CCGRequestNotRegistered(subscriptionId);}
         return _requests[subscriptionId];
     }
