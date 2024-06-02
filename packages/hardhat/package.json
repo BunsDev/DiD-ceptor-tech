@@ -18,7 +18,7 @@
     "link:balance": "hardhat link-balance",
     "link:gw:upsert": "hardhat upsert-gateway-requests",
     "link:gw:upsert-fund": "hardhat upsert-gateway-requests --fund",
-    "link:gw:update-secrets": "hardhat update-secrets",
+    "link:gw:update-secrets": "hardhat update-secret",
     "link:gw:update-subscription": "hardhat update-subscription"
   },
   "devDependencies": {
