@@ -10,7 +10,7 @@ import { contractName as GatewayName } from "./00_deploy_gateway";
  *
  * @param hre HardhatRuntimeEnvironment object.
  */
-const contractName = "CCExampleClient";
+export const contractName = "CCExampleClient";
 
 const deployCCExampleClient: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();

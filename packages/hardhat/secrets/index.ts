@@ -3,7 +3,7 @@ import { readdir } from "node:fs/promises";
 import { DONSecret } from "@/interfaces";
 
 const SECRETS_FOLDER = __dirname;
-const SECRETS_PATTERN = /(\d+)_\w+(\.[jt]s)/g;
+const SECRETS_PATTERN = RegExp(/(\d+)_\w+(\.[jt]s)/g);
 
 export type SecretFile = DONSecret & {
   path: string;
@@ -38,12 +38,12 @@ async function getSecretByName(secretFile: string): Promise<SecretFile> {
 
   // Extract number from secret file name
   const slotId = Number(SECRETS_PATTERN.exec(secret)?.[1]);
-  if (!slotId || Number.isNaN(slotId)) throw new Error(`Can't find the slotId in ${secret}`);
+  if (Number.isNaN(slotId)) throw new Error(`Can't find the slotId in ${secret} | ${slotId}`);
 
   const path = join(SECRETS_FOLDER, secret);
   const Secret = await loadSecret(path);
 
-  return { ...Secret, slotId, path, name: secret };
+  return { ...Secret, slotId: slotId + 1, path, name: secret };
 }
 
 async function getSecretBySlotId(slotId: number): Promise<SecretFile> {
@@ -55,7 +55,7 @@ async function getSecretBySlotId(slotId: number): Promise<SecretFile> {
   const path = join(SECRETS_FOLDER, secret);
   const Secret = await loadSecret(path);
 
-  return { ...Secret, slotId, path, name: secret };
+  return { ...Secret, slotId: Number(slotId) + 1, path, name: secret };
 }
 
 async function getSecret(secretFile: string, slotId: number): Promise<SecretFile> {
