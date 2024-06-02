@@ -11,6 +11,12 @@
   <a href="https://scaffoldeth.io">Website</a>
 </h4>
 
+## Games Team
+
+**Gaozong:** Our UX / PM, superstar
+**Tippi:** Smart Contracts and GM
+**Verinta:** The Qwizzler, frontend and even a smart contract too!
+
 Ceptor-Scaffold-OP is a fork of Scaffold-ETH2 with fantastic differences, providing additional dApp examples, native support for Superchain testnets, and more low-level instructions. We highly recommend the Scaffold-ETH2 docs as the primary guideline. 
 
 # Games Contracts
