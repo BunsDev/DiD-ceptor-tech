@@ -210,6 +210,10 @@ const config: ChainLinkUserConfig = {
           onChain: "0x66756e2d626173652d6d61696e6e65742d310000000000000000000000000000",
           offChain: "fun-base-mainnet-1",
         },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.chain.link/",
+          "https://02.functions-gateway.chain.link/",
+        ],
       },
     },
     baseSepolia: {
@@ -224,6 +228,10 @@ const config: ChainLinkUserConfig = {
           onChain: "0x66756e2d626173652d7365706f6c69612d310000000000000000000000000000",
           offChain: "fun-base-sepolia-1",
         },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.testnet.chain.link/",
+          "https://02.functions-gateway.testnet.chain.link/",
+        ],
       },
     },
     scrollSepolia: {
@@ -276,7 +284,10 @@ const config: ChainLinkUserConfig = {
           onChain: "0x66756e2d6176616c616e6368652d6d61696e6e65742d31000000000000000000",
           offChain: "fun-avalanche-mainnet-1",
         },
-        secretsUploadEndpoints: [],
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.chain.link/",
+          "https://02.functions-gateway.chain.link/",
+        ],
       },
     },
     fuji: {
@@ -293,7 +304,10 @@ const config: ChainLinkUserConfig = {
           onChain: "0x66756e2d6176616c616e6368652d66756a692d31000000000000000000000000",
           offChain: "fun-avalanche-fuji-1",
         },
-        secretsUploadEndpoints: [],
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.testnet.chain.link/",
+          "https://02.functions-gateway.testnet.chain.link/",
+        ],
       },
     },
   },
