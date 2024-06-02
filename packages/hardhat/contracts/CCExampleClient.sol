@@ -7,8 +7,8 @@ import {ICCGateway} from "./interfaces/ICCGateway.sol";
 contract CCExampleClient is ICCGatewayClient {
     ICCGateway private immutable gateway;
 
-    uint64 private subscriptionId = 0;
-    bytes private encryptedSecretsReference = "";
+    uint64 public subscriptionId = 0;
+    bytes public encryptedSecretsReference = "";
 
     event ResponseReceived(uint64 subscriptionId, bytes32 requestId, string response);
     event ErrorReceived(uint64 subscriptionId, bytes32 requestId, string error);

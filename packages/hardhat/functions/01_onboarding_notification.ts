@@ -1,6 +1,6 @@
 async function main(batch, url, auth) {
   const msgs = await receive(batch, url, auth);
-  for (let i in msgs) {
+  for (const i in msgs) {
     const msg = JSON.parse(msgs[i].payload);
     const url = msg.url;
     const apiKey = msg.apiKey;
@@ -16,19 +16,19 @@ async function receive(batch, url, auth) {
   const data = {
     count: batch,
     ackmode: "ack_requeue_false",
-    encoding: 'auto'
+    encoding: "auto",
   };
 
   const request = Functions.makeHttpRequest({
     url: url,
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Authorization': `Basic ${auth}`,
-      'Content-Type': 'application/json'
+      Authorization: `Basic ${auth}`,
+      "Content-Type": "application/json",
     },
     data: data,
     timeout: 10_000,
-    responseType: 'json'
+    responseType: "json",
   });
 
   const response = await request;
@@ -98,7 +98,7 @@ if (!url) {
   throw Error("url is missing.");
 }
 
-const auth = args[2];
+const auth = secrets.auth;
 if (!auth) {
   throw Error("auth is missing.");
 }
