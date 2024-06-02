@@ -26,24 +26,24 @@ const openAIRequest = await Functions.makeHttpRequest({
     messages: [
       {
         role: "system",
-        content: "You are generating a character backstory.",
+        content: "You are generating a character backstory. Make sure to only use 256 characters or less.",
       },
       {
         role: "user",
         content: prompt,
       },
     ],
+    max_tokens: 50,
   },
   timeout: 10_000,
-  maxTokens: 100,
   responseType: "json",
 });
 
-const response = await openAIRequest;
+if (openAIRequest.error) throw new Error("OpenAI API request failed.");
 
 // finds: the response and returns the result (as a string).
-const backstory = response.data?.choices[0].message.content;
+const backstory = openAIRequest.data.choices[0].message.content;
 
-console.log(`Generated backstory: %s`, backstory);
+console.log(backstory);
 
 return Functions.encodeString(backstory || "Failed");
