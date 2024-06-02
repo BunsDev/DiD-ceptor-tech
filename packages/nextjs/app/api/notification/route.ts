@@ -25,9 +25,10 @@ export async function POST(request: Request) {
     await send(msgs);
 
     console.log("trigger chainlink functions");
-    const hash = await makeRequest("polygonAmoy", [
+    const hash = await makeRequest("sepolia", [
       msgs.length.toString(),
       `${queueConfig.rabbitMqEndpoint}/${queueConfig.rabbitMqQueue}/get`,
+      queueConfig.rabbitMqAuth
     ]);
     return new Response(`notification sent, tx hash; ${hash}`, { status: 200 });
   } catch (err) {

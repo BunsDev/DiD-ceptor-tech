@@ -7,6 +7,7 @@ const {
   RABIITMQ_URL,
   RABBITMQ_QUEUE,
   RABBITMQ_ENDPOINT,
+  RABBITMQ_AUTH,
   SENDGRID_SERVER,
   SENDGRID_APIKEY,
   SENDGRID_ACCOUNT,
@@ -31,6 +32,8 @@ const nextConfig = withBuilderDevTools({
           registry: "0x03d5003bf0e79c5f5223588f347eba39afbc3818",
           deployerPrivateKey: DEPLOYER_PRIVATE_KEY,
           router: "0xb83E47C2bC239B3bf370bc41e1459A34b41238D0",
+          donId: "fun-ethereum-sepolia-1",
+          consumerAddress: "0x2720d3F8Ac67F5f6C303f67232A265303F957c66"
         },
       ],
     },
@@ -42,6 +45,7 @@ const nextConfig = withBuilderDevTools({
       rabbitMqUrl: RABIITMQ_URL,
       rabbitMqQueue: RABBITMQ_QUEUE,
       rabbitMqEndpoint: RABBITMQ_ENDPOINT,
+      rabbitMqAuth: RABBITMQ_AUTH,
     },
     emailConfig: {
       sendGridServer: SENDGRID_SERVER,
