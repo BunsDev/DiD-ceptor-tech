@@ -24,7 +24,7 @@ const SignUpPage: React.FC = () => {
   const [inputName, setInputName] = React.useState("");
   const [inputEmail, setInputEmail] = React.useState("");
   const [inputRole, setInputRole] = React.useState("");
-  const [inputProject, setInputProject] = React.useState("");
+  const [inputProject, setInputProject] = React.useState<string[]>([]);
   const [inputInitiative, setInputInitiative] = React.useState("");
   const [inputContactMethod, setInputContactMethod] = React.useState("");
   const [inputInDiscord, setInputInDiscord] = React.useState(false);
@@ -42,7 +42,7 @@ const SignUpPage: React.FC = () => {
         name: inputName,
         email: inputEmail,
         role: inputRole,
-        projects: [inputProject],
+        projects: inputProject, // Pass inputProject directly
         initiative: Number(inputInitiative),
         contactMethod: inputContactMethod,
         indiscord: inputInDiscord,
@@ -76,7 +76,16 @@ const SignUpPage: React.FC = () => {
     setTab(index + 1);
   };
 
-  const stepLabels = ["ID", "Name", "Email", "Role", "Project", "Initiative", "Contact Method", "In Discord"];
+  const stepLabels = [
+    "ID",
+    "Name",
+    "Email",
+    "Role",
+    "Project (Multi-Select)",
+    "Initiative",
+    "Contact Method",
+    "In Discord",
+  ];
 
   return (
     <>
