@@ -63,7 +63,7 @@ function generateChecksum(source: SourceCode) {
   return crypto.createHash("sha256").update(source).digest("hex");
 }
 
-async function loadScript(name: ScriptName) {
+export async function loadScript(name: ScriptName) {
   const path = join(FUNCTIONS_FOLDER, name);
   const source = await readFile(path, "utf-8");
 

@@ -11,7 +11,7 @@ import "hardhat-deploy";
 import "hardhat-deploy-ethers";
 
 import { ChainLinkUserConfig } from "@/interfaces";
-import "@/scripts/LINK/tasks";
+import "@/scripts/tasks";
 
 // If not set, it uses ours Alchemy's default API key.
 // You can get your own at https://dashboard.alchemyapi.io
