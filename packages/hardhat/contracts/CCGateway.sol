@@ -18,6 +18,9 @@ contract CCGateway is ICCGateway, FunctionsClient, AccessControl {
     mapping(uint64 subscriptionId => CCGRequest) private _requests; // Each subscription can only handle one kind of request
     mapping(bytes32 requestId => ICCGatewayClient.CCGResponse) private unprocessed_responses; // Responses that have not been processed yet
 
+    // array of registered subscriptions
+    uint64[] public subscriptions;
+
     constructor(address router, bytes32 initialDonId, address initialOwner) FunctionsClient(router) {
         _donId = initialDonId;
 
@@ -50,8 +53,8 @@ contract CCGateway is ICCGateway, FunctionsClient, AccessControl {
         bytes calldata encryptedSecretsReference,
         uint32 callbackGasLimit,
         string calldata name
-    ) external onlyRole(MANAGER_ROLE) {
-        if(bytes(name).length == 0) {revert CCGRequestNameEmpty();}
+    ) external onlyManager {
+        if (bytes(name).length == 0) {revert CCGRequestNameEmpty();}
 
         CCGRequest storage req = _requests[subscriptionId];
         req.name = name;
@@ -63,8 +66,23 @@ contract CCGateway is ICCGateway, FunctionsClient, AccessControl {
         req.config.source = source;
         req.config.secretsLocation = secretsLocation;
         req.config.encryptedSecretsReference = encryptedSecretsReference;
+
+        subscriptions.push(subscriptionId);
     }
 
+    function removeRequest(uint64 subscriptionId) external onlyManager {
+        if (bytes(_requests[subscriptionId].name).length == 0) {revert CCGRequestNotRegistered(subscriptionId);}
+        delete _requests[subscriptionId];
+
+        // Find the index of the subscriptionId in the subscriptions array
+        uint256 index = subscriptions.length;
+        for (uint256 i = 0; i < subscriptions.length; i++) {
+            if (index == subscriptions.length && subscriptions[i] == subscriptionId) index = i;
+            if (index != subscriptions.length && i + 1 < subscriptions.length) subscriptions[i] = subscriptions[i + 1];
+        }
+
+        subscriptions.pop();
+    }
 
     function getRequest(uint64 subscriptionId) external view onlyManager returns (CCGRequest memory) {
         if (bytes(_requests[subscriptionId].name).length == 0) {revert CCGRequestNotRegistered(subscriptionId);}
@@ -99,7 +117,7 @@ contract CCGateway is ICCGateway, FunctionsClient, AccessControl {
 
         FunctionsRequest.Request memory req = request.config;
         req.initializeRequest(req.codeLocation, FunctionsRequest.CodeLanguage.JavaScript, req.source);
-        if(encryptedSecretsReference.length > 0) {req.encryptedSecretsReference = encryptedSecretsReference;}
+        if (encryptedSecretsReference.length > 0) {req.encryptedSecretsReference = encryptedSecretsReference;}
 
         if (args.length > 0) {
             req.setArgs(args);
@@ -128,8 +146,7 @@ contract CCGateway is ICCGateway, FunctionsClient, AccessControl {
         unprocessed_responses[requestId].data = response;
         unprocessed_responses[requestId].error = err;
 
-        // TODO: Call the client's callback function.
-         ICCGatewayClient(resp.source).callback(requestId);
+        ICCGatewayClient(resp.source).callback(requestId);
     }
 
     /**

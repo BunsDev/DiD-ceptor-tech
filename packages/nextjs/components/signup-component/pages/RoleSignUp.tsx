@@ -9,7 +9,8 @@ interface RoleSignUpProps {
 
 const RoleSignUp: React.FC<RoleSignUpProps> = ({ inputRole, setInputRole }) => {
   const labelStepName = "User Role";
-  const [selectedRole, setSelectedRole] = useState<string>("");
+  const storedValue = localStorage.getItem(labelStepName);
+  const [selectedRole, setSelectedRole] = useState<string>(storedValue || "");
 
   useEffect(() => {
     if (selectedRole) {
@@ -22,51 +23,23 @@ const RoleSignUp: React.FC<RoleSignUpProps> = ({ inputRole, setInputRole }) => {
     setSelectedRole(role);
   };
 
-  const races = [
-    "Dragonborn",
-    "Dwarf",
-    "Elf",
-    "Githyanki",
-    "Gnome",
-    "Goblin",
-    "Half-Elf",
-    "Halfling",
-    "Half-Orc",
-    "Human",
-    "Tabaxi",
-    "Thri-Kreen",
-    "Tiefling",
-    "Tortle",
-    "Warforged",
-  ];
+  const dataSelections = ["Volunteer", "Contributor", "Brand Ambassador", "Staff", "Investor", "Artist", "Other"];
 
   return (
-    <div className="justify-center flex flex-col h-screen items-center gap-10 lg:w-3/5">
+    <div className="justify-center flex flex-col items-center gap-10">
       <Typography variant="title">Choose your Role</Typography>
       <section className="flex flex-col px-5 text-center leading-[150%]">
         <h2 className="self-center text-base text-gray-200">Select One: {inputRole}</h2>
-        <div className="flex flex-col flex-wrap justify-center items-center px-12 mt-5 w-full text-xl text-white whitespace-nowrap max-md:px-5 max-md:max-w-full">
-          <div className="flex gap-5 max-md:flex-wrap">
-            {races.slice(0, 6).map(race => (
-              <SelectionData key={race} onClick={() => handleRoleSelect(race)}>
-                {race}
-              </SelectionData>
-            ))}
-          </div>
-          <div className="flex gap-5 self-stretch mt-5 max-md:flex-wrap">
-            {races.slice(6, 12).map(race => (
-              <SelectionData key={race} onClick={() => handleRoleSelect(race)}>
-                {race}
-              </SelectionData>
-            ))}
-          </div>
-          <div className="flex gap-5 mt-5 max-md:flex-wrap">
-            {races.slice(12, 15).map(race => (
-              <SelectionData key={race} onClick={() => handleRoleSelect(race)}>
-                {race}
-              </SelectionData>
-            ))}
-          </div>
+        <div className="flex flex-wrap justify-center w-full gap-5 my-5 text-xl text-white">
+          {dataSelections.map(dataSelection => (
+            <SelectionData
+              key={dataSelection}
+              selected={selectedRole === dataSelection}
+              onClick={() => handleRoleSelect(dataSelection)}
+            >
+              {dataSelection}
+            </SelectionData>
+          ))}
         </div>
       </section>
     </div>

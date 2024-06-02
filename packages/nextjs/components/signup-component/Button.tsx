@@ -1,13 +1,17 @@
 import * as React from "react";
 
 interface ButtonProps {
-  children: string;
   className?: string;
   variant?: "fill" | "outline";
   onClick?: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, onClick, className = "", variant = "fill" }) => {
+const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
+  children,
+  onClick,
+  className = "",
+  variant = "fill",
+}) => {
   const baseStyles =
     "text-center h-[62px] flex justify-center items-center border-2 border-solid rounded-[36.5px] duration-300 ease-in-out md:text-2xl md:hover:text-[22px] text-xl hover:text-base font-oswald";
 

@@ -1,6 +1,6 @@
 import { JsonRpcProvider, Wallet, Contract } from "ethers";
 import getConfig from "next/config";
-import deployedContracts from "../../contracts/deployedContracts";
+import deployedContracts from "~~/contracts/deployedContracts";
 
 export async function makeRequest(network: string, args: any[]) {
   const {

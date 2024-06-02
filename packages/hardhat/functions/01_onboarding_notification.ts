@@ -54,33 +54,33 @@ async function notify(url, apiKey, from, to, username) {
   const msg = {
     personalizations: [
       {
-        to: [{ email: to }]
-      }
+        to: [{ email: to }],
+      },
     ],
     from: { email: from },
-    subject: 'Ceptor Club onboarding',
+    subject: "Ceptor Club onboarding",
     content: [
       {
-        type: 'text/plain',
-        value: content
-      }
-    ]
+        type: "text/plain",
+        value: content,
+      },
+    ],
   };
 
   const request = Functions.makeHttpRequest({
     url: url,
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
     },
     data: msg,
     timeout: 20_000,
-    responseType: 'json'
+    responseType: "json",
   });
 
   const response = await request;
-  if (response.error && response.message !== 'SyntaxError: Unexpected end of JSON input') {
+  if (response.error && response.message !== "SyntaxError: Unexpected end of JSON input") {
     console.error(`notify error: ${response.message}`);
     throw Error("Request failed");
   } else {
@@ -105,4 +105,4 @@ if (!auth) {
 
 await main(parseInt(batch), url, auth);
 
-return Functions.encodeString('Succeed');
+return Functions.encodeString("Succeed");
