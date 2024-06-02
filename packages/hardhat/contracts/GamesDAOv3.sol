@@ -198,7 +198,7 @@ function createProposal(ProposalType proposalType, uint256 newPrice, uint256 amo
     proposal.catchphrase = catchphrase;
     proposal.votesFor = 0;
     proposal.votesAgainst = 0;
-    proposal.deadline = block.timestamp + 1 weeks;
+    proposal.deadline = block.timestamp + 1 hours;
     proposal.executed = false;
 
     emit ProposalCreated(newPrice, amount, to, catchphrase, proposal.deadline, proposalType);
