@@ -1,5 +1,7 @@
 # Chainlink's Block Magic Games Team
 
+> A Magic Spellbook of many Smart Contracts, and more to come!
+
 1. Data Feeds leverage Chainlink's DON to get manipulation-resistant data (in our case, price of tokens in USD) from external providers. Games Team used Price Feeds in multiple contracts across different chains ([ZkSync](https://sepolia.explorer.zksync.io/address/0xA6bA847c70cB1eea5811f8C79632C09CF0478FCA#contract), Ethereum, Polygon).
 1. VRF 2.5 Subscriptions to create a 1-click Random Character, at first 2-clicks because of callback limits.
 1. Chainlink Functions twice! First to take the on-chain character information and give it to GPT to generate unique traits, flaws, bonds, and ideals for our random characters. Save it onchain, and then pass all that to GPT again, and get a prompt "alt-text" to generate a character art via human or ai artist.
@@ -8,23 +10,25 @@
 # Games Contracts
 1. [ZKSecrets](ZKSecretCharacter.sol) - Blockchains aren't good at saving secrets, until we unlock that with Zero Knowledge Technology of next generation chains, like zkSync! Deployed and verified on https://sepolia.explorer.zksync.io/address/0xA6bA847c70cB1eea5811f8C79632C09CF0478FCA#contract :D Uses **Chainlink Price Feeds** to let users save 5 bytes32 proofs in there for a fixed USD amount! Next steps would be having public values, and when VRF comes to zkSync, use that for randomness!  
 
-1. [Game World Generator](BuyMeACeptor.sol) - A contract that generates a game world based on a user's vibe and number of players. The world is generated with a visual of the planet, scenarios, locations, descriptions, maps, denizens, secrets, goals, and players. Each world has its own blockchain. Creating a World costs 10 gameTokens.  when creating a game, i want to have my own world or play with others. each world should be locked to a blockchain. 10 gT to make a world. 5 gT to join one as a GM, 2 gT to join as player.
+2. [Game World Generator](BuyMeACeptor.sol) - A contract that generates a game world based on a user's vibe and number of players. The world is generated with a visual of the planet, scenarios, locations, descriptions, maps, denizens, secrets, goals, and players. Each world has its own blockchain. Creating a World costs 10 gameTokens.  when creating a game, i want to have my own world or play with others. each world should be locked to a blockchain. 10 gT to make a world. 5 gT to join one as a GM, 2 gT to join as player.
 
 Inside worlds, there are games
 inside games there are schedules
 inside schedules there are sessions
 (and we verify who shows up)
 
-1. [Character Generator](Characters/CharacterGen.sol) - A contract that generates a character for a user in the game world. The character is generated with abilities, class, name, alignment, and background. Each character has its own unique attributes. Currently it uses VRF2.5, and provides a reroll (4d4 drop lowest) as well as a swap scores. It refers to the classes, backgrounds, and names contracts.  These contracts will have their own Chainlink Functions call to GPT if the user rolls a length+1, it calls that function and triggers the Chainlink Functions call through the gateway, the prompt being to take the existing information about the character and the D&D 5e open source rules for homebrewing a name, class, or background. That's after the Auction House.
+3. [Character Generator](Characters/CharacterGen.sol) - A contract that generates a character for a user in the game world. The character is generated with abilities, class, name, alignment, and background. Each character has its own unique attributes. Currently it uses VRF2.5, and provides a reroll (4d4 drop lowest) as well as a swap scores. It refers to the classes, backgrounds, and names contracts.  These contracts will have their own Chainlink Functions call to GPT if the user rolls a length+1, it calls that function and triggers the Chainlink Functions call through the gateway, the prompt being to take the existing information about the character and the D&D 5e open source rules for homebrewing a name, class, or background. That's after the Auction House.
 
-1. [GamesToken ERC20](GamesToken.sol) - A contract that is an ERC20 token that is used to pay for the creation of a world, and to pay for the creation of a game. Also can be spent to buy a random character from the portal. The OZ Access Control and Chainlink Price Feeds in the GamesDAOv3 is what lets us control who buys this token and for how much.
+4. [GamesToken ERC20](GamesToken.sol) - A contract that is an ERC20 token that is used to pay for the creation of a world, and to pay for the creation of a game. Also can be spent to buy a random character from the portal. The OZ Access Control and Chainlink Price Feeds in the GamesDAOv3 is what lets us control who buys this token and for how much.
 
 - Polygon Amoy 0xB8E927a25b2ab5d85ff79698cE11F2872d6Faf6b
 - Ethereum Sepolia 
 - Scroll
 - zkSync
 
-1. [GamesDAOv3](GamesDAOv3.sol) - Inspired by TokenShop from the Bootcamp.  A contract that has a ledger of allowed players, gamemasters, and tracks + mints the ERC20 Games Token for Chainlink Price Feeds = $20 USD (or two cents, $0.02, for testing). It also allows a gamemaster to propose a new price for the token, and all allowed players and gamemasters to vote on the price. if you are a player and gamemaster, you get 2 votes, i hope!
+<img alt="2 cents thanks chainlink!" src="2cents.png" width=512></a>
+
+5. [GamesDAOv3](GamesDAOv3.sol) - Inspired by TokenShop from the Bootcamp.  A contract that has a ledger of allowed players, gamemasters, and tracks + mints the ERC20 Games Token for Chainlink Price Feeds = $20 USD (or two cents, $0.02, for testing). It also allows a gamemaster to propose a new price for the token, and all allowed players and gamemasters to vote on the price. if you are a player and gamemaster, you get 2 votes, i hope!
 
 - Polygon Amoy 0x2aad5711Dfb60B8d8e4A5F6AF882a3275e814af6
 - Ethereum Sepolia
