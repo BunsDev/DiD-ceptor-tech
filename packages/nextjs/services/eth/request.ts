@@ -14,17 +14,22 @@ export async function makeRequest(network: string, args: any[]) {
   const wallet = new Wallet(networkConfig.deployerPrivateKey);
   const signer = wallet.connect(provider); // create ethers signer for signing transactions
 
-  const { chainId } = await provider.getNetwork();
+  console.log(`network rpc url: ${networkConfig.rpcUrl}`);
 
-  const exampleClientContract = (<any>deployedContracts)[chainId.toString()].CCExampleClient;
+  const { chainId } = await provider.getNetwork();
+  console.log(`chainId: ${chainId}`);
+
+  const notificationClient = (<any>deployedContracts)[chainId.toString()].CCNotificationClient;
+  console.log(`notification contract address: ${notificationClient.address}`);
+
   const contract = new Contract(
-    exampleClientContract.address,
-    exampleClientContract.abi,
+    notificationClient.address,
+    notificationClient.abi,
     signer
   );
 
   const transaction = await contract.request(args, []);
-
   console.log(`Functions request sent! Transaction hash ${transaction.hash}. Waiting for a response...`);
   await transaction.wait();
+  return transaction.hash;
 }

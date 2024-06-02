@@ -19,7 +19,7 @@
     "link:gw:upsert": "hardhat upsert-gateway-requests",
     "link:gw:upsert-fund": "hardhat upsert-gateway-requests --fund",
     "link:gw:update-secrets": "hardhat update-secrets",
-    "link:gw:update-subscription":"hardhat update-subscription"
+    "link:gw:update-subscription": "hardhat update-subscription"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.7.0",

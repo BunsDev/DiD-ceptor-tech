@@ -3,13 +3,13 @@ import { task } from "hardhat/config";
 import { Wallet, providers } from "ethers@v5";
 import { Contract } from "ethers";
 import { getNetworkConfig } from "@/scripts/LINK/utils";
-import { contractName } from "@/deploy/97_deploy_example_client";
 import { getSecretPath } from "secrets"
 
 const expirationTimeMinutes = 15; // expiration time in minutes of the secrets
 
 task("update-secrets", "Upload secrets.")
     .addParam("secret", "secret file name")
+    .addParam("contract", "the smart contract name")
     .setAction(async (params, hre) => {
         const { slotId, secrets } = await import(getSecretPath(params.secret));
         if (!slotId) {
@@ -32,9 +32,10 @@ task("update-secrets", "Upload secrets.")
             throw new Error(`the network ${hre.network.name} didn't support secrets upload`);
         }
         console.log(`router: ${router}, donId: ${donId}, slotId: ${slotId}`);
+        console.log(`secrets: ${JSON.stringify(secrets)}`);
 
         const { deployer } = await hre.getNamedAccounts();
-        console.log(`Deployer: ${deployer}`);
+        console.log(`Deployer: ${deployer}, Contract: ${params.contract}`);
 
         // let signer = await hre.ethers.getSigner(deployer);
 
@@ -77,6 +78,8 @@ task("update-secrets", "Upload secrets.")
             });
         console.log('encrypted secrets reference:', encryptedSecretsReference);
 
-        const consumer = await hre.ethers.getContract<Contract>(contractName, deployer);
-        consumer.updateEncryptedSecretsReference(encryptedSecretsReference);
+        const consumer = await hre.ethers.getContract<Contract>(params.contract, deployer);
+        const tx = await consumer.updateEncryptedSecretsReference(encryptedSecretsReference);
+        await tx.wait();
+        console.log(`secrets reference ${encryptedSecretsReference} is updated. | ${tx.hash}`);
     });

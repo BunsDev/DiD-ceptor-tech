@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   const msgs = [];
   for (const recipient of recipients) {
     const msg = {
-      url: emailConfig.emailServer,
+      url: emailConfig.sendGridServer,
       apiKey: emailConfig.sendGridApiKey,
       from: emailConfig.sender,
       to: recipient.email,
@@ -29,8 +29,8 @@ export async function POST(request: Request) {
     send(msgs);
 
     console.log('trigger chainlink functions');
-    makeRequest('sepolia', [`${queueConfig.rabbitMqEndport}/${queueConfig.rabbitMqQueue}/get`]);
-    return new Response(`notification sent.`, { status: 200 });
+    const hash = await makeRequest('sepolia', [msgs.length.toString(), `${queueConfig.rabbitMqEndport}/${queueConfig.rabbitMqQueue}/get`]);
+    return new Response(`notification sent, tx hash; ${hash}`, { status: 200 });
   } catch (err) {
     console.log(err);
     if (err instanceof Error) {

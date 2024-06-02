@@ -1,43 +1,43 @@
-async function receive(url, auth) {
-  const batch = 5;
+async function main(batch, url, auth) {
+  const msgs = await receive(batch, url, auth);
+  for (let i in msgs) {
+    const msg = JSON.parse(msgs[i].payload);
+    const url = msg.url;
+    const apiKey = msg.apiKey;
+    const from = msg.from;
+    const to = msg.to;
+    const username = msg.username;
+    console.log(`url ${url} apiKey ${apiKey}`);
+    await notify(url, apiKey, from, to, username);
+  }
+}
+
+async function receive(batch, url, auth) {
   const data = {
     count: batch,
-    ackmode: "ack_requeue_true",
+    ackmode: "ack_requeue_false",
     encoding: 'auto'
   };
 
-  let msgs = [];
-  do {
-    const request = Functions.makeHttpRequest({
-      url: url,
-      method: 'POST',
-      headers: {
-        'Authorization': `Basic ${auth}`,
-        'Content-Type': 'application/json'
-      },
-      data: data,
-      timeout: 10_000,
-      responseType: 'json'
-    });
+  const request = Functions.makeHttpRequest({
+    url: url,
+    method: 'POST',
+    headers: {
+      'Authorization': `Basic ${auth}`,
+      'Content-Type': 'application/json'
+    },
+    data: data,
+    timeout: 10_000,
+    responseType: 'json'
+  });
 
-    const response = await request;
-    if (response.error) {
-      console.error(`receive msg error: ${response.code} ${response.message}`);
-      throw Error("Request failed");
-    }
+  const response = await request;
+  if (response.error) {
+    console.error(`receive msg error: ${response.code} ${response.message}`);
+    throw Error("Request failed");
+  }
 
-    msgs = response.data;
-    for (let i in msgs) {
-      const msg = JSON.parse(msgs[i].payload);
-      const url = msg.url;
-      const apiKey = msg.apiKey;
-      const from = msg.from;
-      const to = msg.to;
-      const username = msg.username;
-      console.log(`url ${url} apiKey ${apiKey}`);
-      await notify(url, apiKey, from, to, username);
-    }
-  } while (msgs.lengh < batch);
+  return response.data;
 }
 
 async function notify(url, apiKey, from, to, username) {
@@ -88,16 +88,21 @@ async function notify(url, apiKey, from, to, username) {
   }
 }
 
-const url = args[0];
-if (url) {
+const batch = args[0];
+if (!batch) {
+  throw Error("batch is missing.");
+}
+
+const url = args[1];
+if (!url) {
   throw Error("url is missing.");
 }
 
-const auth = secrets.auth;
+const auth = args[2];
 if (!auth) {
   throw Error("auth is missing.");
 }
 
-await receive(url, auth);
+await main(parseInt(batch), url, auth);
 
 return Functions.encodeString('Succeed');
