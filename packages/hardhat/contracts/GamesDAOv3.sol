@@ -87,10 +87,10 @@ contract GamesDAOv3 is AccessControl {
      * @dev Ensures only allowed players or gamemasters can call the modified function.
      */
     modifier onlyAllowed() {
-        // TODO: VERIFY THIS CONDITION
-        require(allowedPlayers[msg.sender] || gamemasters[msg.sender].registered, "Not allowed");
-        _;
-    }
+        // use the roles
+
+
+       }
 
     /**
      * @notice Sets the token contract address for minting.
@@ -106,17 +106,24 @@ contract GamesDAOv3 is AccessControl {
      */
     function getChainlinkDataFeedLatestAnswer() public view returns (int) {
         (, int price,,,) = priceFeed.latestRoundData();
-        return price;
+        return price; // example returned amount 69050000 = $0.69 USD for 1 Matic
     }
 
-    /**
+     /**
      * @notice Calculates the amount of MATIC required to buy one GamesToken.
-     * @return howMuchMatic The amount of MATIC needed for one GamesToken.
+     * @return howMuchMatic The amount of MATIC (18 decimals) needed for one GamesToken.
      */
     function getMATICForOneGT() public view returns (uint256) {
-        uint256 maticPriceInUSD = uint256(getChainlinkDataFeedLatestAnswer());
-        return (10 ** 10 / maticPriceInUSD) * gamesTokenPriceInCents;
-    }
+    int price = getChainlinkDataFeedLatestAnswer(); // value of 1 MATIC (1 ) is 0.69 USD (8 decimals) = 69050000
+
+    // Convert the price to uint256
+    uint256 priceInCents = uint256(price) / 10**6; // Convert from 8 decimals to cents (e.g., 69050000 -> 69)
+
+    // Calculate the amount of MATIC needed for one GamesToken in wei
+    uint256 gamesTokenPriceWei = (gamesTokenPriceInCents * 10**18) / priceInCents;
+    
+    return gamesTokenPriceWei;
+}
 
     /**
      * @notice Calculates the total MATIC required for a given number of GamesTokens.
@@ -158,6 +165,8 @@ contract GamesDAOv3 is AccessControl {
      * @param player The address of the player to be allowed.
      */
     function allowPlayer(address player) external onlyOwner {
+        // use the access control roles
+        
         allowedPlayers[player] = true;
         emit PlayerAllowed(player);
     }

@@ -1,4 +1,12 @@
+# Chainlink's Block Magic Games Team
+
+1. Data Feeds leverage Chainlink's DON to get manipulation-resistant data (in our case, price of tokens in USD) from external providers. Games Team used Price Feeds in multiple contracts across different chains ([ZkSync](https://sepolia.explorer.zksync.io/address/0xA6bA847c70cB1eea5811f8C79632C09CF0478FCA#contract), Ethereum, Polygon).
+1. VRF 2.5 Subscriptions to create a 1-click Random Character, at first 2-clicks because of callback limits.
+1. Chainlink Functions twice! First to take the on-chain character information and give it to GPT to generate unique traits, flaws, bonds, and ideals for our random characters. Save it onchain, and then pass all that to GPT again, and get a prompt "alt-text" to generate a character art via human or ai artist.
+1. Automation to upkeep the daily random character spawning in each World to generate income for Gamemaster and World Owners. This way there's always a character available to buy for quick starting.
+
 # Games Contracts
+1. [ZKSecrets](ZKSecretCharacter.sol) - Blockchains aren't good at saving secrets, until we unlock that with Zero Knowledge Technology of next generation chains, like zkSync! Deployed and verified on https://sepolia.explorer.zksync.io/address/0xA6bA847c70cB1eea5811f8C79632C09CF0478FCA#contract :D Uses **Chainlink Price Feeds** to let users save 5 bytes32 proofs in there for a fixed USD amount! Next steps would be having public values, and when VRF comes to zkSync, use that for randomness!  
 
 1. [Game World Generator](BuyMeACeptor.sol) - A contract that generates a game world based on a user's vibe and number of players. The world is generated with a visual of the planet, scenarios, locations, descriptions, maps, denizens, secrets, goals, and players. Each world has its own blockchain. Creating a World costs 10 gameTokens.  when creating a game, i want to have my own world or play with others. each world should be locked to a blockchain. 10 gT to make a world. 5 gT to join one as a GM, 2 gT to join as player.
 
