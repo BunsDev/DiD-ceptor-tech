@@ -33,7 +33,9 @@ const nextConfig = withBuilderDevTools({
           deployerPrivateKey: DEPLOYER_PRIVATE_KEY,
           router: "0xb83E47C2bC239B3bf370bc41e1459A34b41238D0",
           donId: "fun-ethereum-sepolia-1",
-          consumerAddress: "0x2720d3F8Ac67F5f6C303f67232A265303F957c66"
+          consumerAddress: "0x2720d3F8Ac67F5f6C303f67232A265303F957c66",
+          secretsVersion: 1717339335,
+          slotId: 0,
         },
       ],
     },

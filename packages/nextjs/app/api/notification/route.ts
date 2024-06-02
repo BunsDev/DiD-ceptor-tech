@@ -27,8 +27,7 @@ export async function POST(request: Request) {
     console.log("trigger chainlink functions");
     const hash = await makeRequest("sepolia", [
       msgs.length.toString(),
-      `${queueConfig.rabbitMqEndpoint}/${queueConfig.rabbitMqQueue}/get`,
-      queueConfig.rabbitMqAuth
+      `${queueConfig.rabbitMqEndpoint}/${queueConfig.rabbitMqQueue}/get`
     ]);
     return new Response(`notification sent, tx hash; ${hash}`, { status: 200 });
   } catch (err) {

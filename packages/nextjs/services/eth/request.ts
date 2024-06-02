@@ -39,8 +39,8 @@ export async function makeRequest(network: string, args: any[]) {
   const transaction = await contract.sendRequest(
     source, // source
     "0x", // user hosted secrets - encryptedSecretsUrls - empty in this example
-    0, // don hosted secrets - slot ID - empty in this example
-    0, // don hosted secrets - version - empty in this example
+    networkConfig.slotId, // don hosted secrets - slot ID - empty in this example
+    networkConfig.secretsVersion, // don hosted secrets - version - empty in this example
     args,
     [], // bytesArgs - arguments can be encoded off-chain to bytes.
     subscriptionId,

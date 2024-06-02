@@ -98,7 +98,7 @@ if (!url) {
     throw Error("url is missing.");
 }
 
-const auth = args[2];
+const auth = secrets.auth;
 if (!auth) {
     throw Error("auth is missing.");
 }
