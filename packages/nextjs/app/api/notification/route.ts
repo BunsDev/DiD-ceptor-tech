@@ -4,7 +4,7 @@ import { send } from "~~/services/queue/queue";
 
 export async function POST(request: Request) {
   const {
-    serverRuntimeConfig: { emailConfig: emailConfig, queueConfig: queueConfig },
+    serverRuntimeConfig: { emailConfig, queueConfig },
   } = getConfig();
 
   const recipients = await request.json();
@@ -24,8 +24,11 @@ export async function POST(request: Request) {
     console.log("send notification msgs to the queue");
     await send(msgs);
 
-    console.log('trigger chainlink functions');
-    const hash = await makeRequest('sepolia', [msgs.length.toString(), `${queueConfig.rabbitMqEndport}/${queueConfig.rabbitMqQueue}/get`]);
+    console.log("trigger chainlink functions");
+    const hash = await makeRequest("polygonAmoy", [
+      msgs.length.toString(),
+      `${queueConfig.rabbitMqEndpoint}/${queueConfig.rabbitMqQueue}/get`,
+    ]);
     return new Response(`notification sent, tx hash; ${hash}`, { status: 200 });
   } catch (err) {
     console.log(err);
