@@ -17,11 +17,23 @@ inside schedules there are sessions
 
 1. [Character Generator](Characters/CharacterGen.sol) - A contract that generates a character for a user in the game world. The character is generated with abilities, class, name, alignment, and background. Each character has its own unique attributes. Currently it uses VRF2.5, and provides a reroll (4d4 drop lowest) as well as a swap scores. It refers to the classes, backgrounds, and names contracts.  These contracts will have their own Chainlink Functions call to GPT if the user rolls a length+1, it calls that function and triggers the Chainlink Functions call through the gateway, the prompt being to take the existing information about the character and the D&D 5e open source rules for homebrewing a name, class, or background. That's after the Auction House.
 
-1. [GamesToken ERC20](GamesToken.sol) - A contract that is an ERC20 token that is used to pay for the creation of a world, and to pay for the creation of a game. Also can be spent to buy a random character from the portal.
+1. [GamesToken ERC20](GamesToken.sol) - A contract that is an ERC20 token that is used to pay for the creation of a world, and to pay for the creation of a game. Also can be spent to buy a random character from the portal. The OZ Access Control and Chainlink Price Feeds in the GamesDAOv3 is what lets us control who buys this token and for how much.
 
-1. [TokenShop](TokenShop.sol) - A contract that has a ledger of allowed players, gamemasters, and tracks + mints the ERC20 Games Token for Chainlink Price Feeds = $20 USD (or $0.02 for testing). It also allows a gamemaster to propose a new price for the token, and all allowed players and gamemasters to vote on the price. if you are a player and gamemaster, you get 2 votes!
+- Polygon Amoy 0xB8E927a25b2ab5d85ff79698cE11F2872d6Faf6b
+- Ethereum Sepolia 
+- Scroll
+- zkSync
+
+1. [GamesDAOv3](GamesDAOv3.sol) - Inspired by TokenShop from the Bootcamp.  A contract that has a ledger of allowed players, gamemasters, and tracks + mints the ERC20 Games Token for Chainlink Price Feeds = $20 USD (or two cents, $0.02, for testing). It also allows a gamemaster to propose a new price for the token, and all allowed players and gamemasters to vote on the price. if you are a player and gamemaster, you get 2 votes, i hope!
+
+- Polygon Amoy 0x2aad5711Dfb60B8d8e4A5F6AF882a3275e814af6
+- Ethereum Sepolia
+- Scroll
+- zkSync
 
 ### Random notes
+
+1. Is this finished? No, tons left to do including connecting all the contracts together and adding the Ceptor Auction with automation. 
 
 1. Is the World Generator deploying a World contract? Yes. Is the World contract tracking all its games, or deploying each game as its own contract which tracks the sessions. Verifiable Truth.
 

@@ -8,7 +8,8 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 /**
  * @title GamesDAO
- * @dev Manages the minting and pricing of GamesToken based on Chainlink price feeds. Allows for gamemaster proposals on token pricing, which can be voted on by allowed players and gamemasters.
+ * @dev Manages the minting and pricing of GamesToken based on Chainlink price feeds. 
+ * Allows for gamemaster proposals on token pricing, updating a catchphrase, decentralized withdrawl, players and gamemasters voting.
  * Chainlink Block Magic Hackathon for Ceptor Games Team by Tippi Fifestarr.
  */
 interface TokenInterface {
@@ -25,28 +26,28 @@ contract GamesDAOv3 is AccessControl {
     bytes32 public constant GAMEMASTER_ROLE = keccak256("GAMEMASTER_ROLE");
     bytes32 public constant PLAYER_ROLE = keccak256("PLAYER_ROLE");
     uint256 public constant TOKEN_DECIMAL_MULTIPLIER = 10 ** 18;
-    mapping(address => bool) public allowedPlayers;
+    // mapping(address => bool) public allowedPlayers; // using the oz access control roles instead
 
     enum ProposalType {CHANGE_PRICE, SEND_FUNDS, UPDATE_CATCHPHRASE}
 
-    struct Proposal {
-        ProposalType proposalType;
-        string catchphrase;
-        uint256 newPrice; // could these be uint64?
-        uint256 amount; // could these be uint64?
-        uint256 votesFor; // could these be uint64?
-        uint256 votesAgainst; // could these be uint64? 
-        uint256 deadline;
-        bool executed;
-        mapping(address => bool) voters;
-    }
+struct Proposal {
+    ProposalType proposalType;
+    string catchphrase;
+    uint256 newPrice;
+    uint256 amount;
+    address to;
+    uint256 votesFor;
+    uint256 votesAgainst;
+    uint256 deadline;
+    bool executed;
+    mapping(address => bool) voters;
+}
 
     struct Player {
         string catchphrase;
     }
 
     struct Gamemaster {
-        bool registered;
         string catchphrase;
         string stylePrompt;
     }
@@ -57,9 +58,9 @@ contract GamesDAOv3 is AccessControl {
 
     event PlayerAllowed(address indexed player);
     event GamemasterAdded(address indexed gamemaster);
-    event ProposalCreated(uint256 newPrice, uint256 amount, string catchphrase, uint256 deadline, ProposalType proposalType);
+    event ProposalCreated(uint256 newPrice, uint256 amount, address to, string catchphrase, uint256 deadline, ProposalType proposalType);
     event Voted(address indexed voter, bool voteFor);
-    event ProposalExecuted(uint256 newPrice, uint256 amount, string catchphrase, ProposalType proposalType);
+    event ProposalExecuted(uint256 newPrice, uint256 amount, address to, string catchphrase, ProposalType proposalType);
     event PlayerCatchphraseUpdated(address indexed player, string catchphrase);
     event GamemasterCatchphraseUpdated(address indexed gamemaster, string catchphrase);
     event GamemasterStylePromptUpdated(address indexed gamemaster, string stylePrompt);
@@ -87,10 +88,12 @@ contract GamesDAOv3 is AccessControl {
      * @dev Ensures only allowed players or gamemasters can call the modified function.
      */
     modifier onlyAllowed() {
-        // use the roles
-
-
-       }
+    require(
+        hasRole(PLAYER_ROLE, msg.sender) || hasRole(GAMEMASTER_ROLE, msg.sender),
+        "Not allowed"
+    );
+    _;
+    }
 
     /**
      * @notice Sets the token contract address for minting.
@@ -111,7 +114,7 @@ contract GamesDAOv3 is AccessControl {
 
      /**
      * @notice Calculates the amount of MATIC required to buy one GamesToken.
-     * @return howMuchMatic The amount of MATIC (18 decimals) needed for one GamesToken.
+     * @return gamesTokenPriceInWei The amount of MATIC (18 decimals) needed for one GamesToken.
      */
     function getMATICForOneGT() public view returns (uint256) {
     int price = getChainlinkDataFeedLatestAnswer(); // value of 1 MATIC (1 ) is 0.69 USD (8 decimals) = 69050000
@@ -148,8 +151,8 @@ contract GamesDAOv3 is AccessControl {
      * @notice Allows players to buy GamesTokens based on the amount of MATIC sent.
      */
     function buyTokens() public payable onlyAllowed {
-        uint256 numberOfGTs = msg.value / getMATICForOneGT();
-        require(numberOfGTs > 0, "Insufficient MATIC sent");
+        require(msg.value > 0, "No MATIC sent");
+        uint256 numberOfGTs = (msg.value) / getMATICForOneGT();
         minter.mint(msg.sender, numberOfGTs * TOKEN_DECIMAL_MULTIPLIER);
     }
 
@@ -160,42 +163,47 @@ contract GamesDAOv3 is AccessControl {
         payable(owner).transfer(address(this).balance);
     }
 
-    /**
-     * @notice Allows the owner to permit a player to participate.
-     * @param player The address of the player to be allowed.
-     */
-    function allowPlayer(address player) external onlyOwner {
-        // use the access control roles
-        
-        allowedPlayers[player] = true;
-        emit PlayerAllowed(player);
-    }
+   /**
+ * @notice Allows the owner to permit a player to participate.
+ * @param player The address of the player to be allowed.
+ */
+function allowPlayer(address player) external onlyOwner {
+    grantRole(PLAYER_ROLE, player);
+    emit PlayerAllowed(player);
+}
 
     /**
      * @notice Allows the owner to designate a gamemaster.
      * @param gamemaster The address of the gamemaster to be added.
      */
     function addGamemaster(address gamemaster) external onlyOwner {
-        // TODO: Verify this change. The struct was altered to include a registered boolean.
-        gamemasters[gamemaster].registered = true;
+        grantRole(GAMEMASTER_ROLE, gamemaster);
         emit GamemasterAdded(gamemaster);
     }
 
     /**
-     * @notice Creates a proposal for changing the token price.
-     * @param newPrice The new price for the token in cents.
-     */
-    function createProposal(uint256 newPrice) external onlyAllowed {
-        require(proposal.deadline == 0 || block.timestamp > proposal.deadline, "Previous proposal still active");
+ * @notice Creates a proposal for various actions like changing token price, updating catchphrase, or sending funds.
+ * @param proposalType The type of proposal.
+ * @param newPrice The new price for the token in cents (for CHANGE_PRICE).
+ * @param amount The amount of funds to send (for SEND_FUNDS).
+ * @param catchphrase The new catchphrase (for UPDATE_CATCHPHRASE).
+ */
+function createProposal(ProposalType proposalType, uint256 newPrice, uint256 amount, address to, string calldata catchphrase) external onlyAllowed {
+    require(proposal.deadline == 0 || block.timestamp > proposal.deadline, "Previous proposal still active");
 
-        proposal.newPrice = newPrice;
-        proposal.votesFor = 0;
-        proposal.votesAgainst = 0;
-        proposal.deadline = block.timestamp + 1 weeks;
-        proposal.executed = false;
+    proposal.proposalType = proposalType;
+    proposal.newPrice = newPrice;
+    proposal.amount = amount;
+    proposal.to = to;
+    proposal.catchphrase = catchphrase;
+    proposal.votesFor = 0;
+    proposal.votesAgainst = 0;
+    proposal.deadline = block.timestamp + 1 weeks;
+    proposal.executed = false;
 
-        emit ProposalCreated(newPrice, 0, "", proposal.deadline, ProposalType.CHANGE_PRICE);
-    }
+    emit ProposalCreated(newPrice, amount, to, catchphrase, proposal.deadline, proposalType);
+
+}
 
     /**
      * @notice Allows allowed users to vote on the active proposal.
@@ -213,20 +221,28 @@ contract GamesDAOv3 is AccessControl {
         emit Voted(msg.sender, voteFor);
     }
 
-    /**
-     * @notice Executes the proposal if voting is complete and conditions are met.
-     */
-    function executeProposal() external onlyAllowed {
-        require(block.timestamp > proposal.deadline, "Voting period not ended yet");
-        require(!proposal.executed, "Proposal already executed");
-        if (proposal.votesFor > proposal.votesAgainst) {
-            gamesTokenPriceInCents = proposal.newPrice;
+   /**
+ * @notice Executes the proposal if voting is complete and conditions are met.
+ */
+function executeProposal() external onlyAllowed {
+    require(block.timestamp > proposal.deadline, "Voting period not ended yet");
+    require(!proposal.executed, "Proposal already executed");
+    require(proposal.votesFor > proposal.votesAgainst, "Proposal not approved");
 
-            // TODO: This should be updated to include the amount, catchphrase and extract the corresponding ProposalType.
-            emit ProposalExecuted(proposal.newPrice, 0, "", ProposalType.CHANGE_PRICE);
-        }
-        proposal.executed = true;
+    if (proposal.proposalType == ProposalType.CHANGE_PRICE) {
+        gamesTokenPriceInCents = proposal.newPrice;
+    } else if (proposal.proposalType == ProposalType.SEND_FUNDS) {
+        require(address(this).balance >= proposal.amount, "Insufficient balance");
+        payable(proposal.to).transfer(proposal.amount);
+    } else if (proposal.proposalType == ProposalType.UPDATE_CATCHPHRASE) {
+        greeting = proposal.catchphrase;
     }
+
+    proposal.executed = true;
+    proposal.deadline = 0;
+
+    emit ProposalExecuted(proposal.newPrice, proposal.amount, proposal.to, proposal.catchphrase, proposal.proposalType);
+}
 
 /**
  * @notice Allows a player to update their catchphrase.

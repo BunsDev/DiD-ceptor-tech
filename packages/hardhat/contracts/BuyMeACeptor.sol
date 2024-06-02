@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "./GamesToken.sol";
+
+
 /**
  * @title World
  * @dev World struct
@@ -19,9 +23,11 @@ struct World {
  * @dev BuyMeACeptorWorld contract to accept donations and for our users to create a world for us
  */
 contract BuyMeACeptor{
-    address payable public owner;
+        address payable public owner;
     uint256 public price;
     World[] public worlds;
+
+    GamesToken public gamesToken;
 
     error InsufficientFunds();
     error InvalidArguments(string message);
@@ -30,9 +36,10 @@ contract BuyMeACeptor{
     event BuyMeACeptorWorldEvent(address indexed buyer, uint256 price);
     event NewWorld(address indexed gameMasterAddress, uint256 time, string vibe, string gameMasterName, string gameMasterTwitterHandle, string description);
 
-    constructor() {
+    constructor(address _gamesToken) {
         owner = payable(msg.sender);
-        price = 0.0001 ether;
+        price = 10 * 10**18; // 10 gamesTokens
+        gamesToken = GamesToken(_gamesToken);
     }
 
     /**
