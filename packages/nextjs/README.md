@@ -1,6 +1,7 @@
 # How to call the restful API
 
-## Register user API
+> NOTE: The API was moved as server action to the nextjs server.
+## Registered users API
 
 Below is an example of how to call this API
 
@@ -80,11 +81,15 @@ notification sent.
 
 # How to call the chainlink functions
 
-+ add a js/ts file in the /packages/hardhat/function folder, the file name shoud look like 00_backstory_gpt.ts.
++ add a js/ts file in the /packages/hardhat/function folder, the file name should look like 00_backstory_gpt.ts.
 
-+ if you need secret in your js file, add a js/ts secret file in the /packages/hardhat/secrets folder, this file must `export { slotId, secrets };`, make sure the slotId doesn't conflict with others, the 01_onboarding_notification_secrets.ts is an example.
++ if you need secret in your js file, add a js/ts secret file in the /packages/hardhat/secrets folder, it must use the exact same name. This file must `export { ttl, secrets };` a `DONSecret` interface was created to help this.
 
-+ to update encryptedSecretsReference: run `yarn hardhat:link:gw:update-secrets --secret 01_onboarding_notification_secrets.ts`, please replace `01_onboarding_notification_secrets.ts` with your js/ts secret file name
++ to update the secrets reference: run `yarn hardhat:link:gw:update-secrets`.
+  - It requires one of these 2 arguments: `--secret 03_example_name.ts` or `--slot 03` notice `03` is the prefix of the filename, please replace `03_example_name.ts` with your js/ts secret file name.
+  - If you want to update the reference on the client contract use `--client` flag.
+  - By default the `--client` flag will update the `CCExampleClient` contract, use `--contract` param to specify the contract name.
+  - The `--client` flag is `false` by default. Which means it will update the `CCGateway` contract secret reference.
 
 + to update subscription: run `yarn hardhat:link:gw:update-subscription --file 01_onboarding_notification.js`, please replace `01_onboarding_notification.js` with your js/ts secret file name
 
