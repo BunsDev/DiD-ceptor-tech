@@ -8,13 +8,17 @@
       "subscriptionId": 1,
       "consumerAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
     },
-    "01_onboarding_notification.js": {
-      "name": "01_onboarding_notification.js",
-      "path": "/mnt/x/ceptor-club/blockmagic-tech-team/packages/hardhat/functions/01_onboarding_notification.js",
+    "01_onboarding_notification.ts": {
+      "name": "01_onboarding_notification.ts",
+      "path": "/Users/uklok/Software Development/learning/BlockMagic Hackathon/Ceptor-scaffold-OP/packages/hardhat/functions/01_onboarding_notification.ts",
       "source": "async function receive(url, auth) {\n  const batch = 5;\n  const data = {\n    count: batch,\n    ackmode: \"ack_requeue_true\",\n    encoding: 'auto'\n  };\n\n  let msgs = [];\n  do {\n    const request = Functions.makeHttpRequest({\n      url: url,\n      method: 'POST',\n      headers: {\n        'Authorization': `Basic ${auth}`,\n        'Content-Type': 'application/json'\n      },\n      data: data,\n      timeout: 10_000,\n      responseType: 'json'\n    });\n\n    const response = await request;\n    if (response.error) {\n      console.error(`receive msg error: ${response.code} ${response.message}`);\n      throw Error(\"Request failed\");\n    }\n\n    msgs = response.data;\n    for (let i in msgs) {\n      const msg = JSON.parse(msgs[i].payload);\n      const url = msg.url;\n      const apiKey = msg.apiKey;\n      const from = msg.from;\n      const to = msg.to;\n      const username = msg.username;\n      console.log(`url ${url} apiKey ${apiKey}`);\n      await notify(url, apiKey, from, to, username);\n    }\n  } while (msgs.lengh < batch);\n}\n\nasync function notify(url, apiKey, from, to, username) {\n  const content = `\n    Hi, ${username}:\n  \n    Welcome to join the Ceptor Club,\n  \n    We are a worldwide party of role-players who came together to make an app that would make the process of playing a fantasy RPG together easier and more visually engaging.\n    Learn more: https://ceptor.club/.\n  \n    Please join our discord https://discord.gg/EYZwc7De.\n    `.trim();\n  const msg = {\n    personalizations: [\n      {\n        to: [{ email: to }]\n      }\n    ],\n    from: { email: from },\n    subject: 'Ceptor Club onboarding',\n    content: [\n      {\n        type: 'text/plain',\n        value: content\n      }\n    ]\n  };\n\n  const request = Functions.makeHttpRequest({\n    url: url,\n    method: 'POST',\n    headers: {\n      'Authorization': `Bearer ${apiKey}`,\n      'Content-Type': 'application/json'\n    },\n    data: msg,\n    timeout: 20_000,\n    responseType: 'json'\n  });\n\n  const response = await request;\n  if (response.error && response.message !== 'SyntaxError: Unexpected end of JSON input') {\n    console.error(`notify error: ${response.message}`);\n    throw Error(\"Request failed\");\n  } else {\n    console.log(`notify: ${response.statusText} ${response.data}`);\n  }\n}\n\nconst url = args[0];\nif (url) {\n  throw Error(\"url is missing.\");\n}\n\nconst auth = secrets.auth;\nif (!auth) {\n  throw Error(\"auth is missing.\");\n}\n\nawait receive(url, auth);\n\nreturn Functions.encodeString('Succeed');",
       "checksum": "b2722db995d9ec5263450596fad5c47e207d064f672955d367a053e6a953173d",
-      "subscriptionId": 2805,
-      "consumerAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+      "subscriptionId": 2,
+      "consumerAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "secret": {
+        "reference": "0x6c6f63616c3a3100000000000000000000000000000000000000000000000000",
+        "validUntil": 1748057547241
+      }
     }
   },
   "80002": {
@@ -46,9 +50,9 @@
       "subscriptionId": 2986,
       "consumerAddress": "0x5Fa21F0cf1B2F7e8F0EbAE9c3371c8271b0F73e3"
     },
-    "01_onboarding_notification.js": {
-      "name": "01_onboarding_notification.js",
-      "path": "/mnt/x/ceptor-club/blockmagic-tech-team/packages/hardhat/functions/01_onboarding_notification.js",
+    "01_onboarding_notification.ts": {
+      "name": "01_onboarding_notification.ts",
+      "path": "/mnt/x/ceptor-club/blockmagic-tech-team/packages/hardhat/functions/01_onboarding_notification.ts",
       "source": "async function receive(url, auth) {\n  const batch = 5;\n  const data = {\n    count: batch,\n    ackmode: \"ack_requeue_true\",\n    encoding: 'auto'\n  };\n\n  let msgs = [];\n  do {\n    const request = Functions.makeHttpRequest({\n      url: url,\n      method: 'POST',\n      headers: {\n        'Authorization': `Basic ${auth}`,\n        'Content-Type': 'application/json'\n      },\n      data: data,\n      timeout: 10_000,\n      responseType: 'json'\n    });\n\n    const response = await request;\n    if (response.error) {\n      console.error(`receive msg error: ${response.code} ${response.message}`);\n      throw Error(\"Request failed\");\n    }\n\n    msgs = response.data;\n    for (let i in msgs) {\n      const msg = JSON.parse(msgs[i].payload);\n      const url = msg.url;\n      const apiKey = msg.apiKey;\n      const from = msg.from;\n      const to = msg.to;\n      const username = msg.username;\n      console.log(`url ${url} apiKey ${apiKey}`);\n      await notify(url, apiKey, from, to, username);\n    }\n  } while (msgs.lengh < batch);\n}\n\nasync function notify(url, apiKey, from, to, username) {\n  const content = `\n    Hi, ${username}:\n  \n    Welcome to join the Ceptor Club,\n  \n    We are a worldwide party of role-players who came together to make an app that would make the process of playing a fantasy RPG together easier and more visually engaging.\n    Learn more: https://ceptor.club/.\n  \n    Please join our discord https://discord.gg/EYZwc7De.\n    `.trim();\n  const msg = {\n    personalizations: [\n      {\n        to: [{ email: to }]\n      }\n    ],\n    from: { email: from },\n    subject: 'Ceptor Club onboarding',\n    content: [\n      {\n        type: 'text/plain',\n        value: content\n      }\n    ]\n  };\n\n  const request = Functions.makeHttpRequest({\n    url: url,\n    method: 'POST',\n    headers: {\n      'Authorization': `Bearer ${apiKey}`,\n      'Content-Type': 'application/json'\n    },\n    data: msg,\n    timeout: 20_000,\n    responseType: 'json'\n  });\n\n  const response = await request;\n  if (response.error && response.message !== 'SyntaxError: Unexpected end of JSON input') {\n    console.error(`notify error: ${response.message}`);\n    throw Error(\"Request failed\");\n  } else {\n    console.log(`notify: ${response.statusText} ${response.data}`);\n  }\n}\n\nconst url = args[0];\nif (url) {\n  throw Error(\"url is missing.\");\n}\n\nconst auth = secrets.auth;\nif (!auth) {\n  throw Error(\"auth is missing.\");\n}\n\nawait receive(url, auth);\n\nreturn Functions.encodeString('Succeed');",
       "checksum": "b2722db995d9ec5263450596fad5c47e207d064f672955d367a053e6a953173d",
       "subscriptionId": 2805,
