@@ -17,6 +17,7 @@ interface TokenInterface {
 }
 
 contract GamesDAOv3 is AccessControl {
+    // Native Network PAIR
     AggregatorV3Interface internal priceFeed;
     TokenInterface public minter;
     uint256 public gamesTokenPriceInCents = 2; // 1 token = 0.02 USD
@@ -30,18 +31,18 @@ contract GamesDAOv3 is AccessControl {
 
     enum ProposalType {CHANGE_PRICE, SEND_FUNDS, UPDATE_CATCHPHRASE}
 
-struct Proposal {
-    ProposalType proposalType;
-    string catchphrase;
-    uint256 newPrice;
-    uint256 amount;
-    address to;
-    uint256 votesFor;
-    uint256 votesAgainst;
-    uint256 deadline;
-    bool executed;
-    mapping(address => bool) voters;
-}
+    struct Proposal {
+        ProposalType proposalType;
+        string catchphrase;
+        uint256 newPrice;
+        uint256 amount;
+        address to;
+        uint256 votesFor;
+        uint256 votesAgainst;
+        uint256 deadline;
+        bool executed;
+        mapping(address => bool) voters;
+    }
 
     struct Player {
         string catchphrase;
@@ -68,8 +69,8 @@ struct Proposal {
     /**
      * @dev Sets the owner, roles and initializes the MATIC/USD price feed on the Polygon Amoy Testnet.
      */
-    constructor() {
-        priceFeed = AggregatorV3Interface(0x001382149eBa3441043c1c66972b4772963f5D43);
+    constructor(address aggregator) {
+        priceFeed = AggregatorV3Interface(aggregator);
         owner = msg.sender;
         _grantRole(DEFAULT_ADMIN_ROLE, owner);
         _grantRole(GAMEMASTER_ROLE, owner);
@@ -88,11 +89,11 @@ struct Proposal {
      * @dev Ensures only allowed players or gamemasters can call the modified function.
      */
     modifier onlyAllowed() {
-    require(
-        hasRole(PLAYER_ROLE, msg.sender) || hasRole(GAMEMASTER_ROLE, msg.sender),
-        "Not allowed"
-    );
-    _;
+        require(
+            hasRole(PLAYER_ROLE, msg.sender) || hasRole(GAMEMASTER_ROLE, msg.sender),
+            "Not allowed"
+        );
+        _;
     }
 
     /**
@@ -112,21 +113,21 @@ struct Proposal {
         return price; // example returned amount 69050000 = $0.69 USD for 1 Matic
     }
 
-     /**
-     * @notice Calculates the amount of MATIC required to buy one GamesToken.
+    /**
+    * @notice Calculates the amount of MATIC required to buy one GamesToken.
      * @return gamesTokenPriceInWei The amount of MATIC (18 decimals) needed for one GamesToken.
      */
     function getMATICForOneGT() public view returns (uint256) {
-    int price = getChainlinkDataFeedLatestAnswer(); // value of 1 MATIC (1 ) is 0.69 USD (8 decimals) = 69050000
+        int price = getChainlinkDataFeedLatestAnswer(); // value of 1 MATIC (1 ) is 0.69 USD (8 decimals) = 69050000
 
-    // Convert the price to uint256
-    uint256 priceInCents = uint256(price) / 10**6; // Convert from 8 decimals to cents (e.g., 69050000 -> 69)
+        // Convert the price to uint256
+        uint256 priceInCents = uint256(price) / 10 ** 6; // Convert from 8 decimals to cents (e.g., 69050000 -> 69)
 
-    // Calculate the amount of MATIC needed for one GamesToken in wei
-    uint256 gamesTokenPriceWei = (gamesTokenPriceInCents * 10**18) / priceInCents;
-    
-    return gamesTokenPriceWei;
-}
+        // Calculate the amount of MATIC needed for one GamesToken in wei
+        uint256 gamesTokenPriceWei = (gamesTokenPriceInCents * 10 ** 18) / priceInCents;
+
+        return gamesTokenPriceWei;
+    }
 
     /**
      * @notice Calculates the total MATIC required for a given number of GamesTokens.
@@ -163,14 +164,14 @@ struct Proposal {
         payable(owner).transfer(address(this).balance);
     }
 
-   /**
- * @notice Allows the owner to permit a player to participate.
+    /**
+  * @notice Allows the owner to permit a player to participate.
  * @param player The address of the player to be allowed.
  */
-function allowPlayer(address player) external onlyOwner {
-    grantRole(PLAYER_ROLE, player);
-    emit PlayerAllowed(player);
-}
+    function allowPlayer(address player) external onlyOwner {
+        grantRole(PLAYER_ROLE, player);
+        emit PlayerAllowed(player);
+    }
 
     /**
      * @notice Allows the owner to designate a gamemaster.
@@ -188,22 +189,22 @@ function allowPlayer(address player) external onlyOwner {
  * @param amount The amount of funds to send (for SEND_FUNDS).
  * @param catchphrase The new catchphrase (for UPDATE_CATCHPHRASE).
  */
-function createProposal(ProposalType proposalType, uint256 newPrice, uint256 amount, address to, string calldata catchphrase) external onlyAllowed {
-    require(proposal.deadline == 0 || block.timestamp > proposal.deadline, "Previous proposal still active");
+    function createProposal(ProposalType proposalType, uint256 newPrice, uint256 amount, address to, string calldata catchphrase) external onlyAllowed {
+        require(proposal.deadline == 0 || block.timestamp > proposal.deadline, "Previous proposal still active");
 
-    proposal.proposalType = proposalType;
-    proposal.newPrice = newPrice;
-    proposal.amount = amount;
-    proposal.to = to;
-    proposal.catchphrase = catchphrase;
-    proposal.votesFor = 0;
-    proposal.votesAgainst = 0;
-    proposal.deadline = block.timestamp + 1 hours;
-    proposal.executed = false;
+        proposal.proposalType = proposalType;
+        proposal.newPrice = newPrice;
+        proposal.amount = amount;
+        proposal.to = to;
+        proposal.catchphrase = catchphrase;
+        proposal.votesFor = 0;
+        proposal.votesAgainst = 0;
+        proposal.deadline = block.timestamp + 1 hours;
+        proposal.executed = false;
 
-    emit ProposalCreated(newPrice, amount, to, catchphrase, proposal.deadline, proposalType);
+        emit ProposalCreated(newPrice, amount, to, catchphrase, proposal.deadline, proposalType);
 
-}
+    }
 
     /**
      * @notice Allows allowed users to vote on the active proposal.
@@ -221,28 +222,28 @@ function createProposal(ProposalType proposalType, uint256 newPrice, uint256 amo
         emit Voted(msg.sender, voteFor);
     }
 
-   /**
- * @notice Executes the proposal if voting is complete and conditions are met.
+    /**
+  * @notice Executes the proposal if voting is complete and conditions are met.
  */
-function executeProposal() external onlyAllowed {
-    require(block.timestamp > proposal.deadline, "Voting period not ended yet");
-    require(!proposal.executed, "Proposal already executed");
-    require(proposal.votesFor > proposal.votesAgainst, "Proposal not approved");
+    function executeProposal() external onlyAllowed {
+        require(block.timestamp > proposal.deadline, "Voting period not ended yet");
+        require(!proposal.executed, "Proposal already executed");
+        require(proposal.votesFor > proposal.votesAgainst, "Proposal not approved");
 
-    if (proposal.proposalType == ProposalType.CHANGE_PRICE) {
-        gamesTokenPriceInCents = proposal.newPrice;
-    } else if (proposal.proposalType == ProposalType.SEND_FUNDS) {
-        require(address(this).balance >= proposal.amount, "Insufficient balance");
-        payable(proposal.to).transfer(proposal.amount);
-    } else if (proposal.proposalType == ProposalType.UPDATE_CATCHPHRASE) {
-        greeting = proposal.catchphrase;
+        if (proposal.proposalType == ProposalType.CHANGE_PRICE) {
+            gamesTokenPriceInCents = proposal.newPrice;
+        } else if (proposal.proposalType == ProposalType.SEND_FUNDS) {
+            require(address(this).balance >= proposal.amount, "Insufficient balance");
+            payable(proposal.to).transfer(proposal.amount);
+        } else if (proposal.proposalType == ProposalType.UPDATE_CATCHPHRASE) {
+            greeting = proposal.catchphrase;
+        }
+
+        proposal.executed = true;
+        proposal.deadline = 0;
+
+        emit ProposalExecuted(proposal.newPrice, proposal.amount, proposal.to, proposal.catchphrase, proposal.proposalType);
     }
-
-    proposal.executed = true;
-    proposal.deadline = 0;
-
-    emit ProposalExecuted(proposal.newPrice, proposal.amount, proposal.to, proposal.catchphrase, proposal.proposalType);
-}
 
 /**
  * @notice Allows a player to update their catchphrase.

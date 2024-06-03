@@ -1,22 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// Games Token deployed on Polygon Amoy
-
-import "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 interface TokenInterface {
     function mint(address account, uint256 amount) external;
 }
 
 contract TokenShop {
-
+    // Native Network PAIR
     AggregatorV3Interface internal priceFeed;
     // gamesToken is 18 decimal places, and we want to sell 1 token for 0.02 usd
     TokenInterface public minter;
     uint256 public gamesTokenPriceInCents = 2; // for testing 1 token = 0.02 usd, in the chainlink 8 decimal place return format
     address public owner;
-    
+
     mapping(address => bool) public allowedPlayers;
     mapping(address => bool) public gamemasters;
 
@@ -37,13 +35,8 @@ contract TokenShop {
     event Voted(address indexed voter, bool voteFor);
     event ProposalExecuted(uint256 newPrice);
 
-    constructor() {
-        /**
-        * Network: Polygon Amoy
-        * Aggregator: MATIC/USD
-        * Address: 0x001382149eBa3441043c1c66972b4772963f5D43
-        */
-        priceFeed = AggregatorV3Interface(0x001382149eBa3441043c1c66972b4772963f5D43);
+    constructor(address aggregator) {
+        priceFeed = AggregatorV3Interface(aggregator);
         owner = msg.sender;
         allowedPlayers[owner] = true;
         gamemasters[owner] = true;
@@ -61,40 +54,40 @@ contract TokenShop {
     */
     function getChainlinkDataFeedLatestAnswer() public view returns (int) {
         (
-            /*uint80 roundID*/,
+        /*uint80 roundID*/,
             int price,
-            /*uint startedAt*/,
-            /*uint timeStamp*/,
-            /*uint80 answeredInRound*/
+        /*uint startedAt*/,
+        /*uint timeStamp*/,
+        /*uint80 answeredInRound*/
         ) = priceFeed.latestRoundData();
         return price;
     }
 
     function getMATICForOneGT() public view returns (uint256) {
-    uint256 maticPriceInUSD = uint256(getChainlinkDataFeedLatestAnswer()); // MATIC price in USD with 8 decimal places
-    uint256 maticForOneCent = 10**10 / maticPriceInUSD; // Calculate MATIC amount for one cent
-    uint256 maticForOneGT = maticForOneCent * gamesTokenPriceInCents; // tokenPrice is in cents
-    return maticForOneGT;
-}
+        uint256 maticPriceInUSD = uint256(getChainlinkDataFeedLatestAnswer()); // MATIC price in USD with 8 decimal places
+        uint256 maticForOneCent = 10 ** 10 / maticPriceInUSD; // Calculate MATIC amount for one cent
+        uint256 maticForOneGT = maticForOneCent * gamesTokenPriceInCents; // tokenPrice is in cents
+        return maticForOneGT;
+    }
 
     function getMATICForGTs(uint256 numberOfGTs) public view returns (uint256) {
-    uint256 maticForOneGT = getMATICForOneGT();
-    uint256 totalMATICForGTs = maticForOneGT * numberOfGTs;
-    return totalMATICForGTs;
-}
+        uint256 maticForOneGT = getMATICForOneGT();
+        uint256 totalMATICForGTs = maticForOneGT * numberOfGTs;
+        return totalMATICForGTs;
+    }
 
     function buyAmountTokens(uint256 numberOfGTs) public payable onlyAllowed {
-    uint256 requiredMATIC = getMATICForGTs(numberOfGTs);
-    require(msg.value >= requiredMATIC, "Insufficient MATIC sent");
+        uint256 requiredMATIC = getMATICForGTs(numberOfGTs);
+        require(msg.value >= requiredMATIC, "Insufficient MATIC sent");
 
-    minter.mint(msg.sender, numberOfGTs * 10**18); // Minting tokens with proper decimal adjustment
-}
+        minter.mint(msg.sender, numberOfGTs * 10 ** 18); // Minting tokens with proper decimal adjustment
+    }
 
     // based on the amount sent in, give the number of tokens as long as its over the price of one token
     function buyTokens() public payable onlyAllowed {
         require(msg.value >= getMATICForOneGT(), "Insufficient MATIC sent");
         uint256 numberOfGTs = msg.value / getMATICForOneGT();
-        minter.mint(msg.sender, numberOfGTs * 10**18); // Minting tokens with proper decimal adjustment
+        minter.mint(msg.sender, numberOfGTs * 10 ** 18); // Minting tokens with proper decimal adjustment
     }
 
     modifier onlyOwner() {
