@@ -4,7 +4,7 @@ import crypto from "node:crypto";
 import type { Address } from "hardhat-deploy/dist/types";
 
 const FUNCTIONS_FOLDER = __dirname;
-const FUNCTIONS_PATTERN = /(\d+)_(\w+)(\.[jt]s)/g;
+const FUNCTIONS_PATTERN = /(\d+)_(\w+)(\.[jt]s)/;
 const MAP_NAME = "link_functions_map.json";
 
 type SourceCode = string;
