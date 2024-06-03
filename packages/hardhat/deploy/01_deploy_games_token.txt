@@ -1,0 +1,41 @@
+import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { DeployFunction } from "hardhat-deploy/types";
+import { Contract } from "ethers";
+
+/**
+ * Deploys the GamesToken and GamesDAOv3 contracts using the deployer account.
+ *
+ * @param hre HardhatRuntimeEnvironment object.
+ */
+const deployGamesContracts: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+  const { deployer } = await hre.getNamedAccounts();
+  const { deploy } = hre.deployments;
+
+  // Deploy GamesToken contract
+  const gamesToken = await deploy("GamesToken", {
+    from: deployer,
+    log: true,
+    autoMine: true,
+  });
+
+  // Deploy GamesDAOv3 contract with the address of the deployed GamesToken contract as a constructor argument
+  const gamesDAOv3 = await deploy("GamesDAOv3", {
+    from: deployer,
+    args: [],
+    log: true,
+    autoMine: true,
+  });
+
+  // Get the deployed contracts to interact with them after deploying.
+  const gamesTokenContract = await hre.ethers.getContract<Contract>("GamesToken", deployer);
+  const gamesDAOv3Contract = await hre.ethers.getContract<Contract>("GamesDAOv3", deployer);
+
+  console.log("👋 GamesToken deployed at: ", gamesTokenContract.address);
+  console.log("👋 GamesDAOv3 deployed at: ", gamesDAOv3Contract.address);
+};
+
+export default deployGamesContracts;
+
+// Tags are useful if you have multiple deploy files and only want to run one of them.
+// e.g. yarn deploy --tags GamesContracts
+deployGamesContracts.tags = ["GamesContracts"];

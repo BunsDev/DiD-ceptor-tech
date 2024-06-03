@@ -17,7 +17,9 @@ inside games there are schedules
 inside schedules there are sessions
 (and we verify who shows up)
 
-3. [Character Generator](Characters/CharacterGen.sol) - A contract that generates a character for a user in the game world. The character is generated with abilities, class, name, alignment, and background. Each character has its own unique attributes. Currently it uses VRF2.5, and provides a reroll (4d4 drop lowest) as well as a swap scores. It refers to the classes, backgrounds, and names contracts.  These contracts will have their own Chainlink Functions call to GPT if the user rolls a length+1, it calls that function and triggers the Chainlink Functions call through the gateway, the prompt being to take the existing information about the character and the D&D 5e open source rules for homebrewing a name, class, or background. That's after the Auction House.
+3. [Character Generator](Characters/CharacterGen.sol) - A contract that generates a character for a user in the game world. The character is generated with abilities, class, name, alignment, and background. Each character has its own unique attributes. Currently it uses VRF2.5, and provides a reroll (4d4 drop lowest) as well as a swap scores. It refers to the classes, backgrounds, and names contracts.  These contracts will eventually have their own Chainlink Functions call to GPT if the user rolls a length+1, it calls that function and triggers the Chainlink Functions call through the gateway, the prompt being to take the existing information about the character and the D&D 5e open source rules for homebrewing a name, class, or background. That's after the Auction House (see the flow chart below).
+
+- Polygon Amoy: 0x3A5a60bc87170AeC94e5DbFA1E7FC1395CE78bB0
 
 4. [GamesToken ERC20](GamesToken.sol) - A contract that is an ERC20 token that is used to pay for the creation of a world, and to pay for the creation of a game. Also can be spent to buy a random character from the portal. The OZ Access Control and Chainlink Price Feeds in the GamesDAOv3 is what lets us control who buys this token and for how much.
 
