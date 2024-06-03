@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     CCExampleClient: {
-      address: "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE",
+      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
       abi: [
         {
           inputs: [
@@ -159,7 +159,7 @@ const deployedContracts = {
       },
     },
     CCGateway: {
-      address: "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
+      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
       abi: [
         {
           inputs: [
@@ -819,7 +819,7 @@ const deployedContracts = {
       },
     },
     CCNotificationClient: {
-      address: "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1",
+      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
       abi: [
         {
           inputs: [
@@ -2920,7 +2920,7 @@ const deployedContracts = {
   },
   11155111: {
     CCExampleClient: {
-      address: "0x10d34F68e724B73Db79Faaf37f298BC9538FEDfc",
+      address: "0xDfE66B41946f857656f7FfdF1fa0eeC3ef8945a9",
       abi: [
         {
           inputs: [
@@ -2997,6 +2997,19 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [],
+          name: "encryptedSecretsReference",
+          outputs: [
+            {
+              internalType: "bytes",
+              name: "",
+              type: "bytes",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [
             {
               internalType: "string[]",
@@ -3012,6 +3025,19 @@ const deployedContracts = {
           name: "request",
           outputs: [],
           stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "subscriptionId",
+          outputs: [
+            {
+              internalType: "uint64",
+              name: "",
+              type: "uint64",
+            },
+          ],
+          stateMutability: "view",
           type: "function",
         },
         {
@@ -3046,7 +3072,7 @@ const deployedContracts = {
       },
     },
     CCGateway: {
-      address: "0x5Fa21F0cf1B2F7e8F0EbAE9c3371c8271b0F73e3",
+      address: "0xe1fA8f43D89afE8fcBA4FABbd3e6e6a4C3360409",
       abi: [
         {
           inputs: [
@@ -3560,6 +3586,19 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "uint64",
+              name: "subscriptionId",
+              type: "uint64",
+            },
+          ],
+          name: "removeRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "bytes32",
               name: "role",
               type: "bytes32",
@@ -3643,6 +3682,25 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "subscriptions",
+          outputs: [
+            {
+              internalType: "uint64",
+              name: "",
+              type: "uint64",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "bytes4",
               name: "interfaceId",
               type: "bytes4",
@@ -3674,7 +3732,7 @@ const deployedContracts = {
       },
     },
     CCNotificationClient: {
-      address: "0xb445f522354C611dFe1650bF4e8A0e40fFabFE89",
+      address: "0xe4A0a4D27129c7559De4aE800820df509C07E83D",
       abi: [
         {
           inputs: [
@@ -3751,6 +3809,19 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [],
+          name: "encryptedSecretsReference",
+          outputs: [
+            {
+              internalType: "bytes",
+              name: "",
+              type: "bytes",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [
             {
               internalType: "string[]",
@@ -3766,6 +3837,19 @@ const deployedContracts = {
           name: "request",
           outputs: [],
           stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "subscriptionId",
+          outputs: [
+            {
+              internalType: "uint64",
+              name: "",
+              type: "uint64",
+            },
+          ],
+          stateMutability: "view",
           type: "function",
         },
         {
@@ -3796,7 +3880,12 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {
-        callback: "contracts/interfaces/ICCGatewayClient.sol",
+        callback: "contracts/CCExampleClient.sol",
+        encryptedSecretsReference: "contracts/CCExampleClient.sol",
+        request: "contracts/CCExampleClient.sol",
+        subscriptionId: "contracts/CCExampleClient.sol",
+        updateEncryptedSecretsReference: "contracts/CCExampleClient.sol",
+        updateSubscriptionId: "contracts/CCExampleClient.sol",
       },
     },
   },
