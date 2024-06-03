@@ -4,7 +4,7 @@ import crypto from "node:crypto";
 import type { Address } from "hardhat-deploy/dist/types";
 
 const FUNCTIONS_FOLDER = __dirname;
-const FUNCTIONS_PATTERN = /(\d+)_(\w+)(\.[jt]s)/g;
+const FUNCTIONS_PATTERN = /(\d+)_(\w+)(\.[jt]s)/;
 const MAP_NAME = "link_functions_map.json";
 
 type SourceCode = string;
@@ -63,7 +63,7 @@ function generateChecksum(source: SourceCode) {
   return crypto.createHash("sha256").update(source).digest("hex");
 }
 
-async function loadScript(name: ScriptName) {
+export async function loadScript(name: ScriptName) {
   const path = join(FUNCTIONS_FOLDER, name);
   const source = await readFile(path, "utf-8");
 

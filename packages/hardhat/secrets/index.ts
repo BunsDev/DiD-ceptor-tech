@@ -3,7 +3,7 @@ import { readdir } from "node:fs/promises";
 import { DONSecret } from "@/interfaces";
 
 const SECRETS_FOLDER = __dirname;
-const SECRETS_PATTERN = RegExp(/(\d+)_\w+(\.[jt]s)/g);
+const SECRETS_PATTERN = /(\d+)_\w+(\.[jt]s)/;
 
 export type SecretFile = DONSecret & {
   path: string;
@@ -58,7 +58,7 @@ async function getSecretBySlotId(slotId: number): Promise<SecretFile> {
   return { ...Secret, slotId: Number(slotId) + 1, path, name: secret };
 }
 
-async function getSecret(secretFile: string, slotId: number): Promise<SecretFile> {
+async function getSecret(secretFile?: string, slotId?: number): Promise<SecretFile> {
   if (secretFile) return getSecretByName(secretFile);
   if (slotId) return getSecretBySlotId(slotId);
 
