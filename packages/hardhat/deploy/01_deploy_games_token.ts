@@ -1,7 +1,8 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { Contract } from "ethers";
 
+export const TokenContractName = "GamesToken";
+export const DAOContractName = "GamesDAOv3";
 /**
  * Deploys the GamesToken and GamesDAOv3 contracts using the deployer account.
  *
@@ -12,26 +13,26 @@ const deployGamesContracts: DeployFunction = async function (hre: HardhatRuntime
   const { deploy } = hre.deployments;
 
   // Deploy GamesToken contract
-  const gamesToken = await deploy("GamesToken", {
+  await deploy(TokenContractName, {
     from: deployer,
+    // Contract constructor arguments
+    args: [],
     log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
 
   // Deploy GamesDAOv3 contract with the address of the deployed GamesToken contract as a constructor argument
-  const gamesDAOv3 = await deploy("GamesDAOv3", {
+  await deploy(DAOContractName, {
     from: deployer,
+    // Contract constructor arguments
     args: [],
     log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
-
-  // Get the deployed contracts to interact with them after deploying.
-  const gamesTokenContract = await hre.ethers.getContract<Contract>("GamesToken", deployer);
-  const gamesDAOv3Contract = await hre.ethers.getContract<Contract>("GamesDAOv3", deployer);
-
-  console.log("👋 GamesToken deployed at: ", gamesTokenContract.address);
-  console.log("👋 GamesDAOv3 deployed at: ", gamesDAOv3Contract.address);
 };
 
 export default deployGamesContracts;

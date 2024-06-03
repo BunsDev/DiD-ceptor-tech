@@ -1,6 +1,8 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
+
 import { Contract } from "ethers";
+import { TokenContractName } from "@/deploy/01_deploy_games_token";
 
 /**
  * Deploys a contract named "BuyMeACeptor" using the deployer account and
@@ -21,17 +23,15 @@ const deployBuyMeACeptor: DeployFunction = async function (hre: HardhatRuntimeEn
   */
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
+  const GameTokens = await hre.ethers.getContract<Contract>(TokenContractName, deployer);
+  const gameTokenAddress = await GameTokens.getAddress();
 
   await deploy("BuyMeACeptor", {
     from: deployer,
-    args: ["0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"],
+    args: [gameTokenAddress],
     log: true,
     autoMine: true,
   });
-
-  // Get the deployed contract to interact with it after deploying.
-  const buyMeACeptorContract = await hre.ethers.getContract<Contract>("BuyMeACeptor", deployer);
-  console.log("👋 Buy this person a Ceptor!", await buyMeACeptorContract.owner());
 };
 
 export default deployBuyMeACeptor;
