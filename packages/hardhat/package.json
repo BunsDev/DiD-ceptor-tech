@@ -16,8 +16,12 @@
     "verify": "hardhat etherscan-verify",
     "hardhat-verify": "hardhat verify",
     "link:balance": "hardhat link-balance",
+    "link:simulate": "hardhat simulate",
     "link:gw:upsert": "hardhat upsert-gateway-requests",
-    "link:gw:upsert-fund": "hardhat upsert-gateway-requests --fund"
+    "link:gw:upsert-fund": "hardhat upsert-gateway-requests --fund",
+    "link:gw:update-secret": "hardhat update-secret",
+    "link:gw:update-secrets": "hardhat update-secrets",
+    "link:gw:update-subscription": "hardhat update-subscription"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.7.0",

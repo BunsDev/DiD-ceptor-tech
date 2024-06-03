@@ -17,6 +17,7 @@ const targetNetworks = [
   chains.optimismSepolia,
   chains.baseSepolia,
   chains.polygonAmoy,
+  chains.sepolia,
   chains.avalancheFuji,
 ];
 if (NODE_ENV === "production") targetNetworks.shift();

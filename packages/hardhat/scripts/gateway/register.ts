@@ -11,7 +11,8 @@ export async function registerScripts(scripts: Array<Script>, Gateway: Contract)
   const consumerAddress = await Gateway.getAddress();
 
   async function registerRequest(script: Script) {
-    const { subscriptionId, source, secret = EMPTY_SECRET, name } = script;
+    const { subscriptionId, source, secret, name } = script;
+    const reference = secret?.reference ?? EMPTY_SECRET;
 
     console.log(`Registering script ${name} to be used through subscription ${subscriptionId}...`);
     const tx = await Gateway.registerRequest(
@@ -19,7 +20,7 @@ export async function registerScripts(scripts: Array<Script>, Gateway: Contract)
       Location.Inline, // TODO: change to [Remote | DONHosted].
       source, // TODO: point to [repo/url (commit:hash) | DONHosted URL]
       Location.DONHosted,
-      secret,
+      reference,
       callbackGasLimit,
       name,
     );

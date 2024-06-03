@@ -8,7 +8,7 @@ import {Backgrounds} from "./Characters/Backgrounds.sol";
 contract BackstoryFunctionClient is ICCGatewayClient {
     ICCGateway private immutable gateway;
 
-    uint64 private subscriptionId = 0;
+    uint64 public subscriptionId = 0;
     bytes private encryptedSecretsReference = "";
     mapping(address => string) public backstory;
 
