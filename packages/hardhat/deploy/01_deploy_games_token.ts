@@ -41,7 +41,7 @@ const deployGamesContracts: DeployFunction = async function (hre: HardhatRuntime
     autoMine: true,
   });
 
-  console.log(`DAO using ${native.pair} PAIR to get compute token's price.`);
+  console.log(`DAO using ${native.pair} PAIR to compute token's price.`);
 
   const token = await hre.ethers.getContract<Contract>(TokenContractName);
   const dao = await hre.ethers.getContract<Contract>(DAOContractName);

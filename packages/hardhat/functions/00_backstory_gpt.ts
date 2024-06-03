@@ -7,9 +7,11 @@ const CHARACTER_CLASS = args[0]; // --------------> |   Wizard
 const CHARACTER_RACE = args[1]; // --------------> |   Elf
 
 const CHARACTER_NAME = args[2]; // --------------> |   Eldon
+
+const CHARACTER_BACKGROUND = args[3]; // --------------> |   Trained in the arcane arts from a young age.
 // [2] PROMPT ENGINEERING //
 
-const prompt = `Generate a D&D 5e backstory for ${CHARACTER_NAME}, a Level 1 ${CHARACTER_CLASS} who is a ${CHARACTER_RACE}. The backstory should be extremely short, dense, powerful, engaging, coherent, and suitable for a fantasy RPG setting. Just reply with the one paragraph backstory and nothing else.`;
+const prompt = `Generate a D&D 5e backstory for ${CHARACTER_NAME}, a Level 1 ${CHARACTER_CLASS} who is a ${CHARACTER_RACE} and has this background ${CHARACTER_BACKGROUND}. The backstory should be extremely short, dense, powerful, engaging, coherent, and suitable for a fantasy RPG setting. Just reply with the one paragraph backstory and nothing else.`;
 
 // [3] AI DATA REQUEST //
 

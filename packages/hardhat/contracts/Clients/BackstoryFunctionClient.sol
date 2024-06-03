@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-import {ICCGatewayClient} from "./interfaces/ICCGatewayClient.sol";
-import {ICCGateway} from "./interfaces/ICCGateway.sol";
-import {Backgrounds} from "./Characters/Backgrounds.sol";
+import {ICCGatewayClient} from "../interfaces/ICCGatewayClient.sol";
+import {ICCGateway} from "../interfaces/ICCGateway.sol";
+import {Backgrounds} from "../Characters/Backgrounds.sol";
 
 contract BackstoryFunctionClient is ICCGatewayClient {
     ICCGateway private immutable gateway;
@@ -12,6 +12,9 @@ contract BackstoryFunctionClient is ICCGatewayClient {
     uint64 public ART_ALT_ENDPOINT = 0;
     mapping(address => string) public backstory;
     mapping(address => string) public altArt;
+
+    // We need to store the request ID to the sender address because the callback function is called by the gateway/chainlink.
+    mapping(bytes32 => address) private requests;
 
     constructor(address gatewayAddress) {
         gateway = ICCGateway(gatewayAddress);
@@ -39,11 +42,12 @@ contract BackstoryFunctionClient is ICCGatewayClient {
 
         bytes[] memory bytesArgs = new bytes[](0); // No bytes arguments for this function
 
-        gateway.sendRequest(BACKSTORY_ENDPOINT, args, bytesArgs, "");
+        bytes32 requestId = gateway.sendRequest(BACKSTORY_ENDPOINT, args, bytesArgs, "");
+        requests[requestId] = msg.sender;
     }
 
-    function handleBackstoryResponse(ICCGatewayClient.CCGResponse memory response) internal {
-        backstory[msg.sender] = string(response.data);
+    function handleBackstoryResponse(ICCGatewayClient.CCGResponse memory response, address owner) internal {
+        backstory[owner] = string(response.data);
     }
 
     // CLASS[0] --------------> |  Wizard
@@ -60,21 +64,24 @@ contract BackstoryFunctionClient is ICCGatewayClient {
 
         bytes[] memory bytesArgs = new bytes[](0); // No bytes arguments for this function
 
-        gateway.sendRequest(ART_ALT_ENDPOINT, characterDetails, bytesArgs, "");
+        bytes32 requestId = gateway.sendRequest(ART_ALT_ENDPOINT, characterDetails, bytesArgs, "");
+        requests[requestId] = msg.sender;
     }
 
-    function handleArtAltResponse(ICCGatewayClient.CCGResponse memory response) internal {
-        altArt[msg.sender] = string(response.data);
+    function handleArtAltResponse(ICCGatewayClient.CCGResponse memory response, address owner) internal {
+        altArt[owner] = string(response.data);
     }
 
     function callback(bytes32 requestId) external override {
         ICCGatewayClient.CCGResponse memory response = gateway.getResponse(requestId, true);
+        address owner = requests[requestId];
+        delete requests[requestId];
 
         if (response.state == ICCGatewayClient.CCGResponseState.Success) {
             if (response.subscriptionId == BACKSTORY_ENDPOINT)
-                return handleBackstoryResponse(response);
+                return handleBackstoryResponse(response, owner);
             if (response.subscriptionId == ART_ALT_ENDPOINT)
-                return handleArtAltResponse(response);
+                return handleArtAltResponse(response, owner);
         }
     }
 }

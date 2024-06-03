@@ -15,7 +15,7 @@ import {Names} from "./Names.sol";
 import {Backgrounds} from "./Backgrounds.sol";
 import {Classes} from "./Classes.sol";
 // import {BackstoryGenerator} from "./BackstoryGenerator.sol";
-import {BackstoryFunctionClient} from "../BackstoryFunctionClient.sol";
+import {BackstoryFunctionClient} from "../Clients/BackstoryFunctionClient.sol";
 
 /*
 In TTRPGs, Rule Zero grants the Game Master (GM) the authority to modify rules to enhance gameplay and maintain balance, ensuring that all players have an enjoyable experience. This principle can be applied to smart contracts in decentralized gaming, where flexibility is key to adapting to unforeseen scenarios and maintaining fairness. Just as a GM might adjust the difficulty of encounters or allow rerolls to prevent a total party kill, a smart contract can include mechanisms for modifying certain parameters, such as reroll limits, to keep the game balanced and engaging. This flexibility ensures that the gaming experience remains fun and fair, adhering to the spirit of Rule Zero.
