@@ -235,7 +235,7 @@ function roll4d6(uint256 randomValue) internal pure returns (uint256) {
 }
 
         function fetchBackstory(string memory characterClass, string memory characterRace, string memory characterName, string memory background) internal {
-        backstoryFunctionClient.request(characterClass, characterRace, characterName, background);
+        backstoryFunctionClient.generateBackstory(characterClass, characterRace, characterName, background);
     }
     // Function to retrieve the ability scores of a character
     function getCharacterAbilities(address owner) external view returns (uint256[6] memory) {
