@@ -9,6 +9,7 @@
 pragma solidity ^0.8.0;
 
 contract Backgrounds {
+    mapping(address => string) public backstory;
 
     // note: backstory are as random as you make them
     // the alphabetical list of d&d 5e srd backgrounds
@@ -33,4 +34,9 @@ contract Backgrounds {
     function backgroundsLength() public view returns (uint256) {
         return backgrounds.length;
     }
+
+    function setBackstory(string memory _backstory) public {
+        backstory[msg.sender] = _backstory;
+    }
+
 }

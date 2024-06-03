@@ -15,12 +15,14 @@ import {Names} from "./Names.sol";
 import {Backgrounds} from "./Backgrounds.sol";
 import {Classes} from "./Classes.sol";
 // import {BackstoryGenerator} from "./BackstoryGenerator.sol";
+import {BackstoryFunctionClient} from "../BackstoryFunctionClient.sol";
 
 /*
 In TTRPGs, Rule Zero grants the Game Master (GM) the authority to modify rules to enhance gameplay and maintain balance, ensuring that all players have an enjoyable experience. This principle can be applied to smart contracts in decentralized gaming, where flexibility is key to adapting to unforeseen scenarios and maintaining fairness. Just as a GM might adjust the difficulty of encounters or allow rerolls to prevent a total party kill, a smart contract can include mechanisms for modifying certain parameters, such as reroll limits, to keep the game balanced and engaging. This flexibility ensures that the gaming experience remains fun and fair, adhering to the spirit of Rule Zero.
 */
 contract CharacterGen is VRFConsumerBaseV2Plus {
     IVRFCoordinatorV2Plus COORDINATOR;
+    BackstoryFunctionClient public backstoryFunctionClient;
     Names public namesContract;
     Backgrounds public backgroundsContract;
     Classes public classesContract;
@@ -74,6 +76,9 @@ contract CharacterGen is VRFConsumerBaseV2Plus {
         gameMaster = msg.sender;
     }
 
+    function setBackstoryFunctionClient(address _backstoryFunctionClient) external onlyOwner() {
+        backstoryFunctionClient = BackstoryFunctionClient(_backstoryFunctionClient);
+    }
     // Function to set the addresses of the info contracts
     function setRandomContracts(address _namesContract, address _backgroundsContract, address _classesContract) external {
         namesContract = Names(_namesContract);
@@ -145,8 +150,13 @@ contract CharacterGen is VRFConsumerBaseV2Plus {
         
         randomNumber = (randomWord2 >> 32) % 13;
         characters[msg.sender].class = getClass(randomNumber);
-
+        // fetch with class, race, name, background
+        string memory characterClass = characters[msg.sender].class;
+        string memory characterName = characters[msg.sender].name;
+        string memory characterBackground = characters[msg.sender].background;
+        fetchBackstory(characterClass, "Dragonborn", characterName, characterBackground);
         emit CharacterUpdated(msg.sender, alignment, characters[msg.sender].background, characters[msg.sender].class, characters[msg.sender].name);
+
     }
 
      // Function to allow the game master to update character details
@@ -224,7 +234,9 @@ function roll4d6(uint256 randomValue) internal pure returns (uint256) {
     return rolls[1] + rolls[2] + rolls[3];
 }
 
-
+        function fetchBackstory(string memory characterClass, string memory characterRace, string memory characterName, string memory background) internal {
+        backstoryFunctionClient.request(characterClass, characterRace, characterName, background);
+    }
     // Function to retrieve the ability scores of a character
     function getCharacterAbilities(address owner) external view returns (uint256[6] memory) {
         return characters[owner].abilities;
