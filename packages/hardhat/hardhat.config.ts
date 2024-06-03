@@ -9,6 +9,7 @@ import "solidity-coverage";
 import "@nomicfoundation/hardhat-verify";
 import "hardhat-deploy";
 import "hardhat-deploy-ethers";
+import { ZeroAddress } from "ethers";
 
 import { ChainLinkUserConfig } from "@/interfaces";
 import "@/scripts/tasks";
@@ -51,17 +52,25 @@ const config: ChainLinkUserConfig = {
     // If the network you are looking for is not here you can add new network settings
     localhost: {
       contracts: {
-        token: "0x0000000000000000000000000000000000000000",
+        token: ZeroAddress,
       },
       functions: {
         // fill with your local router address
-        router: "0x0000000000000000000000000000000000000000",
+        router: ZeroAddress,
         donId: {
           // fill with your local donId
           onChain: "0x0000000000000000000000000000000000000000000000000000000000000000",
           offChain: "fun-ethereum-local-1",
         },
         secretsUploadEndpoints: [],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "ETH/USD",
+            address: ZeroAddress,
+          },
+        },
       },
     },
     hardhat: {
@@ -87,6 +96,14 @@ const config: ChainLinkUserConfig = {
           "https://02.functions-gateway.chain.link/",
         ],
       },
+      feeds: {
+        price: {
+          native: {
+            pair: "ETH/USD",
+            address: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+          },
+        },
+      },
     },
     sepolia: {
       url: `https://eth-sepolia.g.alchemy.com/v2/${providerApiKey}`,
@@ -104,6 +121,14 @@ const config: ChainLinkUserConfig = {
           "https://01.functions-gateway.testnet.chain.link/",
           "https://02.functions-gateway.testnet.chain.link/",
         ],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "ETH/USD",
+            address: "0x694AA1769357215DE4FAC081bf1f309aDC325306",
+          },
+        },
       },
     },
     arbitrum: {
@@ -135,6 +160,14 @@ const config: ChainLinkUserConfig = {
           "https://02.functions-gateway.testnet.chain.link/",
         ],
       },
+      feeds: {
+        price: {
+          native: {
+            pair: "OP/USD",
+            address: "0x8907a105E562C9F3d7F2ed46539Ae36D87a15590",
+          },
+        },
+      },
     },
     polygon: {
       url: `https://polygon-mainnet.g.alchemy.com/v2/${providerApiKey}`,
@@ -153,20 +186,13 @@ const config: ChainLinkUserConfig = {
           "https://02.functions-gateway.chain.link/",
         ],
       },
-    },
-    polygonMumbai: {
-      url: `https://polygon-mumbai.g.alchemy.com/v2/${providerApiKey}`,
-      accounts: [deployerPrivateKey],
-      contracts: {
-        token: "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
-      },
-      functions: {
-        router: "0x6E2dc0F9DB014aE19888F539E59285D2Ea04244C",
-        donId: {
-          onChain: "0x66756e2d706f6c79676f6e2d6d756d6261692d31000000000000000000000000",
-          offChain: "fun-polygon-mumbai-1",
+      feeds: {
+        price: {
+          native: {
+            pair: "MATIC/USD",
+            address: "0xAB594600376Ec9fD91F8e885dADF0CE036862dE0",
+          },
         },
-        secretsUploadEndpoints: [],
       },
     },
     polygonAmoy: {
@@ -185,6 +211,14 @@ const config: ChainLinkUserConfig = {
           "https://01.functions-gateway.testnet.chain.link/",
           "https://02.functions-gateway.testnet.chain.link/",
         ],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "MATIC/USD",
+            address: "0x001382149eBa3441043c1c66972b4772963f5D43",
+          },
+        },
       },
     },
     polygonZkEvm: {
@@ -220,6 +254,14 @@ const config: ChainLinkUserConfig = {
           "https://02.functions-gateway.chain.link/",
         ],
       },
+      feeds: {
+        price: {
+          native: {
+            pair: "ETH/USD",
+            address: "0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70",
+          },
+        },
+      },
     },
     baseSepolia: {
       url: `https://base-sepolia.g.alchemy.com/v2/${providerApiKey}`,
@@ -237,6 +279,14 @@ const config: ChainLinkUserConfig = {
           "https://01.functions-gateway.testnet.chain.link/",
           "https://02.functions-gateway.testnet.chain.link/",
         ],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "ETH/USD",
+            address: "0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1",
+          },
+        },
       },
     },
     scrollSepolia: {
@@ -294,6 +344,14 @@ const config: ChainLinkUserConfig = {
           "https://02.functions-gateway.chain.link/",
         ],
       },
+      feeds: {
+        price: {
+          native: {
+            pair: "AVAX/USD",
+            address: "0x0A77230d17318075983913bC2145DB16C7366156",
+          },
+        },
+      },
     },
     fuji: {
       url: "https://api.avax-test.network/ext/bc/C/rpc",
@@ -313,6 +371,14 @@ const config: ChainLinkUserConfig = {
           "https://01.functions-gateway.testnet.chain.link/",
           "https://02.functions-gateway.testnet.chain.link/",
         ],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "AVAX/USD",
+            address: "0x5498BB86BC934c8D34FDA08E81D444153d0D06aD",
+          },
+        },
       },
     },
   },
