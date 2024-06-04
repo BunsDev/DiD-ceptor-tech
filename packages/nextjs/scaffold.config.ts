@@ -12,8 +12,15 @@ export type ScaffoldConfig = {
 
 const { NODE_ENV } = process.env;
 
-const targetNetworks = [chains.optimismSepolia, chains.baseSepolia, chains.polygonAmoy, chains.sepolia, chains.hardhat];
-if (NODE_ENV === "production") targetNetworks.pop();
+const targetNetworks = [
+  chains.hardhat,
+  chains.optimismSepolia,
+  chains.baseSepolia,
+  chains.polygonAmoy,
+  chains.sepolia,
+  chains.avalancheFuji,
+];
+if (NODE_ENV === "production") targetNetworks.shift();
 
 const scaffoldConfig = {
   // The networks on which your DApp is live

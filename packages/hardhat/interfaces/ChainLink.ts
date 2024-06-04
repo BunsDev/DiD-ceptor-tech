@@ -10,9 +10,21 @@ export interface ChainLinkFunctionsConfig {
   secretsUploadEndpoints: string[];
 }
 
+interface PriceFeed {
+  pair: string;
+  address: string;
+}
+export interface DataFeedConfig {
+  price: {
+    native: PriceFeed;
+    [key: string]: PriceFeed;
+  };
+}
+
 export type ChainLinkNetworkUserConfig = HttpNetworkUserConfig & {
   contracts: ChainLinkContractsConfig;
   functions: ChainLinkFunctionsConfig;
+  feeds: DataFeedConfig;
 };
 
 export type ChainLinkNetworksUserConfig = Pick<NetworksUserConfig, "hardhat"> & {

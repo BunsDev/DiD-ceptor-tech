@@ -4,6 +4,10 @@ import { Contract } from "ethers";
 
 import { contractName } from "./00_deploy_gateway";
 
+import { exampleClientContractName } from "@/deploy/97_deploy_example_client";
+import { notificationsContractName } from "@/deploy/96_deploy_notification_client";
+import { characterDetailsContractName } from "@/deploy/95_deploy_character_details_client";
+
 /**
  * Deploys a contract named "CCGateway" using the deployer account and
  * constructor arguments set to the deployer address
@@ -11,7 +15,7 @@ import { contractName } from "./00_deploy_gateway";
  * @param hre HardhatRuntimeEnvironment object.
  */
 
-const CLIENTS = ["CCExampleClient", "CCNotificationClient"]; // List of contract names to be registered in the gateway as clients.
+const CLIENTS = [exampleClientContractName, notificationsContractName, characterDetailsContractName]; // List of contract names to be registered in the gateway as clients.
 
 const grantClientsRole: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();

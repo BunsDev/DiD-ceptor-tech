@@ -1,7 +1,9 @@
 import getConfig from "next/config";
 import amqplib from "amqplib";
 
-const { serverRuntimeConfig: { queueConfig: queueConfig } } = getConfig();
+const {
+  serverRuntimeConfig: { queueConfig: queueConfig },
+} = getConfig();
 
 if (!queueConfig.rabbitMqUrl) {
   throw new Error("rabbitmq url is missing, please check RABIITMQ_URL in your env file");

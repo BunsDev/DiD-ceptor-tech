@@ -10,7 +10,7 @@ import { contractName as GatewayName } from "./00_deploy_gateway";
  *
  * @param hre HardhatRuntimeEnvironment object.
  */
-export const contractName = "CCExampleClient";
+export const exampleClientContractName = "CCExampleClient";
 
 const deployCCExampleClient: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
@@ -19,7 +19,7 @@ const deployCCExampleClient: DeployFunction = async function (hre: HardhatRuntim
   const Gateway = await hre.ethers.getContract<Contract>(GatewayName, deployer);
   const gwAddress = await Gateway.getAddress();
 
-  await deploy(contractName, {
+  await deploy(exampleClientContractName, {
     from: deployer,
     // Contract constructor arguments
     args: [gwAddress],
@@ -34,4 +34,4 @@ export default deployCCExampleClient;
 
 // Tags are useful if you have multiple deploy files and only want to run one of them.
 // e.g. yarn deploy --tags CCExampleClient
-deployCCExampleClient.tags = [contractName];
+deployCCExampleClient.tags = [exampleClientContractName];
