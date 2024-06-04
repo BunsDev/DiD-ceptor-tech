@@ -1,6 +1,6 @@
 {
   "name": "se-2",
-  "version": "0.0.1",
+  "version": "0.1.6",
   "private": true,
   "workspaces": {
     "packages": [
@@ -22,9 +22,13 @@
     "hardhat:lint-staged": "yarn workspace @se-2/hardhat lint-staged",
     "hardhat:format": "yarn workspace @se-2/hardhat format",
     "hardhat:test": "yarn workspace @se-2/hardhat test",
+    "hardhat:link:gw:upsert": "yarn workspace @se-2/hardhat link:gw:upsert",
+    "hardhat:link:gw:update-secrets": "yarn workspace @se-2/hardhat link:gw:update-secrets",
+    "hardhat:link:gw:update-subscription": "yarn workspace @se-2/hardhat link:gw:update-subscription",
     "test": "yarn hardhat:test",
     "format": "yarn next:format && yarn hardhat:format",
     "start": "yarn workspace @se-2/nextjs dev",
+    "next:fast": "yarn workspace @se-2/nextjs fast",
     "next:lint": "yarn workspace @se-2/nextjs lint",
     "next:format": "yarn workspace @se-2/nextjs format",
     "next:check-types": "yarn workspace @se-2/nextjs check-types",
@@ -32,11 +36,13 @@
     "postinstall": "husky install",
     "precommit": "lint-staged",
     "vercel": "yarn workspace @se-2/nextjs vercel",
-    "vercel:yolo": "yarn workspace @se-2/nextjs vercel:yolo"
+    "vercel:yolo": "yarn workspace @se-2/nextjs vercel:yolo",
+    "release": "standard-version"
   },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
     "husky": "^8.0.1",
-    "lint-staged": "^13.0.3"
+    "lint-staged": "^13.0.3",
+    "standard-version": "^9.5.0"
   }
 }

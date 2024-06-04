@@ -1,4 +1,5 @@
-import * as chains from "viem/chains";
+import { Chain } from "viem/chains";
+import chains from "~~/chains";
 import scaffoldConfig from "~~/scaffold.config";
 
 type ChainAttributes = {
@@ -9,7 +10,7 @@ type ChainAttributes = {
   nativeCurrencyTokenAddress?: string;
 };
 
-export type ChainWithAttributes = chains.Chain & Partial<ChainAttributes>;
+export type ChainWithAttributes = Chain & Partial<ChainAttributes>;
 
 export const NETWORKS_EXTRA_DATA: Record<string, ChainAttributes> = {
   [chains.hardhat.id]: {
@@ -21,15 +22,21 @@ export const NETWORKS_EXTRA_DATA: Record<string, ChainAttributes> = {
   [chains.sepolia.id]: {
     color: ["#5f4bb6", "#87ff65"],
   },
+  [chains.base.id]: {
+    color: "#1032FF",
+  },
+  [chains.baseSepolia.id]: {
+    color: "#9DB8FE",
+  },
   [chains.gnosis.id]: {
     color: "#48a9a6",
   },
   [chains.polygon.id]: {
-    color: "#2bbdf7",
+    color: "#6E27DE",
     nativeCurrencyTokenAddress: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
   },
-  [chains.polygonMumbai.id]: {
-    color: "#92D9FA",
+  [chains.polygonAmoy.id]: {
+    color: "#9200B5",
     nativeCurrencyTokenAddress: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
   },
   [chains.optimismSepolia.id]: {
@@ -52,6 +59,9 @@ export const NETWORKS_EXTRA_DATA: Record<string, ChainAttributes> = {
   },
   [chains.scrollSepolia.id]: {
     color: "#fbebd4",
+  },
+  [chains.avalancheFuji.id]: {
+    color: "#e84142",
   },
 };
 
@@ -85,10 +95,10 @@ export function getBlockExplorerTxLink(chainId: number, txnHash: string) {
  * Gives the block explorer URL for a given address.
  * Defaults to Etherscan if no (wagmi) block explorer is configured for the network.
  */
-export function getBlockExplorerAddressLink(network: chains.Chain, address: string) {
+export function getBlockExplorerAddressLink(network: Chain, address: string) {
   const blockExplorerBaseURL = network.blockExplorers?.default?.url;
   if (network.id === chains.hardhat.id) {
-    return `/blockexplorer/address/${address}`;
+    return `/console/blockexplorer/address/${address}`;
   }
 
   if (!blockExplorerBaseURL) {

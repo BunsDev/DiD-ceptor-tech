@@ -1,7 +1,8 @@
-import * as chains from "viem/chains";
+import { Chain } from "viem/chains";
+import chains from "~~/chains";
 
 export type ScaffoldConfig = {
-  targetNetworks: readonly chains.Chain[];
+  targetNetworks: readonly Chain[];
   pollingInterval: number;
   alchemyApiKey: string;
   walletConnectProjectId: string;
@@ -9,9 +10,21 @@ export type ScaffoldConfig = {
   walletAutoConnect: boolean;
 };
 
+const { NODE_ENV } = process.env;
+
+const targetNetworks = [
+  chains.hardhat,
+  chains.optimismSepolia,
+  chains.baseSepolia,
+  chains.polygonAmoy,
+  chains.sepolia,
+  chains.avalancheFuji,
+];
+if (NODE_ENV === "production") targetNetworks.shift();
+
 const scaffoldConfig = {
   // The networks on which your DApp is live
-  targetNetworks: [chains.hardhat, chains.optimismSepolia, chains.baseSepolia],
+  targetNetworks,
 
   // The interval at which your front-end polls the RPC servers for new data
   // it has no effect if you only target the local network (default is 4000)

@@ -1,17 +1,48 @@
 <div align="center">
-  <a href="https://optimism.io"><img alt="Optimism" src="https://raw.githubusercontent.com/ethereum-optimism/brand-kit/main/assets/svg/OPTIMISM-R.svg" width=320></a>
+  <a href="https://www.notion.so/danj-o/S3-Block-Magic-Hackathon-2024-d0ed09047ec648a087ace9b078736518"><img alt="Ceptor Club" src="Group 9.png" width=128></a>
   <br />
   <br />
 </div>
 
-# 🏗🔴 Scaffold-OP
+# 🏗🔴 Ceptor-Games-Scaffold
 
 <h4 align="center">
   <a href="https://docs.scaffoldeth.io">Documentation</a> |
   <a href="https://scaffoldeth.io">Website</a>
 </h4>
 
-Scaffold-OP is a fork of Scaffold-ETH2 with minimal differences, providing additional dApp examples, native support for Superchain testnets, and more low-level instructions. We highly recommend the Scaffold-ETH2 docs as the primary guideline.
+## Games Team
+
+**Gaozong:** Our UX / PM, superstar
+
+**Tippi:** Smart Contracts and GM
+
+**Verinta:** The Qwizzler, frontend and even a smart contract too!
+
+Ceptor-Scaffold-OP is a fork of Scaffold-ETH2 with fantastic differences, providing additional dApp examples, native support for Superchain testnets, and more low-level instructions. We highly recommend the Scaffold-ETH2 docs as the primary guideline. 
+
+# Games Contracts
+
+### [Game World Generator](BuyMeACeptor.sol)
+Step into the realms of creativity with our Game World Generator. This contract spawns a unique game world, sculpted by your chosen vibe and number of players. Picture a planet alive with scenarios, locations, descriptions, maps, denizens, secrets, goals, and players. Each world, distinct and thriving on its own blockchain, is birthed for 10 gameTokens. Craft your world, or join the adventure: 5 gT as a GM, 2 gT as a player.
+
+**Inside worlds:**
+- Games: Rich with adventure.
+- Schedules: Timed meticulously.
+- Sessions: Verified attendance.
+
+### [Character Generator](packages/hardhat/contracts/CeptorCharacterGenerator.sol)
+Unleash your avatar in the game world. This contract creates characters with abilities, class, name, alignment, and background. Each character boasts unique attributes. Note: Currently restricted to contract owner, slated for VRF2.5 upgrade.
+
+### [World and Game Management](packages/hardhat/contracts/WorldFactory.sol)
+The World Generator deploys a World contract. Each World tracks its games, ensuring verifiable truth within sessions.
+
+### [NPC Generator]
+Forge the world’s inhabitants. The NPC Generator creates non-player characters, each with unique abilities, class, name, alignment, hometown, and background. This, too, is destined for the VRF2.5 upgrade.
+
+---
+
+Crafted with the prowess of a Level 5 Barbarian, the ingenuity of an Artificer 2, and the cosmic insight of a Druid of the Stars 2, by Tippi Fifestarr.
 
 🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
 

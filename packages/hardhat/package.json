@@ -14,7 +14,14 @@
     "format": "prettier --write ./*.ts ./deploy/**/*.ts ./scripts/**/*.ts ./test/**/*.ts",
     "test": "REPORT_GAS=true hardhat test --network hardhat",
     "verify": "hardhat etherscan-verify",
-    "hardhat-verify": "hardhat verify"
+    "hardhat-verify": "hardhat verify",
+    "link:balance": "hardhat link-balance",
+    "link:simulate": "hardhat simulate",
+    "link:gw:upsert": "hardhat upsert-gateway-requests",
+    "link:gw:upsert-fund": "hardhat upsert-gateway-requests --fund",
+    "link:gw:update-secret": "hardhat update-secret",
+    "link:gw:update-secrets": "hardhat update-secrets",
+    "link:gw:update-subscription": "hardhat update-subscription"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.7.0",
@@ -41,16 +48,20 @@
     "hardhat": "^2.19.4",
     "hardhat-deploy": "^0.11.45",
     "hardhat-deploy-ethers": "^0.4.1",
-    "hardhat-gas-reporter": "^1.0.9",
+    "hardhat-gas-reporter": "^2.1.1",
     "inquirer": "^9.2.14",
     "prettier": "^2.8.4",
     "solidity-coverage": "^0.8.5",
     "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
     "typechain": "^8.1.0",
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.8.1",
+    "@chainlink/contracts": "^1.1.1",
+    "@chainlink/env-enc": "^1.0.5",
+    "@chainlink/functions-toolkit": "^0.2.8",
+    "@openzeppelin/contracts": "^5.0.2",
     "@typechain/ethers-v6": "^0.5.1",
     "dotenv": "^16.0.3",
     "envfile": "^6.18.0",

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import sunny from "./assets/sunny.svg";
-import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, BugAntIcon, PuzzlePieceIcon } from "@heroicons/react/24/outline";
 import {
   DappConsoleButton,
   FaucetButton,
@@ -20,6 +20,7 @@ type HeaderMenuLink = {
   icon?: React.ReactNode;
 };
 
+const CONSOLE_PATH = "/console";
 export const menuLinks: HeaderMenuLink[] = [
   {
     label: "Home",
@@ -30,7 +31,12 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/debug",
     icon: <BugAntIcon className="h-4 w-4" />,
   },
-];
+  {
+    label: "Games Hooty",
+    href: "/games",
+    icon: <PuzzlePieceIcon className="h-4 w-4" />,
+  },
+].map(link => ({ ...link, href: `${CONSOLE_PATH}${link.href}` }));
 
 export const HeaderMenuLinks = () => {
   const pathname = usePathname();

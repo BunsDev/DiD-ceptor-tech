@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
 dotenv.config();
-import { HardhatUserConfig } from "hardhat/config";
+
 import "@nomicfoundation/hardhat-ethers";
 import "@nomicfoundation/hardhat-chai-matchers";
 import "@typechain/hardhat";
@@ -9,6 +9,10 @@ import "solidity-coverage";
 import "@nomicfoundation/hardhat-verify";
 import "hardhat-deploy";
 import "hardhat-deploy-ethers";
+import { ZeroAddress } from "ethers";
+
+import { ChainLinkUserConfig } from "@/interfaces";
+import "@/scripts/tasks";
 
 // If not set, it uses ours Alchemy's default API key.
 // You can get your own at https://dashboard.alchemyapi.io
@@ -20,9 +24,9 @@ const deployerPrivateKey =
 // If not set, it uses ours Etherscan default API key.
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY || "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW";
 
-const config: HardhatUserConfig = {
+const config: ChainLinkUserConfig = {
   solidity: {
-    version: "0.8.17",
+    version: "0.8.20",
     settings: {
       optimizer: {
         enabled: true,
@@ -30,6 +34,11 @@ const config: HardhatUserConfig = {
         runs: 200,
       },
     },
+  },
+  gasReporter: {
+    enabled: true,
+    currency: "USD",
+    gasPrice: 100,
   },
   defaultNetwork: "localhost",
   namedAccounts: {
@@ -41,6 +50,29 @@ const config: HardhatUserConfig = {
   networks: {
     // View the networks that are pre-configured.
     // If the network you are looking for is not here you can add new network settings
+    localhost: {
+      contracts: {
+        token: ZeroAddress,
+      },
+      functions: {
+        // fill with your local router address
+        router: ZeroAddress,
+        donId: {
+          // fill with your local donId
+          onChain: "0x0000000000000000000000000000000000000000000000000000000000000000",
+          offChain: "fun-ethereum-local-1",
+        },
+        secretsUploadEndpoints: [],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "ETH/USD",
+            address: ZeroAddress,
+          },
+        },
+      },
+    },
     hardhat: {
       forking: {
         url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
@@ -50,10 +82,54 @@ const config: HardhatUserConfig = {
     mainnet: {
       url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
+      contracts: {
+        token: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+      },
+      functions: {
+        router: "0x65Dcc24F8ff9e51F10DCc7Ed1e4e2A61e6E14bd6",
+        donId: {
+          onChain: "0x66756e2d657468657265756d2d6d61696e6e65742d3100000000000000000000",
+          offChain: "fun-ethereum-mainnet-1",
+        },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.chain.link/",
+          "https://02.functions-gateway.chain.link/",
+        ],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "ETH/USD",
+            address: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+          },
+        },
+      },
     },
     sepolia: {
       url: `https://eth-sepolia.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
+      contracts: {
+        token: "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+      },
+      functions: {
+        router: "0xb83E47C2bC239B3bf370bc41e1459A34b41238D0",
+        donId: {
+          onChain: "0x66756e2d657468657265756d2d7365706f6c69612d3100000000000000000000",
+          offChain: "fun-ethereum-sepolia-1",
+        },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.testnet.chain.link/",
+          "https://02.functions-gateway.testnet.chain.link/",
+        ],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "ETH/USD",
+            address: "0x694AA1769357215DE4FAC081bf1f309aDC325306",
+          },
+        },
+      },
     },
     arbitrum: {
       url: `https://arb-mainnet.g.alchemy.com/v2/${providerApiKey}`,
@@ -70,14 +146,80 @@ const config: HardhatUserConfig = {
     optimismSepolia: {
       url: `https://opt-sepolia.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
+      contracts: {
+        token: "0xE4aB69C077896252FAFBD49EFD26B5D171A32410",
+      },
+      functions: {
+        router: "0xC17094E3A1348E5C7544D4fF8A36c28f2C6AAE28",
+        donId: {
+          onChain: "0x66756e2d6f7074696d69736d2d7365706f6c69612d3100000000000000000000",
+          offChain: "fun-optimism-sepolia-1",
+        },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.testnet.chain.link/",
+          "https://02.functions-gateway.testnet.chain.link/",
+        ],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "OP/USD",
+            address: "0x8907a105E562C9F3d7F2ed46539Ae36D87a15590",
+          },
+        },
+      },
     },
     polygon: {
       url: `https://polygon-mainnet.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
+      contracts: {
+        token: "0xb0897686c545045aFc77CF20eC7A532E3120E0F1",
+      },
+      functions: {
+        router: "0xdc2AAF042Aeff2E68B3e8E33F19e4B9fA7C73F10",
+        donId: {
+          onChain: "0x66756e2d706f6c79676f6e2d6d61696e6e65742d310000000000000000000000",
+          offChain: "fun-polygon-mainnet-1",
+        },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.chain.link/",
+          "https://02.functions-gateway.chain.link/",
+        ],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "MATIC/USD",
+            address: "0xAB594600376Ec9fD91F8e885dADF0CE036862dE0",
+          },
+        },
+      },
     },
-    polygonMumbai: {
-      url: `https://polygon-mumbai.g.alchemy.com/v2/${providerApiKey}`,
+    polygonAmoy: {
+      url: `https://polygon-amoy.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
+      contracts: {
+        token: "0x0Fd9e8d3aF1aaee056EB9e802c3A762a667b1904",
+      },
+      functions: {
+        router: "0xC22a79eBA640940ABB6dF0f7982cc119578E11De",
+        donId: {
+          onChain: "0x66756e2d706f6c79676f6e2d616d6f792d310000000000000000000000000000",
+          offChain: "fun-polygon-amoy-1",
+        },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.testnet.chain.link/",
+          "https://02.functions-gateway.testnet.chain.link/",
+        ],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "MATIC/USD",
+            address: "0x001382149eBa3441043c1c66972b4772963f5D43",
+          },
+        },
+      },
     },
     polygonZkEvm: {
       url: `https://polygonzkevm-mainnet.g.alchemy.com/v2/${providerApiKey}`,
@@ -98,10 +240,54 @@ const config: HardhatUserConfig = {
     base: {
       url: `https://base-mainnet.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
+      contracts: {
+        token: "0x88Fb150BDc53A65fe94Dea0c9BA0a6dAf8C6e196",
+      },
+      functions: {
+        router: "0xf9b8fc078197181c841c296c876945aaa425b278",
+        donId: {
+          onChain: "0x66756e2d626173652d6d61696e6e65742d310000000000000000000000000000",
+          offChain: "fun-base-mainnet-1",
+        },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.chain.link/",
+          "https://02.functions-gateway.chain.link/",
+        ],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "ETH/USD",
+            address: "0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70",
+          },
+        },
+      },
     },
     baseSepolia: {
       url: `https://base-sepolia.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
+      contracts: {
+        token: "0xe4ab69c077896252fafbd49efd26b5d171a32410",
+      },
+      functions: {
+        router: "0xf9B8fc078197181C841c296C876945aaa425B278",
+        donId: {
+          onChain: "0x66756e2d626173652d7365706f6c69612d310000000000000000000000000000",
+          offChain: "fun-base-sepolia-1",
+        },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.testnet.chain.link/",
+          "https://02.functions-gateway.testnet.chain.link/",
+        ],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "ETH/USD",
+            address: "0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1",
+          },
+        },
+      },
     },
     scrollSepolia: {
       url: "https://sepolia-rpc.scroll.io",
@@ -138,6 +324,62 @@ const config: HardhatUserConfig = {
     modeSepolia: {
       url: "https://sepolia.mode.network",
       accounts: [deployerPrivateKey],
+    },
+    axax: {
+      url: "https://api.avax.network/ext/bc/C/rpc",
+      gasPrice: 225000000000,
+      chainId: 43114,
+      accounts: [deployerPrivateKey],
+      contracts: {
+        token: "0x5947BB275c521040051D82396192181b413227A3",
+      },
+      functions: {
+        router: "0x9f82a6A0758517FD0AfA463820F586999AF314a0",
+        donId: {
+          onChain: "0x66756e2d6176616c616e6368652d6d61696e6e65742d31000000000000000000",
+          offChain: "fun-avalanche-mainnet-1",
+        },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.chain.link/",
+          "https://02.functions-gateway.chain.link/",
+        ],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "AVAX/USD",
+            address: "0x0A77230d17318075983913bC2145DB16C7366156",
+          },
+        },
+      },
+    },
+    fuji: {
+      url: "https://api.avax-test.network/ext/bc/C/rpc",
+      gasPrice: 225000000000,
+      chainId: 43113,
+      accounts: [deployerPrivateKey],
+      contracts: {
+        token: "0x0b9d5D9136855f6FEc3c0993feE6E9CE8a297846",
+      },
+      functions: {
+        router: "0xA9d587a00A31A52Ed70D6026794a8FC5E2F5dCb0",
+        donId: {
+          onChain: "0x66756e2d6176616c616e6368652d66756a692d31000000000000000000000000",
+          offChain: "fun-avalanche-fuji-1",
+        },
+        secretsUploadEndpoints: [
+          "https://01.functions-gateway.testnet.chain.link/",
+          "https://02.functions-gateway.testnet.chain.link/",
+        ],
+      },
+      feeds: {
+        price: {
+          native: {
+            pair: "AVAX/USD",
+            address: "0x5498BB86BC934c8D34FDA08E81D444153d0D06aD",
+          },
+        },
+      },
     },
   },
   // configuration for harhdat-verify plugin
