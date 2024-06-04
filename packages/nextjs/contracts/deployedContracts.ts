@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     BackstoryFunctionClient: {
-      address: "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
+      address: "0xb7278A61aa25c888815aFC32Ad3cC52fF24fE575",
       abi: [
         {
           inputs: [
@@ -170,7 +170,7 @@ const deployedContracts = {
       },
     },
     BuyMeACeptor: {
-      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      address: "0x809d550fca64d94Bd9F66E60752A544199cfAC3D",
       abi: [
         {
           inputs: [
@@ -468,7 +468,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     CCExampleClient: {
-      address: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+      address: "0x0E801D84Fa97b50751Dbf25036d067dCf18858bF",
       abi: [
         {
           inputs: [
@@ -620,7 +620,7 @@ const deployedContracts = {
       },
     },
     CCGateway: {
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      address: "0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8",
       abi: [
         {
           inputs: [
@@ -1280,7 +1280,7 @@ const deployedContracts = {
       },
     },
     CCNotificationClient: {
-      address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      address: "0x99bbA657f2BbC93c02D617f8bA121cB8Fc104Acf",
       abi: [
         {
           inputs: [
@@ -1437,10 +1437,16 @@ const deployedContracts = {
       },
     },
     GamesDAOv3: {
-      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      address: "0xf5059a5D33d5853360D16C683c16e67980206f36",
       abi: [
         {
-          inputs: [],
+          inputs: [
+            {
+              internalType: "address",
+              name: "aggregator",
+              type: "address",
+            },
+          ],
           stateMutability: "nonpayable",
           type: "constructor",
         },
@@ -2253,7 +2259,7 @@ const deployedContracts = {
       },
     },
     GamesToken: {
-      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      address: "0x851356ae760d987E095750cCeb3bC6014560891C",
       abi: [
         {
           inputs: [],
@@ -2871,7 +2877,7 @@ const deployedContracts = {
       },
     },
     WorldFactory: {
-      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      address: "0x70e0bA845a1A0F2DA3359C97E0285013525FFC49",
       abi: [
         {
           inputs: [],
@@ -3253,7 +3259,7 @@ const deployedContracts = {
   },
   80002: {
     BackstoryFunctionClient: {
-      address: "0x0FB7b8A598EdA07A731341E802dbdfAE103FFF7e",
+      address: "0xB8fC7cB372DFE8184aa48A58614025C3b36c1B16",
       abi: [
         {
           inputs: [
@@ -3416,7 +3422,7 @@ const deployedContracts = {
       },
     },
     BuyMeACeptor: {
-      address: "0x76C259eCFCc293aF35dC41A6B5700Eb46a2FE30D",
+      address: "0xC5F68f896bE1b81E3C0d3bCDeD2e8151620eeFCb",
       abi: [
         {
           inputs: [
@@ -4526,7 +4532,7 @@ const deployedContracts = {
       },
     },
     CCNotificationClient: {
-      address: "0xC227503b9D94135D4E9d45AB938E5591C6F9087c",
+      address: "0x24922e2dc0ff603412DBED8AAb4D367d2cCc5B15",
       abi: [
         {
           inputs: [
@@ -4683,10 +4689,16 @@ const deployedContracts = {
       },
     },
     GamesDAOv3: {
-      address: "0xB8973AEa19c14E7fb3f117f5dBFd0E63A81b69bA",
+      address: "0xFBE61a7104EcF79889bd51FdC99DdE85640eA908",
       abi: [
         {
-          inputs: [],
+          inputs: [
+            {
+              internalType: "address",
+              name: "aggregator",
+              type: "address",
+            },
+          ],
           stateMutability: "nonpayable",
           type: "constructor",
         },
@@ -6499,7 +6511,7 @@ const deployedContracts = {
   },
   84532: {
     BackstoryFunctionClient: {
-      address: "0x3e0F89bFBB59eE86D60F46BFBA00EfD213f383Ad",
+      address: "0xA2f3d3d1A2bA1A124e6f6F02f628bcBD32454205",
       abi: [
         {
           inputs: [
@@ -6662,7 +6674,7 @@ const deployedContracts = {
       },
     },
     BuyMeACeptor: {
-      address: "0x9368B15dbcaD1eb6bE26d5c29CdE7e618224d69C",
+      address: "0x6bF47d57abc96DfA7e3E21C407Cf65a29742FAdF",
       abi: [
         {
           inputs: [
@@ -7772,7 +7784,7 @@ const deployedContracts = {
       },
     },
     CCNotificationClient: {
-      address: "0xB4687FD56Fe612889302F10281eFA8373F731e5B",
+      address: "0x4E06def8804f44e3883bE185a7c013801a8A21E2",
       abi: [
         {
           inputs: [
@@ -7929,10 +7941,16 @@ const deployedContracts = {
       },
     },
     GamesDAOv3: {
-      address: "0x95fd119bA48D0ef550e54043BCf80C97C24e54Ee",
+      address: "0x9b8175cFe117946253596d5cb9C62AaC1A8bAa94",
       abi: [
         {
-          inputs: [],
+          inputs: [
+            {
+              internalType: "address",
+              name: "aggregator",
+              type: "address",
+            },
+          ],
           stateMutability: "nonpayable",
           type: "constructor",
         },
@@ -9745,7 +9763,7 @@ const deployedContracts = {
   },
   11155111: {
     BackstoryFunctionClient: {
-      address: "0xD2cb68C10AafCdb10F9729C1bd134deF42aB9ACb",
+      address: "0x261568d6Bd2743836c4e698AED78975c9F123283",
       abi: [
         {
           inputs: [
@@ -9908,7 +9926,7 @@ const deployedContracts = {
       },
     },
     BuyMeACeptor: {
-      address: "0x49885C79f881c70e2847cCAcEa5664Fa7D968B26",
+      address: "0x020999680495306B53376190A9C364c8797898f1",
       abi: [
         {
           inputs: [
@@ -11018,7 +11036,7 @@ const deployedContracts = {
       },
     },
     CCNotificationClient: {
-      address: "0xe4A0a4D27129c7559De4aE800820df509C07E83D",
+      address: "0xa67E11Ca414Ebc7E1c76AB0Ec1c4a630364cdeF9",
       abi: [
         {
           inputs: [
@@ -11175,10 +11193,16 @@ const deployedContracts = {
       },
     },
     GamesDAOv3: {
-      address: "0xE4812Ca71D642B1aD22D78B82b12934a1A26e210",
+      address: "0x3148B0Ba5667E51807A261759A9F6cCc7b201362",
       abi: [
         {
-          inputs: [],
+          inputs: [
+            {
+              internalType: "address",
+              name: "aggregator",
+              type: "address",
+            },
+          ],
           stateMutability: "nonpayable",
           type: "constructor",
         },
