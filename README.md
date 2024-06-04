@@ -4,41 +4,88 @@
   <br />
 </div>
 
-# 🏗🔴 Ceptor-Games-Scaffold
+# 🏗🔴 Ceptor-Tech-Team
 
 <h4 align="center">
   <a href="https://docs.scaffoldeth.io">Documentation</a> |
   <a href="https://scaffoldeth.io">Website</a>
 </h4>
 
-## Games Team
+## Tech Team
 
-**Gaozong:** Our UX / PM, superstar
+**Aldo:** Quick Learner & Worker (Frontend Developer)
 
-**Tippi:** Smart Contracts and GM
+**Allan:** Perceptive & Knowledgeable (Backend Developer)
 
-**Verinta:** The Qwizzler, frontend and even a smart contract too!
+**Q:** Creativity & Passion (UX/UI Designer)
 
-Ceptor-Scaffold-OP is a fork of Scaffold-ETH2 with fantastic differences, providing additional dApp examples, native support for Superchain testnets, and more low-level instructions. We highly recommend the Scaffold-ETH2 docs as the primary guideline. 
+**X:** Pixel Art (Graphic Designer)
 
-# Games Contracts
+**Y(👻):** Full-Stack Masterchef (Software Engineer)
 
-### [Game World Generator](BuyMeACeptor.sol)
-Step into the realms of creativity with our Game World Generator. This contract spawns a unique game world, sculpted by your chosen vibe and number of players. Picture a planet alive with scenarios, locations, descriptions, maps, denizens, secrets, goals, and players. Each world, distinct and thriving on its own blockchain, is birthed for 10 gameTokens. Craft your world, or join the adventure: 5 gT as a GM, 2 gT as a player.
+# Infrastructure Contracts
 
-**Inside worlds:**
-- Games: Rich with adventure.
-- Schedules: Timed meticulously.
-- Sessions: Verified attendance.
+### [Gateway](packages/hardhat/contracts/CCGateway.sol)
+We created a unified Gateway for all Chainlink Function interactions to simplify and streamline the integration of various services. This Gateway abstracts all required logic into a single, managed place.
 
-### [Character Generator](packages/hardhat/contracts/CeptorCharacterGenerator.sol)
-Unleash your avatar in the game world. This contract creates characters with abilities, class, name, alignment, and background. Each character boasts unique attributes. Note: Currently restricted to contract owner, slated for VRF2.5 upgrade.
+Key Features:
+- **On-chain API**: The gateway registers different codes (functions) that can be run, acting like an on-chain API.
+- **Subscription Management**: Each code has an independent subscription tied to it, functioning as an endpoint with a unique subscription ID.
+- **Updatable Configuration**: Codes and configurations can be updated without needing new contracts, subscriptions, or deployments.
+- **Access Control List (ACL)**: Only authorized Managers can update endpoints, and only registered clients can use the API.
+- **Flexible Client Usage**: Clients can use multiple endpoints, with responses containing the subscription ID for easy management.
 
-### [World and Game Management](packages/hardhat/contracts/WorldFactory.sol)
-The World Generator deploys a World contract. Each World tracks its games, ensuring verifiable truth within sessions.
+### [Onboarding](packages/hardhat/contracts/Clients/CCNotificationClient.sol)
+This contract facilitates on-chain onboarding by validating signatures and storing client addresses and their allowed endpoints.
 
-### [NPC Generator]
-Forge the world’s inhabitants. The NPC Generator creates non-player characters, each with unique abilities, class, name, alignment, hometown, and background. This, too, is destined for the VRF2.5 upgrade.
+# Toolkit
+
+### [Gateway Tools](packages/hardhat/scripts/LINK/subscription/tasks/createAndFund.ts)
+We built a toolkit to simplify the deployment of new endpoints into our API gateway.
+
+Key Features:
+- **Chainlink Functions Toolkit**: Simplifies the creation, funding, and updating of subscriptions.
+- **Endpoint Management Tools**: Eases the creation and updating of endpoints.
+- **Hardhat Tasks**: Automates the upserting of endpoints into the gateway.
+- **NPM Scripts**: Provides easy access to these tasks.
+
+#### Adding a New Endpoint
+
+1. **Test Your Function**:
+   - Use the [Chainlink Functions Playground](https://functions.chain.link/playground) to ensure your function works.
+
+2. **Create a New File**:
+   - Name the file `<next_number>_<function_name>.[js|ts]` in the `packages/hardhat/functions` folder.
+   - Paste the working code from the playground into this file.
+
+3. **Deploy the Endpoint**:
+   - Run: `npm run link:gw:upsert-fund --network <network_name>` to deploy the endpoint to the gateway.
+
+#### Using the Endpoint
+
+1. **Find Endpoint Details**:
+   - Check `link_functions_map.json` for the `subscriptionId` and `consumerAddress`.
+
+2. **Integrate in Your Smart Contract**:
+   - Use the `consumerAddress` to create a gateway instance with the `ICCGateway` interface.
+   - Use the `sendRequest` method with the `subscriptionId` to access the endpoint.
+
+#### Updating an Endpoint
+
+1. **Edit the Function**:
+   - Modify the existing function file.
+
+2. **Update the Gateway**:
+   - Run: `npm run link:gw:upsert` to update the endpoint in the gateway.
+
+### [Simulator](packages/hardhat/scripts/LINK/functions/tasks/simulate.ts)
+We created a simulator Hardhat task to debug functions locally.
+
+### [Networks](packages/hardhat/interfaces/ChainLink.ts)
+The Hardhat config was updated to use the `ChainlinkUserConfig` type, defining network configurations for Chainlink scripts and deployments.
+
+### [DID Implementation](packages/nextjs/app/sign-up/actions.ts)
+We implemented Decentralized Identities (DIDs) using `ethr-did` and `ethr-did-registry`. The DID is created client-side and prepared for signing during onboarding.
 
 ---
 
