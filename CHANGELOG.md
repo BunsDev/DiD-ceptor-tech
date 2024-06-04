@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](///compare/v0.1.4...v0.1.6) (2024-06-04)
+
+
+### Features
+
+* added avalancheFuji network aa0ab27
+* **hardhat:** 👻 Backstory | Function 7bad9c0
+* **hardhat:** 👻 DAO & Shop 42e03bc
+* **hardhat:** 👻 Data Feeds | Chainlink 56d5886
+* **hardhat:** 👻 Deployment 51b8321
+* **hardhat:** 👻 OpenAI Functions 15b0a9c
+* **hardhat:** 👻 Simulator | Task 1af6c43
+* **hardhat:** 👻 Update Secrets | Task 58f0011
+* **nextjs:** 👻 Sepolia | Network 243f245
+* **sign-up:** Update inputProject to accept multiple values 1783b6a
+* **sign-up:** Update inputProject to accept multiple values cf63841
+
+
+### Bug Fixes
+
+* **hardhat:** 👻 Base & Avax | Secrets Endpoints 9ba439d
+* **hardhat:** 👻 Deployment scripts cd799d9
+* **hardhat:** 👻 Game Contracts 22c23ad
+* **hardhat:** 👻 Registered Subscriptions | Gateway 1d1039f
+* **hardhat:** 👻 Secrets 18d38a4
+
 ### [0.1.5](///compare/v0.1.4...v0.1.5) (2024-06-02)
 
 
